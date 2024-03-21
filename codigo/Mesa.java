@@ -10,11 +10,11 @@ public class Mesa {
         this.mesaOcupada = false;
     }
 
-    public boolean cabemNaMesa(int quantidade) { //O método cabemNaMesa(int quantidade) verifica se a quantidade de pessoas cabe na mesa e retorna um booleano.
+    public boolean cabemNaMesa(int quantidade) { //O método cabemNaMesa "int quantidade" verifica se a quantidade de pessoas cabe na mesa e retorna um booleano.
         return quantidade <= quantidadeDeCadeiras;
     } 
 
-    public void ocuparMesa() { //O método ocuparMesa() marca a mesa como ocupada.
+    public void ocuparMesa() { //O método "ocuparMesa" marca a mesa como ocupada.
         this.mesaOcupada = true;
     }
 }
