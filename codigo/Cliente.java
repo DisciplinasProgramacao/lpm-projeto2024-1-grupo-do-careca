@@ -22,6 +22,7 @@ class Cliente {
         return quantidadeDePessoas;
     }
 
+    //isso aqui pode estar no lugar errado
     public boolean cabemNaMesa(int quantidadeDeCadeiras) {
         // só cabe na mesa se tiver mais cadeira do que cliente
         return quantidadeDeCadeiras > 0;

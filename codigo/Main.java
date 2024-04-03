@@ -13,6 +13,7 @@ public class Main {
             System.out.println("2. Entrar na fila de espera");
             System.out.println("3. Ver fila de espera");
             System.out.println("4. Sentar na mesa ");
+            System.out.println("5. Sair da mesa");
             System.out.println("5. Sair... ");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -42,8 +43,9 @@ public class Main {
                     restaurante.sentarCliente();
                     break;    
                 case 5:
-                    System.out.println("Saindo...");
-                    System.exit(0);
+                    System.out.println("Saindo da mesa");
+                    System.out.println("Mesa desocupada");
+                    
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }

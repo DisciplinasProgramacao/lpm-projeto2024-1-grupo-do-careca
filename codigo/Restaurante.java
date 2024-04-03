@@ -58,17 +58,12 @@ class Restaurante {
         } else {
             System.out.println("Não há clientes na fila de espera.");
         }
-    }
-    
-    
-    
-    
-    
+    }    
     
 
     public void alocarCliente(Cliente cliente) {
         for (Mesa mesa : mesas) {
-            if (mesa.cabemNaMesa(cliente.getQuantidadeDePessoas())) {
+            if (mesa.cabemNaMesa(cliente)) {
                 mesa.ocuparMesa();
                 System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");
                 atendidos.add(cliente);
@@ -88,5 +83,7 @@ class Restaurante {
             }
         }
     }
+
+    
     
 }
