@@ -41,9 +41,9 @@ class Restaurante {
         System.out.println("Cliente " + cliente.getNome() + " adicionado à fila de espera.");
     }
 
-    public void sentarCliente() {
+    public void sentarCliente(Cliente cliente) {
         if (!filaDeEspera.isEmpty()) {
-            Cliente cliente = filaDeEspera.poll(); // Obter o próximo cliente na fila de espera
+            cliente = filaDeEspera.poll(); // Obter o próximo cliente na fila de espera
             
             // Verifica se há uma mesa disponível para o cliente
             for (Mesa mesa : mesas) {
@@ -84,6 +84,16 @@ class Restaurante {
         }
     }
 
-    
+    public void removerClienteDaMesa(Cliente cliente) {
+        for (Mesa mesa : mesas) {
+            if (mesa.getCliente() != null && mesa.getCliente().equals(cliente)) {
+                mesa.desocuparMesa();
+                System.out.println("Cliente " + cliente.getNome() + " foi removido da mesa.");
+                return;
+            }
+        }
+        System.out.println("Cliente " + cliente.getNome() + " não está em nenhuma mesa.");
+    }
+
     
 }
