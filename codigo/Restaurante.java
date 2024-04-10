@@ -89,10 +89,12 @@ class Restaurante {
         }
     }
 
+
+    //aqui falta direcionar qual cliente sera removido da mesa
     public void removerClienteDaMesa(Cliente cliente) {
         for (Mesa mesa : mesas) {
             if (mesa.getCliente() != null && mesa.getCliente().equals(cliente)) {
-                mesa.desocuparMesa();
+                mesa.desocuparMesa(); //provavelmente nesse metodo aqui
                 System.out.println("Cliente " + cliente.getNome() + " foi removido da mesa.");
                 return;
             }
