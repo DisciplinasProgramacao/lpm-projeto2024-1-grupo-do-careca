@@ -35,18 +35,24 @@ public class Main {
                     System.out.print("Informe a quantidade de pessoas: ");
                     quantidadePessoas = scanner.nextInt();
                     cliente = new Cliente(nomeCliente,quantidadePessoas);
+                    //add cliente na fila de espera
                     restaurante.enviarClienteParaFilaDeEspera(cliente);
                     break;
                     case 3:
                     restaurante.listarClientesNaFilaDeEspera();
                     break;
                 case 4:
+                    //remover cliente da fila de espera 
+                    //adicionar clienta na lista de atentidos
                     restaurante.sentarCliente(cliente);
                     break;    
                 case 5:                    
+                    //esvaziar mesa
+                    //relatorio da visita
                     System.out.println("Saindo da mesa");//metodo de sair da mesa
                     restaurante.removerClienteDaMesa(cliente);
                     System.out.println("Mesa desocupada"); //metodo de desocupar a mesa
+                    //relatorio da visita
                     break;
                  case 6:
                  System.out.println("Saindo...");   
