@@ -37,8 +37,13 @@ class Restaurante {
     }
 
     public void enviarClienteParaFilaDeEspera(Cliente cliente) {
-        filaDeEspera.add(cliente);
-        System.out.println("Cliente " + cliente.getNome() + " adicionado à fila de espera.");
+        if(cliente.getQuantidadeDePessoas() > 8) {
+            System.out.println("Quantidade acima do permitido");
+        } else {
+            
+            filaDeEspera.add(cliente);
+            System.out.println("Cliente " + cliente.getNome() + " adicionado à fila de espera.");
+        }
     }
 
     public void sentarCliente(Cliente cliente) {
