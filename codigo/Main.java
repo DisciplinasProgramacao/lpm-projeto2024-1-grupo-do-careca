@@ -44,7 +44,10 @@ public class Main {
                     restaurante.listarClientesNaFilaDeEspera();
 
                     break;
-                case 4:
+                case 3:
+                    System.out.print("Digite o nome do cliente: ");
+                    String clienteQueVaiSair = scanner.nextLine();
+                    restaurante.removerClienteDaMesa(clienteQueVaiSair);
                     break;
                 case 5:
                     break;

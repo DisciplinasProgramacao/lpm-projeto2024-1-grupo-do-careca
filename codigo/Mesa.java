@@ -37,6 +37,7 @@ class Mesa {
 
     public void desocuparMesa() {
         mesaOcupada = false;
+        this.requisicao = null;
     }
 
     public boolean isDisponivel(int quantidade) {
