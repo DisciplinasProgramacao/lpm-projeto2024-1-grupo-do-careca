@@ -3,12 +3,12 @@ package codigo;
 class Mesa {
     private int quantidadeDeCadeiras;
     private boolean mesaOcupada;
-    private Cliente cliente;
+    private Requisicao requisicao;
 
     public Mesa(int quantidadeDeCadeiras) {
         this.quantidadeDeCadeiras = quantidadeDeCadeiras;
         this.mesaOcupada = false;
-    }    
+    }
 
     public int getQuantidadeDeCadeiras() {
         return quantidadeDeCadeiras;
@@ -26,24 +26,24 @@ class Mesa {
         this.mesaOcupada = mesaOcupada;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public void ocuparMesa(Requisicao requisicao) {
+        mesaOcupada = true;
+        this.requisicao = requisicao;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }    
-
-    public void ocuparMesa(Cliente cliente) {
-        mesaOcupada = true;
-        this.cliente = cliente;
-    }    
+    public String clienteSentado() {
+        return this.requisicao.getCliente().getNome();
+    }
 
     public void desocuparMesa() {
         mesaOcupada = false;
-    }     
+    }
 
     public boolean isDisponivel(int quantidade) {
         return !mesaOcupada && quantidadeDeCadeiras >= quantidade;
+    }
+
+    public Requisicao getRequisicao() {
+        return requisicao;
     }
 }
