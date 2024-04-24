@@ -83,6 +83,7 @@ class Restaurante {
         }
     }
 
+<<<<<<< HEAD
 
     //aqui falta direcionar qual cliente sera removido da mesa
     public void removerClienteDaMesa(int id) {
@@ -94,7 +95,31 @@ class Restaurante {
             }
         }
         System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
+=======
+    public Mesa acharCliente(String nome) {
+        for (Mesa mesa : mesas) {
+            if (mesa.clienteSentado().equals(nome)) {
+                return mesa;
+            }
+        }
+        return null;
+>>>>>>> c089e09dee520e9dda9c67d3b012e8fca67ef8df
     }
 
-    
+    // aqui falta direcionar qual cliente sera removido da mesa
+    public void removerClienteDaMesa(String nomeDoCliente) {
+        Mesa mesaDoCliente = acharCliente(nomeDoCliente);
+
+        if (mesaDoCliente != null) {
+            mesaDoCliente.desocuparMesa(); // troca o status da mesa
+            System.out.println("Cliente " + nomeDoCliente + " foi removido da mesa com sucesso.");
+        } else {
+            System.out.println("Cliente " + nomeDoCliente + " não está em nenhuma mesa.");
+        }
+    }
+
+    public void adicionarClienteNaFilaDeEspera(Requisicao requisicao) {
+        filaDeEspera.add(requisicao);
+    }
+
 }

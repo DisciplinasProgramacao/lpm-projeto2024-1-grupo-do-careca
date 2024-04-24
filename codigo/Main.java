@@ -11,9 +11,18 @@ public class Main {
 
         while (true) {
             System.out.println("\nMenu:");
+<<<<<<< HEAD
             System.out.println("1. Solicitar mesa");   
             System.out.println("2. Ver fila de espera");         
             System.out.println("3. Remover cliente da mesa");
+=======
+            System.out.println("1. Solicitar mesa");
+            // System.out.println("2. Entrar na fila de espera"); // provavelmente sairá
+            // essa opção
+            System.out.println("2. Ver fila de espera");
+            // System.out.println("4. Sentar na mesa ");
+            System.out.println("5. Remover cliente da mesa");
+>>>>>>> c089e09dee520e9dda9c67d3b012e8fca67ef8df
             System.out.println("6. Sair... ");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -54,6 +63,6 @@ public class Main {
 
            
         }
-       
+
     }
 }
