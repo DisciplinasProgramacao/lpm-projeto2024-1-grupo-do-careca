@@ -13,6 +13,7 @@ class Requisicao {
         this.quantidadeDePessoas = quantidadeDePessoas;
         this.cliente = cliente;
     }
+
     public int getQuantidadeDePessoas() {
         return quantidadeDePessoas;
     }
@@ -45,24 +46,24 @@ class Requisicao {
         this.cliente = cliente;
     }
 
-
     public void solicitarMesa() {
-        System.out.println("Cliente " + cliente.getNome() + " solicitou uma mesa para " + quantidadeDePessoas + " pessoas.");
-        //verificar se há mesa disponivel
+        System.out.println(
+                "Cliente " + cliente.getNome() + " solicitou uma mesa para " + quantidadeDePessoas + " pessoas.");
+        // verificar se há mesa disponivel
     }
 
-
-    //sentraNaMesa   e sairDaMesa devem estar na classe restaurante?
-    //sentar na mesa e sair na mesa devem manipular a lista de mesas e fila de clientes
+    // sentraNaMesa e sairDaMesa devem estar na classe restaurante?
+    // sentar na mesa e sair na mesa devem manipular a lista de mesas e fila de
+    // clientes
     public void sentarNaMesa() {
-        System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");  
-        //ocupar uma mesa      
+        System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");
+        // ocupar uma mesa
     }
 
-    public void sairDaMesa() {
+    public void fecharConta() {
         saida = new Date();
         setSaida(saida);
-        System.out.println("Cliente " + cliente.getNome() + " saiu da mesa.");
-        //desocupar a mesa
+        System.out.println("Relatorio do cliente: " + cliente.getNome() + " aqui vai o metodo com a conta");
+        // desocupar a mesa
     }
 }
