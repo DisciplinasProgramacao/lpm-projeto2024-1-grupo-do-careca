@@ -11,11 +11,9 @@ public class Main {
 
         while (true) {
             System.out.println("\nMenu:");
-            System.out.println("1. Solicitar mesa");
-            System.out.println("2. Entrar na fila de espera"); // provavelmente sairá essa opção
-            System.out.println("3. Ver fila de espera");
-            System.out.println("4. Sentar na mesa ");
-            System.out.println("5. Remover cliente da mesa");
+            System.out.println("1. Solicitar mesa");   
+            System.out.println("2. Ver fila de espera");         
+            System.out.println("3. Remover cliente da mesa");
             System.out.println("6. Sair... ");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -23,11 +21,18 @@ public class Main {
             switch (opcao) {
                 case 1:
                     System.out.print("Nome do cliente: ");
+                    scanner.nextLine();
                     String nomeDoCliente = scanner.nextLine();
+                    System.out.print("Id do cliente: ");
+                    int id = scanner.nextInt();
+                    cliente = new Cliente(nomeDoCliente, id);
+
                     System.out.print("Informe a quantidade de pessoas: ");    
                     int qtdPessoas = scanner.nextInt();  
 
-                    restaurante.sentarCliente();
+                    requisicao = new Requisicao(qtdPessoas, cliente);
+
+                    restaurante.sentarCliente(requisicao);
 
                     //criar a requisição
                     //checar disponibilidade de mesa com a requisição
@@ -35,18 +40,19 @@ public class Main {
                     
                 break;
                 case 2:                  
+                restaurante.listarClientesNaFilaDeEspera();              
                 break;
-                case 4:              
+                case 3:
+                System.out.println("Informe o ID do cliente que será removido: ");
+                id = scanner.nextInt();
+                restaurante.removerClienteDaMesa(id);
                 break;    
-                case 5:               
-                break;
-                case 6:          
-                break;                    
+                               
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
 
-            scanner.close();
+           
         }
        
     }

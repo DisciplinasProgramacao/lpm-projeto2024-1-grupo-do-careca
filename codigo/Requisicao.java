@@ -9,8 +9,8 @@ class Requisicao {
     private Cliente cliente;
 
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
-        this.quantidadeDePessoas = quantidadeDePessoas;
         this.chegada = new Date();
+        this.quantidadeDePessoas = quantidadeDePessoas;
         this.cliente = cliente;
     }
     public int getQuantidadeDePessoas() {

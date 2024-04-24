@@ -4,6 +4,7 @@ class Mesa {
     private int quantidadeDeCadeiras;
     private boolean mesaOcupada;
     private Cliente cliente;
+    private Requisicao requisicao;
 
     public Mesa(int quantidadeDeCadeiras) {
         this.quantidadeDeCadeiras = quantidadeDeCadeiras;
@@ -25,18 +26,19 @@ class Mesa {
     public void setMesaOcupada(boolean mesaOcupada) {
         this.mesaOcupada = mesaOcupada;
     }
-
-    public Cliente getCliente() {
+    
+   
+    public Cliente getCliente(){
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente){
         this.cliente = cliente;
-    }    
+    }
 
-    public void ocuparMesa(Cliente cliente) {
+    public void ocuparMesa(Requisicao requisicao) {
         mesaOcupada = true;
-        this.cliente = cliente;
+        this.requisicao = requisicao;
     }    
 
     public void desocuparMesa() {
@@ -45,5 +47,13 @@ class Mesa {
 
     public boolean isDisponivel(int quantidade) {
         return !mesaOcupada && quantidadeDeCadeiras >= quantidade;
+    }
+
+    public Requisicao getRequisicao() {
+        return requisicao;
+    }
+
+    public void setRequisicao(Requisicao requisicao) {
+        this.requisicao = requisicao;
     }
 }

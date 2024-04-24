@@ -7,7 +7,7 @@ import java.util.Queue;
 
 class Restaurante {
     private List<Mesa> mesas;
-    private Queue<Cliente> filaDeEspera;
+    private Queue<Requisicao> filaDeEspera;
 
     private Requisicao requisicao;
 
@@ -49,61 +49,51 @@ class Restaurante {
             }
         }
         */
-        public void sentarCliente(Cliente cliente) {
-            if (!filaDeEspera.isEmpty()) {
-            cliente = filaDeEspera.peek(); // Obter o próximo cliente na fila de espera
+      
+        public void sentarCliente(Requisicao requisicao) {          
+            //validação da qtd de pessoas na requisicao para entrar ou nao na fila de espera
+         
+            Requisicao requisicao1 = filaDeEspera.peek(); // Obter o próximo cliente na fila de espera
            
             // Verifica se há uma mesa disponível para o cliente
             for (Mesa mesa : mesas) {
                 if (mesa.isDisponivel(requisicao.getQuantidadeDePessoas())) {
-                    mesa.ocuparMesa(cliente); // Ocupa a mesa
-                    System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");    
-                    cliente = filaDeEspera.remove(); //remover cliente da fila de espera                
+                    mesa.ocuparMesa(requisicao); // Ocupa a mesa
+                    System.out.println("Cliente " + requisicao.getCliente().getNome() + " sentou-se à mesa.");    
                     return;
                 }
+                
             }
-            System.out.println("Não foi possível alocar uma mesa para o cliente " + cliente.getNome() + ".");
-        } else {
-            System.out.println("Não há clientes na fila de espera.");
-        }
+            filaDeEspera.add(requisicao);
+            System.out.println("Não foi possível alocar uma mesa para o cliente " + requisicao.getCliente().getNome() + ".");
+        
+        
+            System.out.println("Cliente " + requisicao.getCliente().getNome() + " movido para a fila de espera");
+        
     }    
-    /* 
-    
-    public void alocarCliente(Cliente cliente) {
-        for (Mesa mesa : mesas) {
-            if (mesa.cabemNaMesa(cliente)) {
-                mesa.ocuparMesa();
-                System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");
-                atendidos.add(cliente);
-                return;
-            }
-        }
-        enviarClienteParaFilaDeEspera(cliente);
-    }
-    
-    */
+   
     public void listarClientesNaFilaDeEspera(){
         if(filaDeEspera.isEmpty()) {
             System.out.println("Não há clientes na fila de espera");
         } else {
             System.out.println("Clientes na fila de espera: ");
-            for(Cliente c : filaDeEspera) {
-                System.out.println(" - " + c.getNome());
+            for(Requisicao c : filaDeEspera) {
+                System.out.println(" - " + c.getCliente().getNome());
             }
         }
     }
 
 
     //aqui falta direcionar qual cliente sera removido da mesa
-    public void removerClienteDaMesa(Cliente cliente) {
+    public void removerClienteDaMesa(int id) {
         for (Mesa mesa : mesas) {
-            if (mesa.getCliente() != null && mesa.getCliente().equals(cliente)) {
+            if (mesa.getRequisicao().getCliente().getId() == id) {
                 mesa.desocuparMesa(); //provavelmente nesse metodo aqui
-                System.out.println("Cliente " + cliente.getNome() + " foi removido da mesa.");
+                System.out.println("Cliente " + requisicao.getCliente().getNome() + " foi removido da mesa.");
                 return;
             }
         }
-        System.out.println("Cliente " + cliente.getNome() + " não está em nenhuma mesa.");
+        System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
     }
 
     
