@@ -6,3 +6,7 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 
 # 02
 ![restaurante02](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/74836024/b38bf95c-932a-42ff-b280-d05c150a6c73)
+
+# 03
+![DiagramaV3 drawio](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/a6f21933-2d68-4601-b716-3db299b8735c)
+
