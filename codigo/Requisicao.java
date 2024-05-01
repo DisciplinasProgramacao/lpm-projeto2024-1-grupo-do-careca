@@ -66,4 +66,12 @@ class Requisicao {
         System.out.println("Relatorio do cliente: " + cliente.getNome() + " aqui vai o metodo com a conta");
         // desocupar a mesa
     }
+
+    // metodo de divisao da conta
+
+    @Override
+    public String toString() {
+        return "Requisicao [Quantidade de pessoas: " + quantidadeDePessoas + ", " + cliente + "]";
+    }
+
 }

@@ -1,10 +1,11 @@
 package codigo;
 
 class Cliente {
-    // talvez precise de um identificador aqui
 
     private String nome;
     private int id;
+
+    private Pedido pedido;
 
     public Cliente(String nome, int id) {
         this.nome = nome;
@@ -25,6 +26,16 @@ class Cliente {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    // metodo para pedir items do cardapio
+    public void pedirItemCardapio(int[] pedidos) {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente : " + nome;
     }
 
 }

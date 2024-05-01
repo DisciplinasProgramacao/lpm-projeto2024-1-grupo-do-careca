@@ -8,12 +8,14 @@ import java.util.Queue;
 class Restaurante {
     private List<Mesa> mesas;
     private Queue<Requisicao> filaDeEspera;
+    private Cardapio cardapio;
 
     private Requisicao requisicao;
 
     public Restaurante() {
         mesas = new ArrayList<>();
         filaDeEspera = new LinkedList<>();
+        cardapio = new Cardapio();
 
         // Inicializar as mesas
         mesas.add(new Mesa(4));
@@ -37,19 +39,9 @@ class Restaurante {
         return false;
     }
 
-    /*
-     * 
-     * public void enviarClienteParaFilaDeEspera(Cliente cliente) {
-     * if(cliente.getQuantidadeDePessoas() > 8) {
-     * System.out.println("Quantidade acima do permitido");
-     * } else {
-     * 
-     * filaDeEspera.add(cliente);
-     * System.out.println("Cliente " + cliente.getNome() +
-     * " adicionado à fila de espera.");
-     * }
-     * }
-     */
+    public Cardapio getCardapio() {
+        return cardapio;
+    }
 
     public void sentarCliente(Requisicao requisicao) {
         // validação da qtd de pessoas na requisicao para entrar ou nao na fila de
@@ -62,7 +54,7 @@ class Restaurante {
             for (Mesa mesa : mesas) {
                 if (mesa.isDisponivel(proxCliente.getQuantidadeDePessoas())) {
                     mesa.ocuparMesa(proxCliente); // Ocupa a mesa
-                    System.out.println("Cliente " + proxCliente.getCliente().getNome() + " sentou-se à mesa.");
+                    System.out.println("Requisicao atendida: " + proxCliente);
                     return;
                 }
             }
@@ -74,7 +66,9 @@ class Restaurante {
         for (Mesa mesa : mesas) {
             if (mesa.isDisponivel(requisicao.getQuantidadeDePessoas())) {
                 mesa.ocuparMesa(requisicao); // Ocupa a mesa com o cliente atual
-                System.out.println("Cliente " + requisicao.getCliente().getNome() + " sentou-se à mesa.");
+                System.out.println("Requisicao atendida: " + requisicao);
+                // System.out.println("Cliente " + requisicao.getCliente().getNome() + "
+                // sentou-se à mesa.");
                 return;
             }
         }
@@ -102,12 +96,25 @@ class Restaurante {
         for (Mesa mesa : mesas) {
             Requisicao req = mesa.getRequisicao();
             if (req != null && req.getCliente().getId() == id) {
-                mesa.desocuparMesa(); // provavelmente nesse metodo aqui
+                mesa.desocuparMesa();
                 System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
+                req.fecharConta();
                 return;
             }
         }
         System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
+    }
+
+    public void atenderCliente(int id) {
+        for (Mesa mesa : mesas) {
+            Requisicao req = mesa.getRequisicao();
+            if (req != null && req.getCliente().getId() == id) {
+
+                System.out.println("Atendendo o cliente " + req.getCliente().getNome() + ".");
+
+                return;
+            }
+        }
     }
 
     public void adicionarClienteNaFilaDeEspera(Requisicao requisicao) {

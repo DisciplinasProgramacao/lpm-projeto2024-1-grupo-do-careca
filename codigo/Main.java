@@ -8,13 +8,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Cliente cliente = null;
         Requisicao requisicao = null;
+        boolean continuarExecucao = true;
 
-        while (true) {
+        while (continuarExecucao) {
             System.out.println("\nMenu:");
             System.out.println("1. Solicitar mesa");
             System.out.println("2. Ver fila de espera");
             System.out.println("3. Remover cliente da mesa");
-            System.out.println("4. Sair... ");
+            System.out.println("4. Atender cliente");
+            System.out.println("5. Sair... ");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
 
@@ -50,7 +52,20 @@ public class Main {
                     break;
 
                 case 4:
+                    System.out.println("Atender cliente");
+                    System.out.println("Id do cliente a ser atendido: ");
+                    id = scanner.nextInt();
+                    restaurante.atenderCliente(id);
+                    System.out.println("Escolha as opções por numero e separados por espaço: ");
+                    restaurante.getCardapio().exibirCardapio();
+                    int[] itemsPedidos = lerEntrada();
+                    cliente.pedirItemCardapio(itemsPedidos);
+
+                    break;
+
+                case 5:
                     System.out.println("Saindo...");
+                    continuarExecucao = false;
                     break;
 
                 default:
@@ -59,5 +74,22 @@ public class Main {
 
         }
 
+    }
+
+    public static int[] lerEntrada() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Digite os números separados por espaço:");
+        String entrada = scanner.nextLine();
+
+        String[] itemsString = entrada.split(" ");
+
+        int[] numeros = new int[itemsString.length];
+
+        for (int i = 0; i < itemsString.length; i++) {
+            numeros[i] = Integer.parseInt(itemsString[i]);
+        }
+
+        return numeros;
     }
 }
