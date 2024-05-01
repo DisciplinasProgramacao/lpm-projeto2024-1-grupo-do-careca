@@ -76,7 +76,7 @@ public class Main {
 
     }
 
-    public static int[] lerEntrada() {
+    public static Item[] lerEntrada() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite os números separados por espaço:");
@@ -88,6 +88,10 @@ public class Main {
 
         for (int i = 0; i < itemsString.length; i++) {
             numeros[i] = Integer.parseInt(itemsString[i]);
+        }
+
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println(numeros[i]);
         }
 
         return numeros;
