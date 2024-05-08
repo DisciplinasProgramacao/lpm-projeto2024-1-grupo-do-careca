@@ -25,4 +25,9 @@ public class Pedido {
         valorTotal += valorTotal * TAXA;
     }
 
+    public void fecharPedido() {
+        // percorrer o itemsEscolhidos, somar e dividir pela qtd de pessoas
+
+    }
+
 }

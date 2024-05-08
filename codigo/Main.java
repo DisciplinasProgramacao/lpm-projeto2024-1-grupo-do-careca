@@ -60,7 +60,6 @@ public class Main {
                     restaurante.getCardapio().exibirCardapio();
                     int[] itemsPedidos = lerEntrada();
                     cliente.pedirItemCardapio(itemsPedidos);
-
                     break;
 
                 case 5:
@@ -71,12 +70,10 @@ public class Main {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-
         }
-
     }
 
-    public static Item[] lerEntrada() {
+    public static int[] lerEntrada() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite os números separados por espaço:");
