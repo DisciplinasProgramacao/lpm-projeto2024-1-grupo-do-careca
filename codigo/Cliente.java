@@ -39,7 +39,12 @@ class Cliente {
         }
     }
 
+<<<<<<< HEAD
     // teste
+=======
+//   testando conflito de merge
+
+>>>>>>> 2578d67e4fe0d10ab04417bdc68bd05060470da8
     @Override
     public String toString() {
         return "Cliente : " + nome;
