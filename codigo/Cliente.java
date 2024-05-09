@@ -39,6 +39,8 @@ class Cliente {
         }
     }
 
+//   testando conflito de merge
+
     @Override
     public String toString() {
         return "Cliente : " + nome;
