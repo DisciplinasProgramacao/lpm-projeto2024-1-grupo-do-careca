@@ -57,9 +57,15 @@ public class Main {
                     id = scanner.nextInt();
                     restaurante.atenderCliente(id);
                     System.out.println("Escolha as opções por numero e separados por espaço: ");
-                    restaurante.getCardapio().exibirCardapio();
-                    int[] itemsPedidos = lerEntrada();
-                    cliente.pedirItemCardapio(itemsPedidos);
+                    String cardapio = restaurante.exibirCardapio();
+                    System.out.println(cardapio);
+                   
+                    int codigoProd  = lerEntrada();
+                    while(codProd!=0){
+                        Item item = cardapio.getItem(codigoProd);
+                        restaurante.adicionarItem(requisicao, item);
+                        lerEntrada();
+                    }
                     break;
 
                 case 5:

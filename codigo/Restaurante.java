@@ -92,16 +92,22 @@ class Restaurante {
         }
     }
 
+
     public void removerClienteDaMesa(int id) {
-        for (Mesa mesa : mesas) {
-            Requisicao req = mesa.getRequisicao();
-            if (req != null && req.getCliente().getId() == id) {
-                mesa.desocuparMesa();
-                System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-                req.fecharConta();
-                return;
+        for(Requisicao r : filaDeEspera){
+            if(r.getmesa().equals(id)){
+                r.fecharConta();
             }
         }
+        // for (Mesa mesa : mesas) {
+        //     Requisicao req = mesa.getRequisicao();
+        //     if (req != null && req.getCliente().getId() == id) {
+        //         mesa.desocuparMesa();
+        //         System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
+        //         req.fecharConta();
+        //         return;
+        //     }
+        // }
         System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
     }
 
