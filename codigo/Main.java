@@ -57,9 +57,21 @@ public class Main {
                     id = scanner.nextInt();
                     restaurante.atenderCliente(id);
                     System.out.println("Escolha as opções por numero e separados por espaço: ");
+
+                    String cardapio = restaurante.exibirCardapio();
+                    System.out.println(cardapio);
+                   
+                    int codigoProd  = lerEntrada();
+                    while(codProd!=0){
+                        Item item = cardapio.getItem(codigoProd);
+                        restaurante.adicionarItem(requisicao, item);
+                        lerEntrada();
+                    }
+
                     restaurante.getCardapio().exibirCardapio();
                     int[] itemsPedidos = lerEntrada();
                     cliente.pedirItemCardapio(itemsPedidos);
+
 
                     break;
 
@@ -71,6 +83,9 @@ public class Main {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
+
+        }
+
 
         }
 
@@ -89,6 +104,12 @@ public class Main {
         for (int i = 0; i < itemsString.length; i++) {
             numeros[i] = Integer.parseInt(itemsString[i]);
         }
+
+
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println(numeros[i]);
+        }
+
 
         return numeros;
     }

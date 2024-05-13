@@ -29,6 +29,20 @@ class Cliente {
     }
 
     // metodo para pedir items do cardapio
+
+    public void pedirItemCardapio(Item[] pedidos) {
+        for (int i = 0; i < pedidos.length; i++) {
+            pedido.pedirItem(pedidos[i]);
+        }
+
+        for (Item i : pedidos) {
+            System.out.println(i);
+        }
+    }
+
+
+
+
     public void pedirItemCardapio(int[] pedidos) {
 
     }
