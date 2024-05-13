@@ -29,6 +29,7 @@ class Cliente {
     }
 
     // metodo para pedir items do cardapio
+
     public void pedirItemCardapio(Item[] pedidos) {
         for (int i = 0; i < pedidos.length; i++) {
             pedido.pedirItem(pedidos[i]);
@@ -39,12 +40,13 @@ class Cliente {
         }
     }
 
-<<<<<<< HEAD
-    // teste
-=======
-//   testando conflito de merge
 
->>>>>>> 2578d67e4fe0d10ab04417bdc68bd05060470da8
+
+
+    public void pedirItemCardapio(int[] pedidos) {
+
+    }
+
     @Override
     public String toString() {
         return "Cliente : " + nome;
