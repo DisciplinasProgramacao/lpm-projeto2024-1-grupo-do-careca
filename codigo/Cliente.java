@@ -47,9 +47,8 @@ class Cliente {
 
     }
 
-    @Override
-    public String toString() {
-        return "Cliente : " + nome;
+    //@Override
+    //public String toString() {
+      //  return "Cliente : " + nome;
     }
 
-}

@@ -3,6 +3,7 @@ package codigo;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Pedido {
 
     private final double TAXA = 0.1;
@@ -16,8 +17,8 @@ public class Pedido {
 
     }
 
-    public void pedirItem(Item item) {
-        itemsEscolhidos.add(item);
+    public void pedirItem(Item pedidos) {
+        itemsEscolhidos.add(pedidos);
     }
 
     public void valorAPagar() {
@@ -29,16 +30,12 @@ public class Pedido {
         valorTotal += valorTotal * TAXA;
     }
 
-    public void fecharPedido() {
-        // percorrer o itemsEscolhidos, somar e dividir pela qtd de pessoas
+    
 
-    }
-
-        Item item = new Item("Moqueca de palmito", 32.00);
-        itemsEscolhidos.add(item);
+        
     }
 
     // metodo para total do pedido
 
 
-}
+

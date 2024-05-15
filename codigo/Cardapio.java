@@ -23,8 +23,18 @@ public class Cardapio {
         this.comidas.add(new Item("Caçarola de legumes", 22.00, 11));
     }
 
-    public void exibirCardapio() {
-        System.out.println("---------------");
+    public Item getItem(int[] codigoProd) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getItem'");
+    }
+
+    public void getCardapio() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCardapio'");
+    }
+
+    //public void exibirCardapio() {
+        /*System.out.println("---------------");
         System.out.println(" ### Bebidas ###");
         System.out.println("---------------");
         for (Item items : bebidas) {
@@ -42,5 +52,5 @@ public class Cardapio {
         }
         System.out.println();
     }
-
+    */
 }

@@ -43,43 +43,6 @@ class Restaurante {
         return cardapio;
     }
 
-    public void sentarCliente(Requisicao requisicao) {
-        // validação da qtd de pessoas na requisicao para entrar ou nao na fila de
-        // espera
-
-        if (!filaDeEspera.isEmpty()) {
-            Requisicao proxCliente = filaDeEspera.peek(); // Obter o próximo cliente na fila de espera
-
-            // Verifica se há uma mesa disponível para o cliente
-            for (Mesa mesa : mesas) {
-                if (mesa.isDisponivel(proxCliente.getQuantidadeDePessoas())) {
-                    mesa.ocuparMesa(proxCliente); // Ocupa a mesa
-                    System.out.println("Requisicao atendida: " + proxCliente);
-                    return;
-                }
-            }
-        }
-
-        // Se não houver clientes na fila de espera ou não houver mesas disponíveis para
-        // o próximo cliente na fila de espera,
-        // verifica se há uma mesa disponível para o cliente atual
-        for (Mesa mesa : mesas) {
-            if (mesa.isDisponivel(requisicao.getQuantidadeDePessoas())) {
-                mesa.ocuparMesa(requisicao); // Ocupa a mesa com o cliente atual
-                System.out.println("Requisicao atendida: " + requisicao);
-                // System.out.println("Cliente " + requisicao.getCliente().getNome() + "
-                // sentou-se à mesa.");
-                return;
-            }
-        }
-
-        filaDeEspera.add(requisicao);
-        System.out
-                .println("Não foi possível alocar uma mesa para o cliente " + requisicao.getCliente().getNome() + ".");
-
-        System.out.println("Cliente " + requisicao.getCliente().getNome() + " movido para a fila de espera");
-
-    }
 
     public void listarClientesNaFilaDeEspera() {
         if (filaDeEspera.isEmpty()) {
@@ -90,39 +53,9 @@ class Restaurante {
                 System.out.println(" - " + c.getCliente().getNome());
             }
         }
-    }
+    }        
 
 
-
-    public void removerClienteDaMesa(int id) {
-        for(Requisicao r : filaDeEspera){
-            if(r.getmesa().equals(id)){
-                r.fecharConta();
-            }
-        }
-        // for (Mesa mesa : mesas) {
-        //     Requisicao req = mesa.getRequisicao();
-        //     if (req != null && req.getCliente().getId() == id) {
-        //         mesa.desocuparMesa();
-        //         System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-        //         req.fecharConta();
-        //         return;
-        //     }
-        // }
-
-    public void removerClienteDaMesa(int id) {
-        for (Mesa mesa : mesas) {
-            Requisicao req = mesa.getRequisicao();
-            if (req != null && req.getCliente().getId() == id) {
-                mesa.desocuparMesa();
-                System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-                req.fecharConta();
-                return;
-            }
-        }
- 
-        System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
-    }
 
     public void atenderCliente(int id) {
         for (Mesa mesa : mesas) {
@@ -139,5 +72,16 @@ class Restaurante {
     public void adicionarClienteNaFilaDeEspera(Requisicao requisicao) {
         filaDeEspera.add(requisicao);
     }
+
+    public void sentarCliente(Requisicao requisicao2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'sentarCliente'");
+    }
+
+    public void adicionarItem(Requisicao requisicao2, Item item) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'adicionarItem'");
+    }
+
 
 }

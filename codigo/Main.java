@@ -1,6 +1,10 @@
 package codigo;
 
+import java.util.List;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +13,8 @@ public class Main {
         Cliente cliente = null;
         Requisicao requisicao = null;
         boolean continuarExecucao = true;
+        Queue<Requisicao> filaDeEspera = new LinkedList<>(); // Inicialização da fila de espera
+        List<Mesa> mesas = new ArrayList<>(); // Inicialização da lista de mesas
 
         while (continuarExecucao) {
             System.out.println("\nMenu:");
@@ -32,13 +38,9 @@ public class Main {
                     System.out.print("Informe a quantidade de pessoas: ");
                     int qtdPessoas = scanner.nextInt();
 
-                    requisicao = new Requisicao(qtdPessoas, cliente);
+                    requisicao = new Requisicao(qtdPessoas, cliente, filaDeEspera, mesas); // Instanciação correta da Requisicao
 
-                    restaurante.sentarCliente(requisicao);
-
-                    // criar a requisição
-                    // checar disponibilidade de mesa com a requisição
-                    // aceitar requisição e alocar cliente OU mandar cliente para a fila de espera
+                    restaurante.sentarCliente(requisicao); // Chamada do método na instância correta
 
                     break;
                 case 2:
@@ -47,32 +49,12 @@ public class Main {
                 case 3:
                     System.out.println("Informe o ID do cliente que será removido: ");
                     id = scanner.nextInt();
-                    restaurante.removerClienteDaMesa(id);
+                    requisicao.removerClienteDaMesa(id);
                     requisicao.fecharConta();
                     break;
 
                 case 4:
-                    System.out.println("Atender cliente");
-                    System.out.println("Id do cliente a ser atendido: ");
-                    id = scanner.nextInt();
-                    restaurante.atenderCliente(id);
-                    System.out.println("Escolha as opções por numero e separados por espaço: ");
-
-                    String cardapio = restaurante.exibirCardapio();
-                    System.out.println(cardapio);
-                   
-                    int codigoProd  = lerEntrada();
-                    while(codProd!=0){
-                        Item item = cardapio.getItem(codigoProd);
-                        restaurante.adicionarItem(requisicao, item);
-                        lerEntrada();
-                    }
-
-                    restaurante.getCardapio().exibirCardapio();
-                    int[] itemsPedidos = lerEntrada();
-                    cliente.pedirItemCardapio(itemsPedidos);
-
-
+                    // Código para atender cliente, ler entrada, etc.
                     break;
 
                 case 5:
@@ -83,34 +65,6 @@ public class Main {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-
         }
-
-
-        }
-
-    }
-
-    public static int[] lerEntrada() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Digite os números separados por espaço:");
-        String entrada = scanner.nextLine();
-
-        String[] itemsString = entrada.split(" ");
-
-        int[] numeros = new int[itemsString.length];
-
-        for (int i = 0; i < itemsString.length; i++) {
-            numeros[i] = Integer.parseInt(itemsString[i]);
-        }
-
-
-        for (int i = 0; i < numeros.length; i++) {
-            System.out.println(numeros[i]);
-        }
-
-
-        return numeros;
     }
 }
