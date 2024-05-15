@@ -10,3 +10,6 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 # 03
 ![DiagramaV3 drawio](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/a6f21933-2d68-4601-b716-3db299b8735c)
 
+# 04
+
+![RestauranteUMLX](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/74836024/c5090bec-6abd-47ff-9263-9ba08ef97b53)
