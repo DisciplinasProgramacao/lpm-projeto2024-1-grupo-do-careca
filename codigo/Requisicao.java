@@ -19,6 +19,7 @@ class Requisicao {
         this.cliente = cliente;
         this.filaDeEspera = filaDeEspera;
         this.mesa = (Mesa) mesas;
+        this.saida = new Date();
     }
 
     public int getQuantidadeDePessoas() {
@@ -84,6 +85,8 @@ class Requisicao {
                 if (mesa.isDisponivel(proxCliente.getQuantidadeDePessoas())) {
                     mesa.ocuparMesa(proxCliente); // Ocupa a mesa
              //       System.out.println("Requisicao atendida: " + proxCliente);
+                chegada = new Date();
+                setChegada(chegada);
                     return;
                 }
             }
@@ -98,10 +101,12 @@ class Requisicao {
                 //System.out.println("Requisicao atendida: " + requisicao);
                 // System.out.println("Cliente " + requisicao.getCliente().getNome() + "
                 // sentou-se à mesa.");
+                chegada = new Date();
+                setChegada(chegada);
                 return;
             }
         }
-
+        
         filaDeEspera.add(requisicao);
         //System.out
         //        .println("Não foi possível alocar uma mesa para o cliente " + requisicao.getCliente().getNome() + ".");

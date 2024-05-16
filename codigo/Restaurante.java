@@ -39,32 +39,32 @@ class Restaurante {
         return false;
     }
 
-    public Cardapio getCardapio() {
-        return cardapio;
+    public String exibirCardapio() {
+        return cardapio.toString();
     }
 
 
-    public void listarClientesNaFilaDeEspera() {
-        if (filaDeEspera.isEmpty()) {
-            System.out.println("Não há clientes na fila de espera");
-        } else {
-            System.out.println("Clientes na fila de espera: ");
+    public String listarClientesNaFilaDeEspera() {
+        String resposta = "Não há clientes na fila de espera";
+        if (!filaDeEspera.isEmpty()) {
+           resposta = ("Clientes na fila de espera: ");
             for (Requisicao c : filaDeEspera) {
-                System.out.println(" - " + c.getCliente().getNome());
+                resposta += (" - " + c.toString());
             }
         }
+        return resposta;
     }        
 
 
 
-    public void atenderCliente(int id) {
+    public Cliente atenderCliente(int id) {
         for (Mesa mesa : mesas) {
             Requisicao req = mesa.getRequisicao();
             if (req != null && req.getCliente().getId() == id) {
 
                 System.out.println("Atendendo o cliente " + req.getCliente().getNome() + ".");
 
-                return;
+                return req.getCliente();
             }
         }
     }
