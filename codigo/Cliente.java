@@ -1,15 +1,18 @@
 package codigo;
 
-class Cliente {    
+
+class Cliente {
 
     private String nome;
-    private int id;   
+    private int id;
+
+    private Pedido pedido;
 
     public Cliente(String nome, int id) {
-        this.nome = nome;  
-        this.id = id;  
-    }        
-    
+        this.nome = nome;
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -26,6 +29,28 @@ class Cliente {
         this.id = id;
     }
 
-    
+    // metodo para pedir items do cardapio
+
+    public void pedirItemCardapio(Item[] pedidos) {
+        for (int i = 0; i < pedidos.length; i++) {
+            pedido.pedirItem(pedidos[i]);
+        }
+
+        for (Item i : pedidos) {
+            System.out.println(i);
+        }
+    }
+
+
+
+
+    public void pedirItemCardapio(int[] pedidos) {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente : " + nome;
+    }
 
 }

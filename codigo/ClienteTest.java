@@ -13,7 +13,7 @@ public class ClienteTest {
 
     @Test
     public void testSetNome() {
-        Cliente cliente = new Cliente("Maria",55);
+        Cliente cliente = new Cliente("Maria", 20);
         cliente.setNome("Ana");
         assertEquals("Ana", cliente.getNome());
         assertEquals(55, cliente.getId());
@@ -21,14 +21,15 @@ public class ClienteTest {
 
     // @Test
     // public void testGetQuantidadeDePessoas() {
-    //     Cliente cliente = new Cliente("Carlos", 5);
-    //     assertEquals(5, cliente.getQuantidadeDePessoas());
+    // Cliente cliente = new Cliente("Carlos", 5);
+    // assertEquals(5, cliente.getQuantidadeDePessoas());
     // }
 
     // @Test
     // public void testCabemNaMesa() {
-    //     Cliente cliente = new Cliente("Fernanda", 1);
-    //     assertTrue(cliente.cabemNaMesa(2)); // A mesa tem mais cadeiras do que clientes
+    // Cliente cliente = new Cliente("Fernanda", 1);
+    // assertTrue(cliente.cabemNaMesa(2)); // A mesa tem mais cadeiras do que
+    // clientes
     // }
 
 }

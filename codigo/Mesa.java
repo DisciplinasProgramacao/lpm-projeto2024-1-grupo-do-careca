@@ -26,20 +26,19 @@ class Mesa {
     public void setMesaOcupada(boolean mesaOcupada) {
         this.mesaOcupada = mesaOcupada;
     }
-    
-   
-    public Cliente getCliente(){
+
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente){
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
     public void ocuparMesa(Requisicao requisicao) {
         mesaOcupada = true;
         this.requisicao = requisicao;
-    }    
+    }
 
     public void desocuparMesa() {
         mesaOcupada = false;
