@@ -14,8 +14,9 @@ public class Main {
             System.out.println("Menu:");
             System.out.println("1. Atender Cliente");
             System.out.println("2. Ver Fila de Espera");
-            System.out.println("3. Encerrar Atendimento de Cliente");
-            System.out.println("4. Sair");
+            System.out.println("3. Servir Cliente");
+            System.out.println("4. Encerrar Atendimento de Cliente");       
+            System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -48,7 +49,10 @@ public class Main {
                         }
                     }
                     break;
-                case 3:
+                    case 3:
+                    // aqui vao os metodos para servir o cliente
+
+                case 4:
                     System.out.println("Mesas Ocupadas:");
                     List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
                     if (mesasOcupadas.isEmpty()) {
@@ -62,7 +66,7 @@ public class Main {
                         }
                         System.out.print("Escolha uma mesa para liberar (1-" + mesasOcupadas.size() + "): ");
                         int indiceMesa = scanner.nextInt();
-                        scanner.nextLine(); // Consumir a nova linha
+                        scanner.nextLine();
                         if (indiceMesa > 0 && indiceMesa <= mesasOcupadas.size()) {
                             Mesa mesa = mesasOcupadas.get(indiceMesa - 1);
                             Requisicao req = mesa.getRequisicaoAtual();
@@ -79,7 +83,7 @@ public class Main {
                         }
                     }
                     break;
-                case 4:
+                case 5:
                     System.out.println("Saindo...");
                     break;
                 default:

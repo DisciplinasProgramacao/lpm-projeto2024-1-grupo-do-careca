@@ -7,27 +7,35 @@ import java.util.List;
 public class Pedido {
 
     private final double TAXA = 0.1;
+    private boolean menuFechado;   
 
-    private Cardapio cardapio;
-
-    private List<Item> itemsEscolhidos = new ArrayList<>();
+    private List<Item> itemsEscolhidos;
 
     // Construtor
-    public Pedido() {
-
+    public Pedido(boolean menuFechado) {
+        this.itemsEscolhidos = new ArrayList<>();
+        this.menuFechado = menuFechado;
     }
 
-    public void pedirItem(Item pedidos) {
-        itemsEscolhidos.add(pedidos);
+    public void pedirItem(Item pedido) {
+        itemsEscolhidos.add(pedido);
     }
 
-    public void valorAPagar() {
+    public double valorAPagar() {
         double valorTotal = 0.0;
 
         for (Item item : itemsEscolhidos) {
             valorTotal += item.getPreco();
         }
-        valorTotal += valorTotal * TAXA;
+
+        if(!menuFechado){
+            valorTotal += valorTotal * TAXA;
+        }
+        return valorTotal;
+    }
+
+    public double calcularValorPorPessoa(int numeroDePessoas) {
+        return valorAPagar() / numeroDePessoas;
     }
 
         
