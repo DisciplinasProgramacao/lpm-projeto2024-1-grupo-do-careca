@@ -83,7 +83,6 @@ class Restaurante {
         }
     }
 
-<<<<<<< HEAD
 
     //aqui falta direcionar qual cliente sera removido da mesa
     public void removerClienteDaMesa(int id) {
@@ -95,7 +94,6 @@ class Restaurante {
             }
         }
         System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
-=======
     public Mesa acharCliente(String nome) {
         for (Mesa mesa : mesas) {
             if (mesa.clienteSentado().equals(nome)) {
@@ -103,7 +101,6 @@ class Restaurante {
             }
         }
         return null;
->>>>>>> c089e09dee520e9dda9c67d3b012e8fca67ef8df
     }
 
     // aqui falta direcionar qual cliente sera removido da mesa

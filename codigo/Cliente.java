@@ -1,7 +1,6 @@
 package codigo;
 
-class Cliente {
-    //talvez precise de um identificador aqui
+class Cliente {    
 
     private String nome;
     private int id;   
@@ -18,5 +17,15 @@ class Cliente {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
 
 }
