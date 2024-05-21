@@ -3,68 +3,90 @@ package codigo;
 import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
         Restaurante restaurante = new Restaurante();
         Scanner scanner = new Scanner(System.in);
-        Cliente cliente = null;
-        Requisicao requisicao = null;
-        boolean continuarExecucao = true;
-        Queue<Requisicao> filaDeEspera = new LinkedList<>(); // Inicialização da fila de espera
-        List<Mesa> mesas = new ArrayList<>(); // Inicialização da lista de mesas
+        int opcao;
 
-        while (continuarExecucao) {
-            System.out.println("\nMenu:");
-            System.out.println("1. Solicitar mesa");
-            System.out.println("2. Ver fila de espera");
-            System.out.println("3. Remover cliente da mesa");
-            System.out.println("4. Atender cliente");
-            System.out.println("5. Sair... ");
+        do {
+            System.out.println("Menu:");
+            System.out.println("1. Atender Cliente");
+            System.out.println("2. Ver Fila de Espera");
+            System.out.println("3. Encerrar Atendimento de Cliente");
+            System.out.println("4. Sair");
             System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Nome do cliente: ");
+                    System.out.print("Nome do Cliente: ");
+                    String nome = scanner.nextLine();
+                    System.out.print("Número de Pessoas: ");
+                    int numeroPessoas = scanner.nextInt();
                     scanner.nextLine();
-                    String nomeDoCliente = scanner.nextLine();
-                    System.out.print("Id do cliente: ");
-                    int id = scanner.nextInt();
-                    cliente = new Cliente(nomeDoCliente, id);
-
-                    System.out.print("Informe a quantidade de pessoas: ");
-                    int qtdPessoas = scanner.nextInt();
-
-                    requisicao = new Requisicao(qtdPessoas, cliente, filaDeEspera, mesas); // Instanciação correta da Requisicao
-
-                    restaurante.sentarCliente(requisicao); // Chamada do método na instância correta
-
+                    try {
+                        Cliente cliente = new Cliente(nome);
+                        Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
+                        restaurante.adicionarRequisicao(requisicao);
+                        System.out.println("Cliente adicionado com sucesso!");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
                     break;
                 case 2:
-                    restaurante.listarClientesNaFilaDeEspera();
+                    System.out.println("Fila de Espera:");
+                    Queue<Requisicao> filaEspera = restaurante.getFilaEspera();
+                    if (filaEspera.isEmpty()) {
+                        System.out.println("Nenhum cliente na fila de espera.");
+                    } else {
+                        for (Requisicao req : filaEspera) {
+                            System.out.println("Cliente: " + req.getCliente().getNome() + ", Número de Pessoas: "
+                                    + req.getQuantidadeDePessoas());
+                        }
+                    }
                     break;
                 case 3:
-                    System.out.println("Informe o ID do cliente que será removido: ");
-                    id = scanner.nextInt();
-                    requisicao.removerClienteDaMesa(id);
-                    requisicao.fecharConta();
+                    System.out.println("Mesas Ocupadas:");
+                    List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+                    if (mesasOcupadas.isEmpty()) {
+                        System.out.println("Nenhuma mesa ocupada.");
+                    } else {
+                        for (int i = 0; i < mesasOcupadas.size(); i++) {
+                            Mesa mesa = mesasOcupadas.get(i);
+                            Requisicao req = mesa.getRequisicaoAtual();
+                            System.out.println((i + 1) + ". Mesa para " + mesa.getQuantidadeDeCadeiras()
+                                    + " pessoas ocupada por " + req.getCliente().getNome());
+                        }
+                        System.out.print("Escolha uma mesa para liberar (1-" + mesasOcupadas.size() + "): ");
+                        int indiceMesa = scanner.nextInt();
+                        scanner.nextLine(); // Consumir a nova linha
+                        if (indiceMesa > 0 && indiceMesa <= mesasOcupadas.size()) {
+                            Mesa mesa = mesasOcupadas.get(indiceMesa - 1);
+                            Requisicao req = mesa.getRequisicaoAtual();
+                            if (req != null) {
+                                restaurante.liberarMesa(mesa);
+                                System.out.println("Mesa liberada com sucesso!");
+                                System.out.println("Relatório de Atendimento:");
+                                System.out.println(req.relatorioAtendimento());
+                            } else {
+                                System.out.println("Nenhuma requisição encontrada para esta mesa.");
+                            }
+                        } else {
+                            System.out.println("Opção inválida.");
+                        }
+                    }
                     break;
-
                 case 4:
-                    // Código para atender cliente, ler entrada, etc.
-                    break;
-
-                case 5:
                     System.out.println("Saindo...");
-                    continuarExecucao = false;
                     break;
-
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        }
+        } while (opcao != 4);
+
+        scanner.close();
     }
 }

@@ -8,7 +8,7 @@ public class Pedido {
 
     private final double TAXA = 0.1;
 
-    private List<Item> Cardapio = new ArrayList<>();
+    private Cardapio cardapio;
 
     private List<Item> itemsEscolhidos = new ArrayList<>();
 
@@ -30,12 +30,10 @@ public class Pedido {
         valorTotal += valorTotal * TAXA;
     }
 
-    
-
         
-    }
+}
 
-    // metodo para total do pedido
+
 
 
 

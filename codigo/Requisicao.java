@@ -1,25 +1,23 @@
 package codigo;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Queue;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 class Requisicao {
+    private LocalDateTime chegada;
+    private LocalDateTime saida;
     private int quantidadeDePessoas;
-    private Date chegada;
-    private Date saida;
     private Cliente cliente;
     private Mesa mesa;
-    private Queue<Requisicao> filaDeEspera;
-    private List<Mesa> mesas;
 
-    public Requisicao(int quantidadeDePessoas, Cliente cliente, Queue<Requisicao> filaDeEspera, List<Mesa> mesas) {
-        this.chegada = new Date();
+    // como validar qtd de pessoas?
+    public Requisicao(int quantidadeDePessoas, Cliente cliente) {
+        if (quantidadeDePessoas > 8) {
+            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
+        }
         this.quantidadeDePessoas = quantidadeDePessoas;
-        this.cliente = cliente;
-        this.filaDeEspera = filaDeEspera;
-        this.mesa = (Mesa) mesas;
-        this.saida = new Date();
+        this.chegada = LocalDateTime.now();
+        this.cliente = cliente;        
     }
 
     public int getQuantidadeDePessoas() {
@@ -30,23 +28,23 @@ class Requisicao {
         this.quantidadeDePessoas = quantidadeDePessoas;
     }
 
-    public Date getChegada() {
+    public LocalDateTime getChegada() {
         return chegada;
     }
 
-    public void setChegada(Date chegada) {
+    public void setChegada(LocalDateTime chegada) {
         this.chegada = chegada;
     }
 
-    public Date getSaida() {
+    public LocalDateTime getSaida() {
         return saida;
     }
-    
+
     public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     }
 
-    public void setSaida(Date saida) {
+    public void setSaida(LocalDateTime saida) {
         this.saida = saida;
     }
 
@@ -58,91 +56,21 @@ class Requisicao {
         this.cliente = cliente;
     }
 
-    public void solicitarMesa() {
-       // System.out.println(
-        //        "Cliente " + cliente.getNome() + " solicitou uma mesa para " + quantidadeDePessoas + " pessoas.");
-        // verificar se há mesa disponivel
+    public Mesa getMesa() {
+        return mesa;
     }
 
-    
-
-    public void fecharConta() {
-        saida = new Date();
-        setSaida(saida);
-        //System.out.println("Relatorio do cliente: " + cliente.getNome() + " aqui vai o metodo com a conta");
-        // desocupar a mesa
+    public void encerrarRequisicao() {
+        saida = LocalDateTime.now();
     }
 
-    public void sentarCliente(Requisicao requisicao) {
-        // validação da qtd de pessoas na requisicao para entrar ou nao na fila de
-        // espera
-
-        if (!filaDeEspera.isEmpty()) {
-            Requisicao proxCliente = filaDeEspera.peek(); // Obter o próximo cliente na fila de espera
-
-            // Verifica se há uma mesa disponível para o cliente
-            for (Mesa mesa : mesas) {
-                if (mesa.isDisponivel(proxCliente.getQuantidadeDePessoas())) {
-                    mesa.ocuparMesa(proxCliente); // Ocupa a mesa
-             //       System.out.println("Requisicao atendida: " + proxCliente);
-                chegada = new Date();
-                setChegada(chegada);
-                    return;
-                }
-            }
-        }
-
-        // Se não houver clientes na fila de espera ou não houver mesas disponíveis para
-        // o próximo cliente na fila de espera,
-        // verifica se há uma mesa disponível para o cliente atual
-        for (Mesa mesa : mesas) {
-            if (mesa.isDisponivel(requisicao.getQuantidadeDePessoas())) {
-                mesa.ocuparMesa(requisicao); // Ocupa a mesa com o cliente atual
-                //System.out.println("Requisicao atendida: " + requisicao);
-                // System.out.println("Cliente " + requisicao.getCliente().getNome() + "
-                // sentou-se à mesa.");
-                chegada = new Date();
-                setChegada(chegada);
-                return;
-            }
-        }
-        
-        filaDeEspera.add(requisicao);
-        //System.out
-        //        .println("Não foi possível alocar uma mesa para o cliente " + requisicao.getCliente().getNome() + ".");
-
-        //System.out.println("Cliente " + requisicao.getCliente().getNome() + " movido para a fila de espera");
-
+    public String relatorioAtendimento() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Horário de Chegada: ").append(chegada.format(formatter)).append("\n");
+        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
+        sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
+        return sb.toString();
     }
 
-    
-
-    public void removerClienteDaMesa(int id) {
-        // Procura na fila de espera por uma requisição com o ID especificado
-        for (Requisicao r : filaDeEspera) {
-            if (r.getSaida().equals(id)) {
-                r.fecharConta();
-                return;
-            }
-        }
-
-        // Se não encontrou na fila de espera, verifica nas mesas
-        for (Requisicao r : filaDeEspera) {
-            if (r.getCliente().getId() == id) {
-                r.fecharConta();
-                return;
-            }
-        }
-    }
-    
-        // for (Mesa mesa : mesas) {
-        //     Requisicao req = mesa.getRequisicao();
-        //     if (req != null && req.getCliente().getId() == id) {
-        //         mesa.desocuparMesa();
-        //         System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-        //         req.fecharConta();
-        //         return;
-        //     }
-        // }
-    }
-
+}

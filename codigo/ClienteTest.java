@@ -7,13 +7,13 @@ public class ClienteTest {
 
     @Test
     public void testGetNome() {
-        Cliente cliente = new Cliente("João", 10);
+        Cliente cliente = new Cliente("João");
         assertEquals("João", cliente.getNome());
     }
 
     @Test
     public void testSetNome() {
-        Cliente cliente = new Cliente("Maria", 20);
+        Cliente cliente = new Cliente("Maria");
         cliente.setNome("Ana");
         assertEquals("Ana", cliente.getNome());
     }
