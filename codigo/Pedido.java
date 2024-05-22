@@ -3,7 +3,6 @@ package codigo;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Pedido {
 
     private final double TAXA = 0.1;

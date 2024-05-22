@@ -35,9 +35,9 @@ public class Main {
                         Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
                         restaurante.adicionarRequisicao(requisicao);  
                         if (requisicao.getMesa() != null) {
-                            System.out.println("Cliente adicionado com sucesso! Mesa: " + requisicao.getMesa().getIdMesa());
+                            System.out.println("Cliente " +  cliente.getNome() + " adicionado com sucesso! Mesa: " + requisicao.getMesa().getIdMesa());
                         } else {
-                            System.out.println("Cliente adicionado à fila de espera.");
+                            System.out.println("Cliente " +  cliente.getNome() + " adicionado à fila de espera.");
                         }              
                     } catch (IllegalArgumentException e) {
                         System.out.println("Erro: " + e.getMessage());
@@ -56,7 +56,48 @@ public class Main {
                     }
                     break;
                 case 3:
-                    garcom.servirCliente();
+                System.out.println("Escolha uma mesa para servir o cliente:");
+                int numeroMesa = scanner.nextInt();
+                scanner.nextLine();
+
+                if (!garcom.verificarMesaExistente(numeroMesa)) {
+                    System.out.println("Mesa não existe.");
+                    break;
+                }
+
+                if (!garcom.verificarMesaOcupada(numeroMesa)) {
+                    System.out.println("A mesa escolhida não está ocupada.");
+                    break;
+                }
+
+                System.out.println("Opções do Cardápio:");
+                List<Item> itensCardapio = garcom.obterItensCardapio();
+                for (Item item : itensCardapio) {
+                    System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                }
+
+                Pedido pedido = new Pedido(false);
+                    boolean continuarPedindo = true;
+                    do {
+                        System.out.println("Digite o código do item desejado (0 para encerrar):");
+                        int codigoItem = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (codigoItem == 0) {
+                            continuarPedindo = false;
+                        } else {
+                            Item item = garcom.obterItemCardapio(codigoItem);
+                            if (item != null) {
+                                pedido.pedirItem(item);
+                                System.out.println("Item adicionado ao pedido: " + item.getNome());
+                            } else {
+                                System.out.println("Item não encontrado.");
+                            }
+                        }
+                    } while (continuarPedindo);
+
+                    garcom.servirCliente(numeroMesa, pedido);
+                    System.out.println("Pedido realizado com sucesso.");
                     break;
 
                 case 4:
@@ -83,12 +124,12 @@ public class Main {
                                 System.out.println("Relatório de Atendimento:");
                                 System.out.println(req.relatorioAtendimento());
                                 List<Pedido> pedidos = req.getPedidos();
-                                for (Pedido pedido : pedidos) {
+                                for (Pedido p : pedidos) {
                                     System.out.println("Pedido:");
-                                    for (Item item : pedido.getItemsEscolhidos()) {
+                                    for (Item item : p.getItemsEscolhidos()) {
                                         System.out.println(" - " + item.getNome() + ", Preço: R$" + item.getPreco());
                                     }
-                                    System.out.println("Menu fechado: " + pedido.isMenuFechado());
+                                    System.out.println("Menu fechado: " + p.isMenuFechado());
                                 }
                             } else {
                                 System.out.println("Nenhuma requisição encontrada para esta mesa.");

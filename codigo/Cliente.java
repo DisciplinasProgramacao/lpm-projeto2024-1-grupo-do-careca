@@ -1,6 +1,5 @@
 package codigo;
 
-
 class Cliente {
 
     private static int idAutomatico = 1;
