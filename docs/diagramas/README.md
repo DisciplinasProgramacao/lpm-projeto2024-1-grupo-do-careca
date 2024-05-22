@@ -17,3 +17,7 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 # 05
 
  ![RestauranteUMLX3 drawio](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/e1d98d2f-1565-4a1c-b9cd-f5eb24521fa7)
+
+
+# 06
+<img width="525" alt="Screenshot 2024-05-21 at 9 45 25 PM" src="https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/da0fdd29-57af-4ffb-8bb1-c0e676766418">
