@@ -33,9 +33,12 @@ public class Main {
                     try {
                         Cliente cliente = new Cliente(nome);
                         Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
-                        restaurante.adicionarRequisicao(requisicao);
-                        System.out.println("Cliente adicionado com sucesso!");
-                        System.out.println(requisicao.getMesa().getIdMesa()); // ver o Id da mesa   adc validação se foi pra mesa ou pra fila
+                        restaurante.adicionarRequisicao(requisicao);  
+                        if (requisicao.getMesa() != null) {
+                            System.out.println("Cliente adicionado com sucesso! Mesa: " + requisicao.getMesa().getIdMesa());
+                        } else {
+                            System.out.println("Cliente adicionado à fila de espera.");
+                        }              
                     } catch (IllegalArgumentException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
