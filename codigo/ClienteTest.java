@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 public class ClienteTest {
 
+    
+
     @Test
     public void testGetNome() {
         Cliente cliente = new Cliente("João");
@@ -18,17 +20,12 @@ public class ClienteTest {
         assertEquals("Ana", cliente.getNome());
     }
 
-    // @Test
-    // public void testGetQuantidadeDePessoas() {
-    // Cliente cliente = new Cliente("Carlos", 5);
-    // assertEquals(5, cliente.getQuantidadeDePessoas());
-    // }
-
-    // @Test
-    // public void testCabemNaMesa() {
-    // Cliente cliente = new Cliente("Fernanda", 1);
-    // assertTrue(cliente.cabemNaMesa(2)); // A mesa tem mais cadeiras do que
-    // clientes
-    // }
+   @Test
+   public void testaIdDoCliente() {
+    Cliente cliente01 = new Cliente("Teste");
+    Cliente cliente02 = new Cliente("Teste");
+    assertEquals(1, cliente01.getId());
+    assertEquals(2, cliente02.getId());
+   }
 
 }
