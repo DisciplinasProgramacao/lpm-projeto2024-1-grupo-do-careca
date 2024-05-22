@@ -2,6 +2,8 @@ package codigo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 class Requisicao {
     private LocalDateTime chegada;
@@ -10,6 +12,8 @@ class Requisicao {
     private Cliente cliente;
     private Mesa mesa;
 
+    private List<Pedido> pedidos;
+
     // como validar qtd de pessoas?
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
         if (quantidadeDePessoas > 8) {
@@ -17,7 +21,8 @@ class Requisicao {
         }
         this.quantidadeDePessoas = quantidadeDePessoas;
         this.chegada = LocalDateTime.now();
-        this.cliente = cliente;        
+        this.cliente = cliente;
+        this.pedidos = new ArrayList<>();
     }
 
     public int getQuantidadeDePessoas() {
@@ -60,6 +65,14 @@ class Requisicao {
         return mesa;
     }
 
+    public void adicionarPedido(Pedido pedido) {
+        pedidos.add(pedido);
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
     public void encerrarRequisicao() {
         saida = LocalDateTime.now();
     }
@@ -70,6 +83,22 @@ class Requisicao {
         sb.append("Horário de Chegada: ").append(chegada.format(formatter)).append("\n");
         sb.append("Cliente: ").append(cliente.getNome()).append("\n");
         sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
+
+        if (mesa != null && mesa.getPedido() != null) {
+            Pedido pedido = mesa.getPedido();
+            List<Item> itens = pedido.getItemsEscolhidos();
+            double total = pedido.valorAPagar();
+            double totalPorPessoa = pedido.calcularValorPorPessoa(quantidadeDePessoas);
+
+            sb.append("Itens do Pedido:\n");
+            for (Item item : itens) {
+                sb.append("- ").append(item.getNome()).append(" - R$ ").append(item.getPreco()).append("\n");
+            }
+
+            sb.append("Total do Pedido: R$ ").append(total).append("\n");
+            sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", totalPorPessoa)).append("\n");
+        }
+
         return sb.toString();
     }
 

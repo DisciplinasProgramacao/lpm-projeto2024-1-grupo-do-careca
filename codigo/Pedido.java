@@ -11,14 +11,21 @@ public class Pedido {
 
     private List<Item> itemsEscolhidos;
 
-    // Construtor
     public Pedido(boolean menuFechado) {
         this.itemsEscolhidos = new ArrayList<>();
         this.menuFechado = menuFechado;
+    }    
+
+    public List<Item> getItemsEscolhidos() {
+        return itemsEscolhidos;
     }
 
     public void pedirItem(Item pedido) {
         itemsEscolhidos.add(pedido);
+    }
+
+    public boolean isMenuFechado() {
+        return menuFechado;
     }
 
     public double valorAPagar() {

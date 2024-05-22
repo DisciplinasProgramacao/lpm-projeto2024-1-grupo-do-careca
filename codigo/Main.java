@@ -8,6 +8,8 @@ public class Main {
     public static void main(String[] args) {
         Restaurante restaurante = new Restaurante();
         Scanner scanner = new Scanner(System.in);
+        Cardapio cardapio = new Cardapio();
+        Garcom garcom = new Garcom(restaurante, cardapio);
         int opcao;
 
         do {
@@ -15,7 +17,7 @@ public class Main {
             System.out.println("1. Atender Cliente");
             System.out.println("2. Ver Fila de Espera");
             System.out.println("3. Servir Cliente");
-            System.out.println("4. Encerrar Atendimento de Cliente");       
+            System.out.println("4. Encerrar Atendimento de Cliente");
             System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -33,6 +35,7 @@ public class Main {
                         Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
                         restaurante.adicionarRequisicao(requisicao);
                         System.out.println("Cliente adicionado com sucesso!");
+                        System.out.println(requisicao.getMesa().getIdMesa()); // ver o Id da mesa   adc validação se foi pra mesa ou pra fila
                     } catch (IllegalArgumentException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -49,8 +52,9 @@ public class Main {
                         }
                     }
                     break;
-                    case 3:
-                    // aqui vao os metodos para servir o cliente
+                case 3:
+                    garcom.servirCliente();
+                    break;
 
                 case 4:
                     System.out.println("Mesas Ocupadas:");
@@ -59,22 +63,30 @@ public class Main {
                         System.out.println("Nenhuma mesa ocupada.");
                     } else {
                         for (int i = 0; i < mesasOcupadas.size(); i++) {
-                            Mesa mesa = mesasOcupadas.get(i);
-                            Requisicao req = mesa.getRequisicaoAtual();
-                            System.out.println((i + 1) + ". Mesa para " + mesa.getQuantidadeDeCadeiras()
+                            Mesa mesaOcupada = mesasOcupadas.get(i);
+                            Requisicao req = mesaOcupada.getRequisicaoAtual();
+                            System.out.println((i + 1) + ". Mesa para " + mesaOcupada.getQuantidadeDeCadeiras()
                                     + " pessoas ocupada por " + req.getCliente().getNome());
                         }
                         System.out.print("Escolha uma mesa para liberar (1-" + mesasOcupadas.size() + "): ");
                         int indiceMesa = scanner.nextInt();
                         scanner.nextLine();
                         if (indiceMesa > 0 && indiceMesa <= mesasOcupadas.size()) {
-                            Mesa mesa = mesasOcupadas.get(indiceMesa - 1);
-                            Requisicao req = mesa.getRequisicaoAtual();
+                            Mesa mesaEscolhida = mesasOcupadas.get(indiceMesa - 1);
+                            Requisicao req = mesaEscolhida.getRequisicaoAtual();
                             if (req != null) {
-                                restaurante.liberarMesa(mesa);
+                                restaurante.liberarMesa(mesaEscolhida);
                                 System.out.println("Mesa liberada com sucesso!");
                                 System.out.println("Relatório de Atendimento:");
                                 System.out.println(req.relatorioAtendimento());
+                                List<Pedido> pedidos = req.getPedidos();
+                                for (Pedido pedido : pedidos) {
+                                    System.out.println("Pedido:");
+                                    for (Item item : pedido.getItemsEscolhidos()) {
+                                        System.out.println(" - " + item.getNome() + ", Preço: R$" + item.getPreco());
+                                    }
+                                    System.out.println("Menu fechado: " + pedido.isMenuFechado());
+                                }
                             } else {
                                 System.out.println("Nenhuma requisição encontrada para esta mesa.");
                             }
@@ -89,7 +101,7 @@ public class Main {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (opcao != 4);
+        } while (opcao != 5);
 
         scanner.close();
     }

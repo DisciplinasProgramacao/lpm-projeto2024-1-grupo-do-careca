@@ -37,6 +37,20 @@ public class Restaurante {
         return new ArrayList<>(mesasOcupadas);
     }
     
+    public boolean mesaExiste(int numeroMesa) {
+        for (Mesa mesa : mesasDisponiveis) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                return true;
+            }
+        }
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void adicionarRequisicao(Requisicao requisicao) {
         Mesa mesaAdequada = encontrarMesaAdequada(requisicao.getQuantidadeDePessoas());
         if (mesaAdequada != null) {
@@ -53,6 +67,16 @@ public class Restaurante {
             }
         }
         return null;
+    }
+
+    public boolean adicionarPedido(int numeroMesa, Pedido pedido) {
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                mesa.setPedido(pedido);
+                return true;
+            }
+        }
+        return false; //aqui eu nao poderia fazer esse metodo como void e imprimir uma mensagem caso nao achasse a mesa?
     }
     
     private void alocarMesa(Mesa mesa, Requisicao requisicao) {
@@ -71,6 +95,12 @@ public class Restaurante {
             mesasOcupadas.remove(mesa);
             mesasDisponiveis.add(mesa);
 
+            Requisicao req = mesa.getRequisicaoAtual();
+            if (req != null) {
+                
+                req.adicionarPedido(mesa.getPedido());
+            }
+
             if (!filaEspera.isEmpty()) {
                 Requisicao proximaRequisicao = filaEspera.poll();
                 Mesa mesaAdequada = encontrarMesaAdequada(proximaRequisicao.getQuantidadeDePessoas());
@@ -79,6 +109,15 @@ public class Restaurante {
                 }
             }
         }
+    }
+
+    public Mesa encontrarMesaPorNumero(int numeroMesa) {
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                return mesa;
+            }
+        }
+        return null;
     }
    
 }

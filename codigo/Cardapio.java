@@ -14,7 +14,7 @@ public class Cardapio {
         itens.add(new Item("Escondidinho de Inhame", 18.00, 4));
         itens.add(new Item("Strogonoff de cogumelos", 35.00, 5));
         itens.add(new Item("Caçarola de legumes", 22.00, 6));
-        
+
         itens.add(new Item("Agua ", 3.00, 7));
         itens.add(new Item("Copo de Suco ", 7.00, 8));
         itens.add(new Item("Refrigerante Organico ", 7.00, 9));
@@ -30,6 +30,12 @@ public class Cardapio {
         }
         return null;
     }
+
+    public List<Item> getItem() {
+        return itens;
+    }
+
+    
 
     
 }
