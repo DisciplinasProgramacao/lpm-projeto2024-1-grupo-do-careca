@@ -1,17 +1,28 @@
 package codigo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 class Requisicao {
+    private LocalDateTime chegada;
+    private LocalDateTime saida;
     private int quantidadeDePessoas;
-    private Date chegada;
-    private Date saida;
     private Cliente cliente;
+    private Mesa mesa;
 
+    private List<Pedido> pedidos;
+
+    // como validar qtd de pessoas?
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
-        this.chegada = new Date();
+        if (quantidadeDePessoas > 8) {
+            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
+        }
         this.quantidadeDePessoas = quantidadeDePessoas;
+        this.chegada = LocalDateTime.now();
         this.cliente = cliente;
+        this.pedidos = new ArrayList<>();
     }
 
     public int getQuantidadeDePessoas() {
@@ -22,19 +33,23 @@ class Requisicao {
         this.quantidadeDePessoas = quantidadeDePessoas;
     }
 
-    public Date getChegada() {
+    public LocalDateTime getChegada() {
         return chegada;
     }
 
-    public void setChegada(Date chegada) {
+    public void setChegada(LocalDateTime chegada) {
         this.chegada = chegada;
     }
 
-    public Date getSaida() {
+    public LocalDateTime getSaida() {
         return saida;
     }
 
-    public void setSaida(Date saida) {
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+
+    public void setSaida(LocalDateTime saida) {
         this.saida = saida;
     }
 
@@ -46,32 +61,45 @@ class Requisicao {
         this.cliente = cliente;
     }
 
-    public void solicitarMesa() {
-        System.out.println(
-                "Cliente " + cliente.getNome() + " solicitou uma mesa para " + quantidadeDePessoas + " pessoas.");
-        // verificar se há mesa disponivel
+    public Mesa getMesa() {
+        return mesa;
     }
 
-    // sentraNaMesa e sairDaMesa devem estar na classe restaurante?
-    // sentar na mesa e sair na mesa devem manipular a lista de mesas e fila de
-    // clientes
-    public void sentarNaMesa() {
-        System.out.println("Cliente " + cliente.getNome() + " sentou-se à mesa.");
-        // ocupar uma mesa
+    public void adicionarPedido(Pedido pedido) {
+        pedidos.add(pedido);
     }
 
-    public void fecharConta() {
-        saida = new Date();
-        setSaida(saida);
-        System.out.println("Relatorio do cliente: " + cliente.getNome() + " aqui vai o metodo com a conta");
-        // desocupar a mesa
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
-    // metodo de divisao da conta
+    public void encerrarRequisicao() {
+        saida = LocalDateTime.now();
+    }
 
-    @Override
-    public String toString() {
-        return "Requisicao [Quantidade de pessoas: " + quantidadeDePessoas + ", " + cliente + "]";
+    public String relatorioAtendimento() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Horário de Chegada: ").append(chegada.format(formatter)).append("\n");
+        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
+        sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
+
+        if (mesa != null && mesa.getPedido() != null) {
+            Pedido pedido = mesa.getPedido();
+            List<Item> itens = pedido.getItemsEscolhidos();
+            double total = pedido.valorAPagar();
+            double totalPorPessoa = pedido.calcularValorPorPessoa(quantidadeDePessoas);
+
+            sb.append("Itens do Pedido:\n");
+            for (Item item : itens) {
+                sb.append("- ").append(item.getNome()).append(" - R$ ").append(item.getPreco()).append("\n");
+            }
+
+            sb.append("Total do Pedido: R$ ").append(total).append("\n");
+            sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", totalPorPessoa)).append("\n");
+        }
+
+        return sb.toString();
     }
 
 }

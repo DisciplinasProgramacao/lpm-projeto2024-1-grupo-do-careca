@@ -5,139 +5,119 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-class Restaurante {
-    private List<Mesa> mesas;
-    private Queue<Requisicao> filaDeEspera;
-    private Cardapio cardapio;
-
-    private Requisicao requisicao;
-
+public class Restaurante {
+    private List<Mesa> mesasDisponiveis;
+    private List<Mesa> mesasOcupadas;
+    private Queue<Requisicao> filaEspera;
+    
     public Restaurante() {
-        mesas = new ArrayList<>();
-        filaDeEspera = new LinkedList<>();
-        cardapio = new Cardapio();
-
-        // Inicializar as mesas
-        mesas.add(new Mesa(4));
-        mesas.add(new Mesa(4));
-        mesas.add(new Mesa(4));
-        mesas.add(new Mesa(4));
-        mesas.add(new Mesa(6));
-        mesas.add(new Mesa(6));
-        mesas.add(new Mesa(6));
-        mesas.add(new Mesa(6));
-        mesas.add(new Mesa(8));
-        mesas.add(new Mesa(8));
+        mesasDisponiveis = new ArrayList<>();
+        mesasOcupadas = new ArrayList<>();
+        filaEspera = new LinkedList<>();
+        inicializarMesas();
+    }
+    
+    private void inicializarMesas() {   
+        for (int i = 0; i < 4; i++) {
+            mesasDisponiveis.add(new Mesa(4));
+        }
+        for (int i = 0; i < 4; i++) {
+            mesasDisponiveis.add(new Mesa(6));
+        }
+        for (int i = 0; i < 2; i++) {
+            mesasDisponiveis.add(new Mesa(8));
+        }
     }
 
-    public boolean temMesaDisponivel(int quant) {
-        for (Mesa mesa : mesas) {
-            if (mesa.isDisponivel(quant)) {
+    public Queue<Requisicao> getFilaEspera() {
+        return new LinkedList<>(filaEspera);
+    }
+
+    public List<Mesa> getMesasOcupadas() {
+        return new ArrayList<>(mesasOcupadas);
+    }
+    
+    public boolean mesaExiste(int numeroMesa) {
+        for (Mesa mesa : mesasDisponiveis) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                return true;
+            }
+        }
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
                 return true;
             }
         }
         return false;
     }
 
-    public Cardapio getCardapio() {
-        return cardapio;
+    public void adicionarRequisicao(Requisicao requisicao) {
+        Mesa mesaAdequada = encontrarMesaAdequada(requisicao.getQuantidadeDePessoas());
+        if (mesaAdequada != null) {
+            alocarMesa(mesaAdequada, requisicao);
+        } else {
+            filaEspera.offer(requisicao);
+        }
+    }
+    
+    private Mesa encontrarMesaAdequada(int numeroPessoas) {
+        for (Mesa mesa : mesasDisponiveis) {
+            if (mesa.getQuantidadeDeCadeiras() >= numeroPessoas) {
+                return mesa;
+            }
+        }
+        return null;
     }
 
-    public void sentarCliente(Requisicao requisicao) {
-        // validação da qtd de pessoas na requisicao para entrar ou nao na fila de
-        // espera
+    public boolean adicionarPedido(int numeroMesa, Pedido pedido) {
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                mesa.setPedido(pedido);
+                return true;
+            }
+        }
+        return false; //aqui eu nao poderia fazer esse metodo como void e imprimir uma mensagem caso nao achasse a mesa?
+    }
+    
+    private void alocarMesa(Mesa mesa, Requisicao requisicao) {
+        mesa.ocuparMesa();
+        mesa.setRequisicaoAtual(requisicao);
+        requisicao.setMesa(mesa);
+        mesasDisponiveis.remove(mesa);
+        mesasOcupadas.add(mesa);
+    }
 
-        if (!filaDeEspera.isEmpty()) {
-            Requisicao proxCliente = filaDeEspera.peek(); // Obter o próximo cliente na fila de espera
+    public void liberarMesa(Mesa mesa) {
+        if (mesa.getRequisicaoAtual() != null) {
+            mesa.getRequisicaoAtual().encerrarRequisicao();
+            mesa.desocuparMesa();
+            mesa.setRequisicaoAtual(null);
+            mesasOcupadas.remove(mesa);
+            mesasDisponiveis.add(mesa);
 
-            // Verifica se há uma mesa disponível para o cliente
-            for (Mesa mesa : mesas) {
-                if (mesa.isDisponivel(proxCliente.getQuantidadeDePessoas())) {
-                    mesa.ocuparMesa(proxCliente); // Ocupa a mesa
-                    System.out.println("Requisicao atendida: " + proxCliente);
-                    return;
+            Requisicao req = mesa.getRequisicaoAtual();
+            if (req != null) {
+                
+                req.adicionarPedido(mesa.getPedido());
+            }
+
+            if (!filaEspera.isEmpty()) {
+                Requisicao proximaRequisicao = filaEspera.poll();
+                Mesa mesaAdequada = encontrarMesaAdequada(proximaRequisicao.getQuantidadeDePessoas());
+                if (mesaAdequada != null) {
+                    alocarMesa(mesaAdequada, proximaRequisicao);
                 }
             }
         }
-
-        // Se não houver clientes na fila de espera ou não houver mesas disponíveis para
-        // o próximo cliente na fila de espera,
-        // verifica se há uma mesa disponível para o cliente atual
-        for (Mesa mesa : mesas) {
-            if (mesa.isDisponivel(requisicao.getQuantidadeDePessoas())) {
-                mesa.ocuparMesa(requisicao); // Ocupa a mesa com o cliente atual
-                System.out.println("Requisicao atendida: " + requisicao);
-                // System.out.println("Cliente " + requisicao.getCliente().getNome() + "
-                // sentou-se à mesa.");
-                return;
-            }
-        }
-
-        filaDeEspera.add(requisicao);
-        System.out
-                .println("Não foi possível alocar uma mesa para o cliente " + requisicao.getCliente().getNome() + ".");
-
-        System.out.println("Cliente " + requisicao.getCliente().getNome() + " movido para a fila de espera");
-
     }
 
-    public void listarClientesNaFilaDeEspera() {
-        if (filaDeEspera.isEmpty()) {
-            System.out.println("Não há clientes na fila de espera");
-        } else {
-            System.out.println("Clientes na fila de espera: ");
-            for (Requisicao c : filaDeEspera) {
-                System.out.println(" - " + c.getCliente().getNome());
+    public Mesa encontrarMesaPorNumero(int numeroMesa) {
+        for (Mesa mesa : mesasOcupadas) {
+            if (mesa.getIdMesa() == numeroMesa) {
+                return mesa;
             }
         }
+        return null;
     }
-
-
-
-    public void removerClienteDaMesa(int id) {
-        for(Requisicao r : filaDeEspera){
-            if(r.getmesa().equals(id)){
-                r.fecharConta();
-            }
-        }
-        // for (Mesa mesa : mesas) {
-        //     Requisicao req = mesa.getRequisicao();
-        //     if (req != null && req.getCliente().getId() == id) {
-        //         mesa.desocuparMesa();
-        //         System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-        //         req.fecharConta();
-        //         return;
-        //     }
-        // }
-
-    public void removerClienteDaMesa(int id) {
-        for (Mesa mesa : mesas) {
-            Requisicao req = mesa.getRequisicao();
-            if (req != null && req.getCliente().getId() == id) {
-                mesa.desocuparMesa();
-                System.out.println("Cliente " + req.getCliente().getNome() + " foi removido da mesa.");
-                req.fecharConta();
-                return;
-            }
-        }
- 
-        System.out.println("Cliente " + requisicao.getCliente().getNome() + " não está em nenhuma mesa.");
-    }
-
-    public void atenderCliente(int id) {
-        for (Mesa mesa : mesas) {
-            Requisicao req = mesa.getRequisicao();
-            if (req != null && req.getCliente().getId() == id) {
-
-                System.out.println("Atendendo o cliente " + req.getCliente().getNome() + ".");
-
-                return;
-            }
-        }
-    }
-
-    public void adicionarClienteNaFilaDeEspera(Requisicao requisicao) {
-        filaDeEspera.add(requisicao);
-    }
-
+   
 }

@@ -6,39 +6,48 @@ import java.util.List;
 public class Pedido {
 
     private final double TAXA = 0.1;
+    private boolean menuFechado;   
 
-    private List<Item> Cardapio = new ArrayList<>();
+    private List<Item> itemsEscolhidos;
 
-    private List<Item> itemsEscolhidos = new ArrayList<>();
+    public Pedido(boolean menuFechado) {
+        this.itemsEscolhidos = new ArrayList<>();
+        this.menuFechado = menuFechado;
+    }    
 
-    // Construtor
-    public Pedido() {
-
+    public List<Item> getItemsEscolhidos() {
+        return itemsEscolhidos;
     }
 
-    public void pedirItem(Item item) {
-        itemsEscolhidos.add(item);
+    public void pedirItem(Item pedido) {
+        itemsEscolhidos.add(pedido);
     }
 
-    public void valorAPagar() {
+    public boolean isMenuFechado() {
+        return menuFechado;
+    }
+
+    public double valorAPagar() {
         double valorTotal = 0.0;
 
         for (Item item : itemsEscolhidos) {
             valorTotal += item.getPreco();
         }
-        valorTotal += valorTotal * TAXA;
+
+        if(!menuFechado){
+            valorTotal += valorTotal * TAXA;
+        }
+        return valorTotal;
     }
 
-    public void fecharPedido() {
-        // percorrer o itemsEscolhidos, somar e dividir pela qtd de pessoas
-
+    public double calcularValorPorPessoa(int numeroDePessoas) {
+        return valorAPagar() / numeroDePessoas;
     }
 
-        Item item = new Item("Moqueca de palmito", 32.00);
-        itemsEscolhidos.add(item);
-    }
-
-    // metodo para total do pedido
-
-
+        
 }
+
+
+
+
+
