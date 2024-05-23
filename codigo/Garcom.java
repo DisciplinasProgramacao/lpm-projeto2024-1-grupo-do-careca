@@ -1,7 +1,9 @@
 package codigo;
 
 import java.util.List;
-import java.util.Scanner;
+
+//classe garcom provavelmente sumira
+//restaurante vai gerenciar essas açoes 
 
 public class Garcom {
     private Restaurante restaurante;
@@ -11,7 +13,7 @@ public class Garcom {
         this.restaurante = restaurante;
         this.cardapio = cardapio;
     }
-    
+
     public boolean verificarMesaExistente(int numeroMesa) {
         return restaurante.mesaExiste(numeroMesa);
     }
@@ -31,11 +33,9 @@ public class Garcom {
 
     public void servirCliente(int numeroMesa, Pedido pedido) {
         restaurante.adicionarPedido(numeroMesa, pedido);
-    }        
+    }
 
     public void fazerPedido(int numeroMesa, Pedido pedido) {
         restaurante.adicionarPedido(numeroMesa, pedido);
-    }    
+    }
 }
-
-

@@ -33,12 +33,13 @@ public class Main {
                     try {
                         Cliente cliente = new Cliente(nome);
                         Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
-                        restaurante.adicionarRequisicao(requisicao);  
+                        restaurante.adicionarRequisicao(requisicao);
                         if (requisicao.getMesa() != null) {
-                            System.out.println("Cliente " +  cliente.getNome() + " adicionado com sucesso! Mesa: " + requisicao.getMesa().getIdMesa());
+                            System.out.println("Cliente " + cliente.getNome() + " adicionado com sucesso! Mesa: "
+                                    + requisicao.getMesa().getIdMesa());
                         } else {
-                            System.out.println("Cliente " +  cliente.getNome() + " adicionado à fila de espera.");
-                        }              
+                            System.out.println("Cliente " + cliente.getNome() + " adicionado à fila de espera.");
+                        }
                     } catch (IllegalArgumentException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -56,28 +57,30 @@ public class Main {
                     }
                     break;
                 case 3:
-                System.out.println("Escolha uma mesa para servir o cliente:");
-                int numeroMesa = scanner.nextInt();
-                scanner.nextLine();
+                    System.out.println("Escolha uma mesa para servir o cliente:");
+                    int numeroMesa = scanner.nextInt();
+                    scanner.nextLine();
 
-                if (!garcom.verificarMesaExistente(numeroMesa)) {
-                    System.out.println("Mesa não existe.");
-                    break;
-                }
+                    if (!garcom.verificarMesaExistente(numeroMesa)) {
+                        System.out.println("Mesa não existe.");
+                        break;
+                    }
 
-                if (!garcom.verificarMesaOcupada(numeroMesa)) {
-                    System.out.println("A mesa escolhida não está ocupada.");
-                    break;
-                }
+                    if (!garcom.verificarMesaOcupada(numeroMesa)) {
+                        System.out.println("A mesa escolhida não está ocupada.");
+                        break;
+                    }
 
-                System.out.println("Opções do Cardápio:");
-                List<Item> itensCardapio = garcom.obterItensCardapio();
-                for (Item item : itensCardapio) {
-                    System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
-                }
+                    System.out.println("Opções do Cardápio:");
+                    List<Item> itensCardapio = garcom.obterItensCardapio();
+                    for (Item item : itensCardapio) {
+                        System.out
+                                .println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                    }
 
-                Pedido pedido = new Pedido(false);
+                    Pedido pedido = new Pedido(false);
                     boolean continuarPedindo = true;
+                    // tirar esse do while
                     do {
                         System.out.println("Digite o código do item desejado (0 para encerrar):");
                         int codigoItem = scanner.nextInt();

@@ -8,6 +8,7 @@ class Mesa {
     private int quantidadeDeCadeiras;
     private boolean mesaOcupada;
 
+    // remover requisicao daqui
     private Requisicao requisicaoAtual;
     private Pedido pedido;
 
