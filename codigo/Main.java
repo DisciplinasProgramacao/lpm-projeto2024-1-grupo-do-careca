@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Restaurante restaurante = new Restaurante();
         Scanner scanner = new Scanner(System.in);
         Cardapio cardapio = new Cardapio();
+        Restaurante restaurante = new Restaurante(cardapio);
         Garcom garcom = new Garcom(restaurante, cardapio);
         int opcao;
 

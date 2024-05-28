@@ -31,11 +31,16 @@ public class Cardapio {
         return null;
     }
 
-    public List<Item> getItem() {
+    public List<Item> getItems() {
         return itens;
     }
 
-    
+    public void exibirMenu() {
+        System.out.println("Opções do Cardápio:");
+        for (Item item : itens) {
+            System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
+        }
+    }
 
     
 }

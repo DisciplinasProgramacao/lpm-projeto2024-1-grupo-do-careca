@@ -9,11 +9,13 @@ public class Restaurante {
     private List<Mesa> mesasDisponiveis;
     private List<Mesa> mesasOcupadas;
     private Queue<Requisicao> filaEspera;
-    
-    public Restaurante() {
+    private Cardapio cardapio;
+
+    public Restaurante(Cardapio cardapio) {
         mesasDisponiveis = new ArrayList<>();
         mesasOcupadas = new ArrayList<>();
         filaEspera = new LinkedList<>();
+        this.cardapio = cardapio;
         inicializarMesas();
     }
     
@@ -76,9 +78,9 @@ public class Restaurante {
                 return true;
             }
         }
-        return false; //aqui eu nao poderia fazer esse metodo como void e imprimir uma mensagem caso nao achasse a mesa?
+        return false;
     }
-    
+
     private void alocarMesa(Mesa mesa, Requisicao requisicao) {
         mesa.ocuparMesa();
         mesa.setRequisicaoAtual(requisicao);
@@ -118,6 +120,31 @@ public class Restaurante {
             }
         }
         return null;
+    }
+
+    public List<Item> obterItensCardapio() {
+        return cardapio.getItems();
+    }
+
+    public Item obterItemCardapio(int codigoItem) {
+        return cardapio.getItem(codigoItem);
+    }
+
+    public void exibirMenu() {
+        cardapio.exibirMenu();
+    }
+
+    public boolean verificarMesaOcupada(int numeroMesa) {
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        return mesa != null && mesa.isMesaOcupada();
+    }
+
+    public void servirCliente(int numeroMesa, Pedido pedido) {
+        adicionarPedido(numeroMesa, pedido);
+    }
+
+    public void fazerPedido(int numeroMesa, Pedido pedido) {
+        adicionarPedido(numeroMesa, pedido);
     }
    
 }
