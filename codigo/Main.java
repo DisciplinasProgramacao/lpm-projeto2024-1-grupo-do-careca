@@ -9,7 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Cardapio cardapio = new Cardapio();
         Restaurante restaurante = new Restaurante(cardapio);
-        Garcom garcom = new Garcom(restaurante, cardapio);
+     
         int opcao;
 
         do {
@@ -61,18 +61,18 @@ public class Main {
                     int numeroMesa = scanner.nextInt();
                     scanner.nextLine();
 
-                    if (!garcom.verificarMesaExistente(numeroMesa)) {
+                    if (!restaurante.verificarMesaExistente(numeroMesa)) {
                         System.out.println("Mesa não existe.");
                         break;
                     }
 
-                    if (!garcom.verificarMesaOcupada(numeroMesa)) {
+                    if (!restaurante.verificarMesaOcupada(numeroMesa)) {
                         System.out.println("A mesa escolhida não está ocupada.");
                         break;
                     }
 
                     System.out.println("Opções do Cardápio:");
-                    List<Item> itensCardapio = garcom.obterItensCardapio();
+                    List<Item> itensCardapio = restaurante.obterItensCardapio();
                     for (Item item : itensCardapio) {
                         System.out
                                 .println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
@@ -89,7 +89,7 @@ public class Main {
                         if (codigoItem == 0) {
                             continuarPedindo = false;
                         } else {
-                            Item item = garcom.obterItemCardapio(codigoItem);
+                            Item item = restaurante.obterItemCardapio(codigoItem);
                             if (item != null) {
                                 pedido.pedirItem(item);
                                 System.out.println("Item adicionado ao pedido: " + item.getNome());
@@ -99,7 +99,7 @@ public class Main {
                         }
                     } while (continuarPedindo);
 
-                    garcom.servirCliente(numeroMesa, pedido);
+                    restaurante.servirCliente(numeroMesa, pedido);
                     System.out.println("Pedido realizado com sucesso.");
                     break;
 

@@ -134,6 +134,10 @@ public class Restaurante {
         cardapio.exibirMenu();
     }
 
+    public boolean verificarMesaExistente(int numeroMesa) {
+        return mesaExiste(numeroMesa);
+    }
+
     public boolean verificarMesaOcupada(int numeroMesa) {
         Mesa mesa = encontrarMesaPorNumero(numeroMesa);
         return mesa != null && mesa.isMesaOcupada();
@@ -147,4 +151,5 @@ public class Restaurante {
         adicionarPedido(numeroMesa, pedido);
     }
    
+    
 }
