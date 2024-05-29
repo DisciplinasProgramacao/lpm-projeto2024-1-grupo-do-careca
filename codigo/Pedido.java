@@ -27,6 +27,8 @@ public class Pedido {
         return menuFechado;
     }
 
+
+    //provavel q esses metodos tenham q ir para a classe requisicao
     public double valorAPagar() {
         double valorTotal = 0.0;
 

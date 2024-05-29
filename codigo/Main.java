@@ -191,25 +191,9 @@ public class Main {
             System.out.println("Mesa liberada com sucesso!");
             System.out.println("Relatório de Atendimento:");
             System.out.println(req.relatorioAtendimento());
-            mostrarConta(req);
         } else {
             System.out.println("Nenhuma requisição encontrada para esta mesa.");
         }
-    }
-
-    private static void mostrarConta(Requisicao req) {
-        List<Pedido> pedidos = req.getPedidos();
-        for (Pedido p : pedidos) {
-            System.out.println("Pedido:");
-            for (Item item : p.getItemsEscolhidos()) {
-                System.out.println(" - " + item.getNome() + ", Preço: R$" + item.getPreco());
-            }
-            System.out.println("Menu fechado: " + p.isMenuFechado());
-        }
-    }
-    
-
-
-   
+    }   
 
 }

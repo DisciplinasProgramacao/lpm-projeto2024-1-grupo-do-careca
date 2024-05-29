@@ -77,6 +77,24 @@ class Requisicao {
         saida = LocalDateTime.now();
     }
 
+
+    /* 
+     ESSES METODOS TEM Q VIM PRA CA
+     public double valorTotalAPagar() {
+         double totalGeral = 0.0;
+         for (Pedido pedido : pedidos) {
+             totalGeral += pedido.valorAPagar();
+            }
+            return totalGeral;
+        }
+        
+        public double calcularValorTotalPorPessoa() {
+            return valorTotalAPagar() / quantidadeDePessoas;
+        }
+        
+        */
+
+
     public String relatorioAtendimento() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         StringBuilder sb = new StringBuilder();
