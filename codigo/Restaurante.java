@@ -40,17 +40,16 @@ public class Restaurante {
     }
     
     public boolean mesaExiste(int numeroMesa) {
-        for (Mesa mesa : mesasDisponiveis) {
-            if (mesa.getIdMesa() == numeroMesa) {
-                return true;
-            }
-        }
+        return encontrarMesaPorNumero(numeroMesa) != null;
+    }
+
+    public Mesa encontrarMesaPorNumero(int numeroMesa) {
         for (Mesa mesa : mesasOcupadas) {
             if (mesa.getIdMesa() == numeroMesa) {
-                return true;
+                return mesa;
             }
         }
-        return false;
+        return null;
     }
 
     public void adicionarRequisicao(Requisicao requisicao) {
@@ -72,11 +71,10 @@ public class Restaurante {
     }
 
     public boolean adicionarPedido(int numeroMesa, Pedido pedido) {
-        for (Mesa mesa : mesasOcupadas) {
-            if (mesa.getIdMesa() == numeroMesa) {
-                mesa.setPedido(pedido);
-                return true;
-            }
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        if (mesa != null) {
+            mesa.setPedido(pedido);
+            return true;
         }
         return false;
     }
@@ -111,16 +109,7 @@ public class Restaurante {
                 }
             }
         }
-    }
-
-    public Mesa encontrarMesaPorNumero(int numeroMesa) {
-        for (Mesa mesa : mesasOcupadas) {
-            if (mesa.getIdMesa() == numeroMesa) {
-                return mesa;
-            }
-        }
-        return null;
-    }
+    }  
 
     public List<Item> obterItensCardapio() {
         return cardapio.getItems();
@@ -134,22 +123,19 @@ public class Restaurante {
         cardapio.exibirMenu();
     }
 
-    public boolean verificarMesaExistente(int numeroMesa) {
-        return mesaExiste(numeroMesa);
-    }
-
     public boolean verificarMesaOcupada(int numeroMesa) {
         Mesa mesa = encontrarMesaPorNumero(numeroMesa);
         return mesa != null && mesa.isMesaOcupada();
-    }
+    } 
 
-    public void servirCliente(int numeroMesa, Pedido pedido) {
-        adicionarPedido(numeroMesa, pedido);
+    public boolean servirCliente(int numeroMesa, Pedido pedido) {
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        if (mesa != null && mesa.isMesaOcupada()) {
+            mesa.setPedido(pedido);
+            return true;
+        } else {
+            return false; 
+        }
     }
-
-    public void fazerPedido(int numeroMesa, Pedido pedido) {
-        adicionarPedido(numeroMesa, pedido);
-    }
-   
-    
+  
 }
