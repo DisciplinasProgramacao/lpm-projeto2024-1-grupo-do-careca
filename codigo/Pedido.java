@@ -27,7 +27,9 @@ public class Pedido {
         return menuFechado;
     }
 
-
+    public void bla(){
+        item.toString();
+    }
     //provavel q esses metodos tenham q ir para a classe requisicao
     public double valorAPagar() {
         double valorTotal = 0.0;

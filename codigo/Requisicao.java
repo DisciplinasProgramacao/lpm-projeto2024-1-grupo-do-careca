@@ -77,23 +77,21 @@ class Requisicao {
         saida = LocalDateTime.now();
     }
 
-
-    /* 
-     ESSES METODOS TEM Q VIM PRA CA
-     public double valorTotalAPagar() {
-         double totalGeral = 0.0;
-         for (Pedido pedido : pedidos) {
-             totalGeral += pedido.valorAPagar();
-            }
-            return totalGeral;
-        }
-        
-        public double calcularValorTotalPorPessoa() {
-            return valorTotalAPagar() / quantidadeDePessoas;
-        }
-        
-        */
-
+    /*
+     * ESSES METODOS TEM Q VIM PRA CA
+     * public double valorTotalAPagar() {
+     * double totalGeral = 0.0;
+     * for (Pedido pedido : pedidos) {
+     * totalGeral += pedido.valorAPagar();
+     * }
+     * return totalGeral;
+     * }
+     * 
+     * public double calcularValorTotalPorPessoa() {
+     * return valorTotalAPagar() / quantidadeDePessoas;
+     * }
+     * 
+     */
 
     public String relatorioAtendimento() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -109,9 +107,11 @@ class Requisicao {
             double totalPorPessoa = pedido.calcularValorPorPessoa(quantidadeDePessoas);
 
             sb.append("Itens do Pedido:\n");
-            for (Item item : itens) {
-                sb.append("- ").append(item.getNome()).append(" - R$ ").append(item.getPreco()).append("\n");
-            }
+            // for (Item item : itens) {
+            // sb.append("- ").append(item.getNome()).append(" - R$
+            // ").append(item.getPreco()).append("\n");
+            // }
+            sb.append(pedido.relatorioItens());
 
             sb.append("Total do Pedido: R$ ").append(total).append("\n");
             sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", totalPorPessoa)).append("\n");
