@@ -26,3 +26,7 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 # 07
 
 ![DiagramaCareca](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/3c22f7ea-a55c-4208-b3b9-ac9a288983bc)
+
+# 08
+
+![DiagramaCareca1](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/72320508/2a867572-3269-45a7-abb2-8457e9504586)
