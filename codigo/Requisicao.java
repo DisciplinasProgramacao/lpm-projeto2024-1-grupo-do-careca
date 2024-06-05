@@ -77,6 +77,7 @@ class Requisicao {
         saida = LocalDateTime.now();
     }
 
+    //metodo grande demais?
     public String relatorioAtendimento() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         StringBuilder sb = new StringBuilder();

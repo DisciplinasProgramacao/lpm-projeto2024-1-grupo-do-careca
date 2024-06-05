@@ -154,7 +154,7 @@ public class Main {
         System.out.println("Pedido realizado com sucesso.");
     }
 
-    //duvidas aqui
+    //duvidas aqui, eu faço todas essas validações aqui mesmo?
     private static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
         System.out.println("Mesas Ocupadas:");
         List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();

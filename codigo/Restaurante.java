@@ -97,6 +97,7 @@ public class Restaurante {
         mesa.ocuparMesa();
     }
 
+    // metodo grande demais?
     public void liberarMesa(Mesa mesa) {
         if (mesa.getRequisicaoAtual() != null) {
             mesa.getRequisicaoAtual().encerrarRequisicao();
