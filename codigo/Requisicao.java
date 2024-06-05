@@ -14,7 +14,6 @@ class Requisicao {
 
     private List<Pedido> pedidos;
 
-    // como validar qtd de pessoas?
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
         if (quantidadeDePessoas > 8) {
             throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
@@ -77,7 +76,6 @@ class Requisicao {
         saida = LocalDateTime.now();
     }
 
-    //metodo grande demais?
     public String relatorioAtendimento() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         StringBuilder sb = new StringBuilder();
