@@ -24,4 +24,9 @@ public class Item {
         return identificador;
     }
 
+    @Override
+    public String toString() {
+        return "Item: " + getNome() + ", Preço: R$" + getPreco();
+    }
+
 }

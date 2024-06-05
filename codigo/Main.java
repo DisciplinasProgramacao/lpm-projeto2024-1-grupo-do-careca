@@ -154,40 +154,33 @@ public class Main {
         System.out.println("Pedido realizado com sucesso.");
     }
 
-    // opcao 4
+    //duvidas aqui
     private static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
         System.out.println("Mesas Ocupadas:");
-        System.out.println(restaurante.relatorioMesasOcupadas());
-        System.out.print("Escolha uma mesa para liberar (1-" + mesasOcupadas.size() + "): ");
-        int indiceMesa = Integer.parseInt(scanner.nextLine());
-
-        Requisicao finalizada = restaurante.encerrarAtendimento(indiceMesa);
-        if(finalizada!=null){
-            System.out.println("Finalizada: "+finalizada.relatorioAtendimento()));
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        if (mesasOcupadas.isEmpty()) {
+            System.out.println("Nenhuma mesa ocupada no momento.");
+            return;
         }
-        else
-            System.out.println("Não existe esta mesa");
+        for (int i = 0; i < mesasOcupadas.size(); i++) {
+            System.out.println((i + 1) + ". Mesa " + mesasOcupadas.get(i).getIdMesa());
+        }
+        System.out.print("Escolha uma mesa para liberar: ");
+        int indiceMesa = scanner.nextInt();
+        scanner.nextLine();
 
-        // List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
-        // if (mesasOcupadas.isEmpty()) {
-        //     System.out.println("Nenhuma mesa ocupada.");
-        // } else {
-        //     for (int i = 0; i < mesasOcupadas.size(); i++) {
-        //         Mesa mesaOcupada = mesasOcupadas.get(i);
-        //         Requisicao req = mesaOcupada.getRequisicaoAtual();
-        //         System.out.println((i + 1) + ". Mesa para " + mesaOcupada.getQuantidadeDeCadeiras()
-        //                 + " pessoas ocupada por " + req.getCliente().getNome());
-        //     }
-        //     System.out.print("Escolha uma mesa para liberar (1-" + mesasOcupadas.size() + "): ");
-        //     int indiceMesa = scanner.nextInt();
-        //     scanner.nextLine();
-        //     if (indiceMesa > 0 && indiceMesa <= mesasOcupadas.size()) {
-        //         Mesa mesaEscolhida = mesasOcupadas.get(indiceMesa - 1);
-        //         liberarMesaComRelatorio(restaurante, mesaEscolhida);
-        //     } else {
-        //         System.out.println("Opção inválida.");
-        //     }
-        // }
+        Mesa mesa = mesasOcupadas.get(indiceMesa - 1);
+        
+        if (indiceMesa < 1 || indiceMesa > mesasOcupadas.size()) {
+            System.out.println("Índice de mesa inválido.");
+            return;
+        }
+        Requisicao finalizada = restaurante.encerrarAtendimento(mesa.getIdMesa());
+        if (finalizada != null) {
+            System.out.println("Atendimento finalizado: " + finalizada.relatorioAtendimento());
+        } else {
+            System.out.println("Erro ao encerrar atendimento.");
+        }
     }
 
     // opcao 5
@@ -195,18 +188,6 @@ public class Main {
         List<Item> itensCardapio = cardapio.getItems();
         for (Item item : itensCardapio) {
             System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
-        }
-    }
-
-    private static void liberarMesaComRelatorio(Restaurante restaurante, Mesa mesaEscolhida) {
-        Requisicao req = mesaEscolhida.getRequisicaoAtual();
-        if (req != null) {
-            restaurante.liberarMesa(mesaEscolhida);
-            System.out.println("Mesa liberada com sucesso!");
-            System.out.println("Relatório de Atendimento:");
-            System.out.println(req.relatorioAtendimento());
-        } else {
-            System.out.println("Nenhuma requisição encontrada para esta mesa.");
         }
     }
 
