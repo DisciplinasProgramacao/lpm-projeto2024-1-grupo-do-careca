@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.time.LocalDateTime;
-
 public class RequisicaoTest {
     private Cliente cliente;
     private Mesa mesa;
@@ -14,8 +12,8 @@ public class RequisicaoTest {
     @Before
     public void setUp() {
         cliente = new Cliente("João Silva");
-        mesa = new Mesa(4);  // Supondo que a mesa tenha 4 cadeiras
-        pedido = new Pedido(false);  // Supondo que o menu não está fechado
+        mesa = new Mesa(4); // Supondo que a mesa tenha 4 cadeiras
+        pedido = new Pedido(false); // Supondo que o menu não está fechado
     }
 
     @Test
@@ -29,7 +27,7 @@ public class RequisicaoTest {
     @Test
     public void testAdicionarPedido() {
         Requisicao requisicao = new Requisicao(4, cliente);
-        Item item = new Item("Café", 5.0, 1);  // Supondo um item de nome "Café" com preço 5.0 e identificador 1
+        Item item = new Item("Café", 5.0, 1); // Supondo um item de nome "Café" com preço 5.0 e identificador 1
         pedido.pedirItem(item);
         requisicao.adicionarPedido(pedido);
         assertEquals(1, requisicao.getPedidos().size());
@@ -47,19 +45,29 @@ public class RequisicaoTest {
     public void testRelatorioAtendimento() {
         Requisicao requisicao = new Requisicao(4, cliente);
         requisicao.setMesa(mesa);
-        Item item = new Item("Café", 5.0, 1);
+        Item item = new Item("Copo de Suco", 7.0, 1);
         pedido.pedirItem(item);
         requisicao.adicionarPedido(pedido);
         requisicao.encerrarRequisicao();
+
+        mesa.setPedido(pedido);
+        pedido.valorAPagar();
+        pedido.calcularValorPorPessoa(4);
 
         String relatorio = requisicao.relatorioAtendimento();
         assertTrue(relatorio.contains("Horário de Chegada:"));
         assertTrue(relatorio.contains("Cliente: João Silva"));
         assertTrue(relatorio.contains("Horário de Saída:"));
-        assertTrue(relatorio.contains("Itens do Pedido:"));
-        assertTrue(relatorio.contains("Total do Pedido: R$"));
-        assertTrue(relatorio.contains("Total por Pessoa: R$"));
+        assertTrue(relatorio.contains("Itens do Pedido:\n"));
+        assertTrue(relatorio.contains("Total do Pedido: R$ 7.7"));
+        assertTrue(relatorio.contains("Total por Pessoa: R$ 1,93"));
+
     }
+
+    @Test
+    public void calcularValorDoPedido() {
+    }
+
     @Test
     public void testQuantidadeDePessoasInvalida() {
         try {

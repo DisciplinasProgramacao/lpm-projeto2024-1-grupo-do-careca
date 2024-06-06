@@ -36,6 +36,7 @@ public class Restaurante {
         return new LinkedList<>(filaEspera);
     }
 
+    // STREAMS
     public List<Mesa> getMesasOcupadas() {
         return mesas.stream()
                 .filter(Mesa::isMesaOcupada)

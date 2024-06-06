@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 
-public class MesaTest { 
+public class MesaTest {
 
     private Mesa mesa;
 
     @Before
     public void setUp() {
-        mesa = new Mesa(4);  
+        mesa = new Mesa(4);
     }
 
     @Test
