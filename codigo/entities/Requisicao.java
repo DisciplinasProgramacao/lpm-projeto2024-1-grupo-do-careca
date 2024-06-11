@@ -1,11 +1,11 @@
-package codigo;
+package codigo.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-class Requisicao {
+public class Requisicao {
     private LocalDateTime chegada;
     private LocalDateTime saida;
     private int quantidadeDePessoas;
@@ -99,5 +99,12 @@ class Requisicao {
 
         return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        return cliente + "";
+    }
+
+  
 
 }

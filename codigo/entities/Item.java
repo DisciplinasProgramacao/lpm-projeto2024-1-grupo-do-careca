@@ -1,4 +1,4 @@
-package codigo;
+package codigo.entities;
 
 public class Item {
 

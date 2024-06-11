@@ -1,6 +1,6 @@
-package codigo;
+package codigo.entities;
 
-class Cliente {
+public class Cliente {
 
     private static int idAutomatico = 1;
     private String nome;
@@ -27,5 +27,12 @@ class Cliente {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente : " + nome;
+    }
+
+    
    
 }

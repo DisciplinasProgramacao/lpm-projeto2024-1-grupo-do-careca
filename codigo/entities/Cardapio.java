@@ -1,4 +1,4 @@
-package codigo;
+package codigo.entities;
 
 import java.util.ArrayList;
 import java.util.List;

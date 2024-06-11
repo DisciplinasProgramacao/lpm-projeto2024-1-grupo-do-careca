@@ -2,6 +2,13 @@ package codigo;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import codigo.entities.Cliente;
+import codigo.entities.Item;
+import codigo.entities.Mesa;
+import codigo.entities.Pedido;
+import codigo.entities.Requisicao;
+
 import static org.junit.Assert.*;
 
 public class RequisicaoTest {

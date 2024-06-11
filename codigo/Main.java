@@ -4,6 +4,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
+import codigo.entities.Cardapio;
+import codigo.entities.Cliente;
+import codigo.entities.Item;
+import codigo.entities.Mesa;
+import codigo.entities.Pedido;
+import codigo.entities.Requisicao;
+import codigo.entities.Restaurante;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -112,7 +120,7 @@ public class Main {
     }
 
     private static void criarPedido(Scanner scanner, Restaurante restaurante, int numeroMesa) {
-        // Valida se ta tem peido
+        // Valida se ta tem pedido
         Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
         if (mesa == null) {
             System.out.println("Mesa não encontrada.");
@@ -156,38 +164,24 @@ public class Main {
 
     // duvidas aqui, eu faço todas essas validações aqui mesmo?
     private static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
-        System.out.println(restaurante.relatorioMesasOCupadas);
-        // perguntar id da mesa para fechar
-        Requisicao req = restaurante.localizarRequisicao(idMesa);
-        req.encerrarRequisicao();
+        System.out.println(restaurante.getMesasOcupadas());
+       
+        System.out.print("Informe o Id da mesa para encerrar: ");
+        int idMesa = scanner.nextInt(); 
+        scanner.nextLine();
 
-        // System.out.println("Mesas Ocupadas:");
-        // List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
-        // if (mesasOcupadas.isEmpty()) {
-        // System.out.println("Nenhuma mesa ocupada no momento.");
-        // return;
-        // }
-        // for (int i = 0; i < mesasOcupadas.size(); i++) {
-        // System.out.println((i + 1) + ". Mesa " + mesasOcupadas.get(i).getIdMesa());
-        // }
-        // System.out.print("Escolha uma mesa para liberar: ");
-        // int indiceMesa = scanner.nextInt();
-        // scanner.nextLine();
+        if (!restaurante.verificarMesaOcupada(idMesa)) {
+            System.out.println("A mesa escolhida não está ocupada ou não existe.");
+            return;
+        }
 
-        // // tratar indice q nao existe
-        // Mesa mesa = mesasOcupadas.get(indiceMesa - 1);
-
-        // if (indiceMesa < 1 || indiceMesa > mesasOcupadas.size()) {
-        // System.out.println("Índice de mesa inválido.");
-        // return;
-        // }
-        // Requisicao finalizada = restaurante.encerrarAtendimento(mesa.getIdMesa());
-        // if (finalizada != null) {
-        // System.out.println("Atendimento finalizado: " +
-        // finalizada.relatorioAtendimento());
-        // } else {
-        // System.out.println("Erro ao encerrar atendimento.");
-        // }
+        Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
+        if (finalizada != null) {
+            System.out.println("Atendimento finalizado: " + finalizada.relatorioAtendimento());
+        } else {
+            System.out.println("Erro ao encerrar atendimento.");
+        }
+   
     }
 
     // opcao 5

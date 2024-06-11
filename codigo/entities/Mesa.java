@@ -1,6 +1,6 @@
-package codigo;
+package codigo.entities;
 
-class Mesa {
+public class Mesa {
     private static int contador = 1;
 
     private int IdMesa;
@@ -60,5 +60,13 @@ class Mesa {
     public void desocuparMesa() {
         mesaOcupada = false;
     }
+
+    @Override
+    public String toString() {
+        return "Mesa: " + IdMesa + " - " + requisicaoAtual;
+    }
+
+   
+    
 
 }

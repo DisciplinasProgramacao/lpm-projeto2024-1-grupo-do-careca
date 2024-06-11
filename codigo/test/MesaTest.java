@@ -1,6 +1,12 @@
-package codigo;
+package codigo.test;
 
 import org.junit.Test;
+
+import codigo.entities.Cliente;
+import codigo.entities.Mesa;
+import codigo.entities.Pedido;
+import codigo.entities.Requisicao;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;

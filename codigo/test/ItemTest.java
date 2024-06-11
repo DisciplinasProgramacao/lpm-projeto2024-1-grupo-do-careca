@@ -1,6 +1,9 @@
-package codigo;
+package codigo.test;
 
 import org.junit.Test;
+
+import codigo.entities.Item;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
