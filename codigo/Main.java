@@ -1,5 +1,6 @@
 package codigo;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 import codigo.entities.Cardapio;
 import codigo.entities.Cliente;
 import codigo.entities.Item;
+import codigo.entities.MenuFechado;
 import codigo.entities.Mesa;
 import codigo.entities.Pedido;
 import codigo.entities.Requisicao;
@@ -26,9 +28,10 @@ public class Main {
             System.out.println("1. Atender Cliente"); // coleta de dados de um cliente e processo de pedir uma mesa
             System.out.println("2. Ver Fila de Espera");
             System.out.println("3. Servir Cliente");
-            System.out.println("4. Encerrar Atendimento de Cliente"); // fecha a conta, mostra a conta e vaga uma mesa
-            System.out.println("5. Ver Menu");
-            System.out.println("6. Sair");
+            System.out.println("4. Menu fechado:"); //primeira implementação
+            System.out.println("5. Encerrar Atendimento de Cliente"); // fecha a conta, mostra a conta e vaga uma mesa
+            System.out.println("6. Ver Menu");
+            System.out.println("7. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -43,13 +46,17 @@ public class Main {
                 case 3:
                     servirCliente(scanner, restaurante);
                     break;
+
                 case 4:
-                    encerrarAtendimento(scanner, restaurante);
+                    adicionarPedidoMenuFechado(scanner, restaurante); 
                     break;
                 case 5:
-                    verMenu(cardapio);
+                    encerrarAtendimento(scanner, restaurante);
                     break;
                 case 6:
+                    verMenu(cardapio);
+                    break;
+                case 7:
                     System.out.println("Saindo...");
                     break;
                 default:
@@ -191,5 +198,43 @@ public class Main {
             System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
         }
     }
+
+    private static void adicionarPedidoMenuFechado(Scanner scanner, Restaurante restaurante) {
+        System.out.print("Escolha uma mesa para adicionar o pedido de menu fechado: ");
+        int numeroMesa = scanner.nextInt();
+        scanner.nextLine();
+
+        if (!restaurante.mesaExiste(numeroMesa)) {
+            System.out.println("Mesa não existe.");
+            return;
+        }
+
+        if (!restaurante.verificarMesaOcupada(numeroMesa)) {
+            System.out.println("A mesa escolhida não está ocupada.");
+            return;
+        }
+
+        System.out.println("Escolha a comida: ");
+        System.out.println("1. Falafel Assado");
+        System.out.println("2. Caçarol de legumes");
+        int opcaoComida = scanner.nextInt();
+        scanner.nextLine();
+        String comida = (opcaoComida == 1) ? "Falafel Assado" : "Caçarol de legumes";
+
+        System.out.println("Escolha duas bebidas (separadas por vírgula): ");
+        System.out.println("1. Copo de suco");
+        System.out.println("2. Refrigerante orgânico");
+        System.out.println("3. Cerveja vegana");
+        String[] opcaoBebidas = scanner.nextLine().split(",");
+        List<String> bebidas = Arrays.asList(
+                (opcaoBebidas[0].trim().equals("1") ? "Copo de suco" : (opcaoBebidas[0].trim().equals("2") ? "Refrigerante orgânico" : "Cerveja vegana")),
+                (opcaoBebidas[1].trim().equals("1") ? "Copo de suco" : (opcaoBebidas[1].trim().equals("2") ? "Refrigerante orgânico" : "Cerveja vegana"))
+        );
+
+        MenuFechado menuFechado = new MenuFechado("Menu Fechado", 50.0 , 99, comida, bebidas);
+        restaurante.adicionarPedidoMenuFechado(numeroMesa, menuFechado);
+        System.out.println("Pedido de menu fechado adicionado com sucesso.");
+    }
+  
 
 }

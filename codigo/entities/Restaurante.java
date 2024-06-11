@@ -157,4 +157,18 @@ public class Restaurante {
 
     }
 
+    public void adicionarPedidoMenuFechado(int numeroMesa, MenuFechado menuFechado) {
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        if (mesa != null) {
+            Pedido pedido = mesa.getPedido();
+            if (pedido == null) {
+                pedido = new Pedido(false);
+                mesa.setPedido(pedido);
+            }
+            pedido.pedirItem(menuFechado);
+        } else {
+            System.out.println("Mesa não encontrada ou não está ocupada.");
+        }
+    }
+
 }
