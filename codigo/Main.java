@@ -28,10 +28,10 @@ public class Main {
             System.out.println("1. Atender Cliente"); // coleta de dados de um cliente e processo de pedir uma mesa
             System.out.println("2. Ver Fila de Espera");
             System.out.println("3. Servir Cliente");
-            System.out.println("4. Menu fechado:"); //primeira implementação
-            System.out.println("5. Encerrar Atendimento de Cliente"); // fecha a conta, mostra a conta e vaga uma mesa
-            System.out.println("6. Ver Menu");
-            System.out.println("7. Sair");
+
+            System.out.println("4. Encerrar Atendimento de Cliente"); // fecha a conta, mostra a conta e vaga uma mesa
+            System.out.println("5. Ver Menu");
+            System.out.println("6. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -45,18 +45,14 @@ public class Main {
                     break;
                 case 3:
                     servirCliente(scanner, restaurante);
-                    break;
-
+                    break;               
                 case 4:
-                    adicionarPedidoMenuFechado(scanner, restaurante); 
-                    break;
-                case 5:
                     encerrarAtendimento(scanner, restaurante);
                     break;
-                case 6:
+                case 5:
                     verMenu(cardapio);
                     break;
-                case 7:
+                case 6:
                     System.out.println("Saindo...");
                     break;
                 default:
@@ -79,6 +75,16 @@ public class Main {
         scanner.nextLine();
         try {
             Cliente cliente = new Cliente(nome);
+            Requisicao requisicaoExistente = restaurante.getFilaEspera().stream()
+                    .filter(req -> req.getCliente().equals(cliente) && req.getQuantidadeDePessoas() == numeroPessoas)
+                    .findFirst()
+                    .orElse(null);
+    
+            if (requisicaoExistente != null) {
+                System.out.println("Cliente " + cliente.getNome() + " já está na fila de espera.");
+                return;
+            }
+    
             Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
             restaurante.adicionarRequisicao(requisicao);
             if (requisicao.getMesa() != null) {
@@ -90,7 +96,6 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Erro: " + e.getMessage());
         }
-
     }
 
     // opcao 2
@@ -123,24 +128,32 @@ public class Main {
             return;
         }
 
+        System.out.print("É menu fechado? (s/n): ");
+        String resposta = scanner.nextLine();
+
+        if (resposta.equalsIgnoreCase("s")) {
+            adicionarPedidoMenuFechado(scanner, restaurante,numeroMesa);
+        } else {
         criarPedido(scanner, restaurante, numeroMesa);
+        }
     }
 
     private static void criarPedido(Scanner scanner, Restaurante restaurante, int numeroMesa) {
-        // Valida se ta tem pedido
         Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
-        if (mesa == null) {
-            System.out.println("Mesa não encontrada.");
+        Requisicao requisicao = mesa.getRequisicaoAtual();
+    
+        if (requisicao == null) {
+            System.out.println("Não há uma requisição associada a esta mesa.");
             return;
         }
-
-        Pedido pedido = mesa.getPedido();
-        if (pedido == null) {
-            pedido = new Pedido(false);
-            mesa.setPedido(pedido);
+    
+        // Verifica se já existe um pedido na requisição
+        if (!requisicao.getPedidos().isEmpty()) {
+            System.out.println("Já existe um pedido associado a esta requisição.");
+            return;
         }
-
-        // adiciona itens no pedido que ja existe
+    
+        Pedido pedido = new Pedido(false);
         boolean continuarPedindo = true;
         do {
             System.out.println("Opções do Cardápio:");
@@ -148,11 +161,11 @@ public class Main {
             for (Item item : itensCardapio) {
                 System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
             }
-
+    
             System.out.println("Digite o código do item desejado (0 para encerrar):");
             int codigoItem = scanner.nextInt();
             scanner.nextLine();
-
+    
             if (codigoItem == 0) {
                 continuarPedindo = false;
             } else {
@@ -165,10 +178,10 @@ public class Main {
                 }
             }
         } while (continuarPedindo);
-
+    
+        requisicao.adicionarPedido(pedido);
         System.out.println("Pedido realizado com sucesso.");
     }
-
     // duvidas aqui, eu faço todas essas validações aqui mesmo?
     private static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
         System.out.println(restaurante.getMesasOcupadas());
@@ -184,6 +197,7 @@ public class Main {
 
         Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
         if (finalizada != null) {
+            finalizada.encerrarRequisicao();
             System.out.println("Atendimento finalizado: " + finalizada.relatorioAtendimento());
         } else {
             System.out.println("Erro ao encerrar atendimento.");
@@ -199,29 +213,18 @@ public class Main {
         }
     }
 
-    private static void adicionarPedidoMenuFechado(Scanner scanner, Restaurante restaurante) {
-        System.out.print("Escolha uma mesa para adicionar o pedido de menu fechado: ");
-        int numeroMesa = scanner.nextInt();
-        scanner.nextLine();
+    private static void adicionarPedidoMenuFechado(Scanner scanner, Restaurante restaurante, int numeroMesa) {
+        Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
+        int numeroDePessoas = mesa.getRequisicaoAtual().getQuantidadeDePessoas();
+        for (int i = 0; i < numeroDePessoas; i++) {
+            System.out.println("Escolha a comida para o cliente " + (i + 1) + ": ");
+            System.out.println("1. Falafel Assado");
+            System.out.println("2. Caçarol de legumes");
+            int opcaoComida = scanner.nextInt();
+            scanner.nextLine();
+            String comida = (opcaoComida == 1) ? "Falafel Assado" : "Caçarol de legumes";      
 
-        if (!restaurante.mesaExiste(numeroMesa)) {
-            System.out.println("Mesa não existe.");
-            return;
-        }
-
-        if (!restaurante.verificarMesaOcupada(numeroMesa)) {
-            System.out.println("A mesa escolhida não está ocupada.");
-            return;
-        }
-
-        System.out.println("Escolha a comida: ");
-        System.out.println("1. Falafel Assado");
-        System.out.println("2. Caçarol de legumes");
-        int opcaoComida = scanner.nextInt();
-        scanner.nextLine();
-        String comida = (opcaoComida == 1) ? "Falafel Assado" : "Caçarol de legumes";
-
-        System.out.println("Escolha duas bebidas (separadas por vírgula): ");
+        System.out.println("Escolha duas bebidas para o cliente " + (i + 1) + " (separadas por vírgula): ");
         System.out.println("1. Copo de suco");
         System.out.println("2. Refrigerante orgânico");
         System.out.println("3. Cerveja vegana");
@@ -231,10 +234,11 @@ public class Main {
                 (opcaoBebidas[1].trim().equals("1") ? "Copo de suco" : (opcaoBebidas[1].trim().equals("2") ? "Refrigerante orgânico" : "Cerveja vegana"))
         );
 
-        MenuFechado menuFechado = new MenuFechado("Menu Fechado", 50.0 , 99, comida, bebidas);
+        MenuFechado menuFechado = new MenuFechado("Menu Fechado", 32.0 , 99, comida, bebidas);
         restaurante.adicionarPedidoMenuFechado(numeroMesa, menuFechado);
         System.out.println("Pedido de menu fechado adicionado com sucesso.");
     }
   
 
+}
 }

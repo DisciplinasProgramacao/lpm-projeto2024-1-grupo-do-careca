@@ -78,6 +78,7 @@ public class Restaurante {
         if (mesaAdequada != null) {
             alocarMesa(mesaAdequada, requisicao);
         } else {
+            requisicao.setMesa(null);
             filaEspera.offer(requisicao);
         }
     }
@@ -100,27 +101,30 @@ public class Restaurante {
 
     // metodo grande demais?
     public void liberarMesa(Mesa mesa) {
-        if (mesa.getRequisicaoAtual() != null) {
-            mesa.getRequisicaoAtual().encerrarRequisicao();
+        Requisicao requisicaoAtual = mesa.getRequisicaoAtual();
+
+        if (requisicaoAtual != null) {
             mesa.desocuparMesa();
             mesa.setRequisicaoAtual(null);
-            mesa.desocuparMesa();
-
-            Requisicao req = mesa.getRequisicaoAtual();
-            if (req != null) {
-
-                req.adicionarPedido(mesa.getPedido());
-            }
-
+    
             if (!filaEspera.isEmpty()) {
                 Requisicao proximaRequisicao = filaEspera.poll();
                 Mesa mesaAdequada = encontrarMesaAdequada(proximaRequisicao.getQuantidadeDePessoas());
                 if (mesaAdequada != null) {
                     alocarMesa(mesaAdequada, proximaRequisicao);
                 }
+            }    
+      
+            if (requisicaoAtual.getMesa() != null) {
+                Pedido pedido = requisicaoAtual.getMesa().getPedido();
+                if (pedido != null) {
+                    requisicaoAtual.adicionarPedido(pedido);
+                }
             }
         }
-    }
+        }
+        
+    
 
     public List<Item> obterItensCardapio() {
         return cardapio.getItems();
@@ -151,24 +155,34 @@ public class Restaurante {
 
     public Requisicao encerrarAtendimento(int indiceMesa) {
         Mesa mesaALiberar = encontrarMesaPorNumero(indiceMesa);
+        if (mesaALiberar == null || !mesaALiberar.isMesaOcupada()) {
+            System.out.println("Mesa não encontrada ou não está ocupada.");
+            return null;
+        }
+    
         Requisicao req = mesaALiberar.getRequisicaoAtual();
         liberarMesa(mesaALiberar);
+        if (req != null) {
+            req.adicionarPedido(mesaALiberar.getPedido());
+          
+        }
         return req;
 
     }
 
     public void adicionarPedidoMenuFechado(int numeroMesa, MenuFechado menuFechado) {
-        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
-        if (mesa != null) {
-            Pedido pedido = mesa.getPedido();
-            if (pedido == null) {
-                pedido = new Pedido(false);
-                mesa.setPedido(pedido);
-            }
-            pedido.pedirItem(menuFechado);
-        } else {
+        if (!mesaExiste(numeroMesa) || !verificarMesaOcupada(numeroMesa)) {
             System.out.println("Mesa não encontrada ou não está ocupada.");
+            return;
+        }
+        
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        Pedido pedido = mesa.getPedido();
+        if (pedido == null) {
+            pedido = new Pedido(true);
+            mesa.setPedido(pedido);
+        }
+        pedido.pedirItem(menuFechado);
         }
     }
 
-}

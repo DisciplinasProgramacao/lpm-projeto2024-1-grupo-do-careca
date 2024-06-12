@@ -12,14 +12,7 @@ public class MenuFechado extends Item {
         this.bebidas = bebidas;
     }
 
-    public String getComida() {
-        return comida;
-    }
-
-    public List<String> getBebidas() {
-        return bebidas;
-    }
-
+   
     @Override
     public String toString() {
         return super.toString() + ", Comida: " + comida + ", Bebidas: " + bebidas;

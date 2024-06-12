@@ -33,10 +33,7 @@ public class Pedido {
         for (Item item : itemsEscolhidos) {
             valorTotal += item.getPreco();
         }
-
-        if (!menuFechado) {
-            valorTotal += valorTotal * TAXA;
-        }
+       
         return valorTotal;
     }
 
