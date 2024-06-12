@@ -34,7 +34,7 @@ public class Pedido {
             valorTotal += item.getPreco();
         }
        
-        return valorTotal;
+        return valorTotal * (1+TAXA);
     }
 
     public double calcularValorPorPessoa(int numeroDePessoas) {

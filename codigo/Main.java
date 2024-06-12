@@ -145,9 +145,8 @@ public class Main {
         if (requisicao == null) {
             System.out.println("Não há uma requisição associada a esta mesa.");
             return;
-        }
-    
-        // Verifica se já existe um pedido na requisição
+        }    
+       
         if (!requisicao.getPedidos().isEmpty()) {
             System.out.println("Já existe um pedido associado a esta requisição.");
             return;
@@ -182,6 +181,7 @@ public class Main {
         requisicao.adicionarPedido(pedido);
         System.out.println("Pedido realizado com sucesso.");
     }
+    
     // duvidas aqui, eu faço todas essas validações aqui mesmo?
     private static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
         System.out.println(restaurante.getMesasOcupadas());

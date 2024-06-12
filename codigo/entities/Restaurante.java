@@ -100,6 +100,7 @@ public class Restaurante {
     }
 
     // metodo grande demais?
+
     public void liberarMesa(Mesa mesa) {
         Requisicao requisicaoAtual = mesa.getRequisicaoAtual();
 
