@@ -1,6 +1,9 @@
-package codigo;
+package codigo.test;
 
 import org.junit.Test;
+
+import codigo.entities.Cliente;
+
 import static org.junit.Assert.*;
 
 public class ClienteTest {    

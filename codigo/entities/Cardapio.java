@@ -1,4 +1,4 @@
-package codigo;
+package codigo.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 public class Cardapio {
 
     private List<Item> itens = new ArrayList<>();
-    
-    public Cardapio() {        
+
+    public Cardapio() {
         itens.add(new Item("Moqueca de palmito", 32.00, 1));
         itens.add(new Item("Falafel Assado", 20.00, 2));
         itens.add(new Item("Salada primavera com macarrão Konjac", 25.00, 3));
@@ -31,11 +31,15 @@ public class Cardapio {
         return null;
     }
 
-    public List<Item> getItem() {
+    public List<Item> getItems() {
         return itens;
     }
 
-    
+    public void exibirMenu() {
+        System.out.println("Opções do Cardápio:");
+        for (Item item : itens) {
+            System.out.println(item.toString());
+        }
+    }
 
-    
 }

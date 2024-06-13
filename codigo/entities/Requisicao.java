@@ -1,11 +1,11 @@
-package codigo;
+package codigo.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-class Requisicao {
+public class Requisicao {
     private LocalDateTime chegada;
     private LocalDateTime saida;
     private int quantidadeDePessoas;
@@ -14,7 +14,6 @@ class Requisicao {
 
     private List<Pedido> pedidos;
 
-    // como validar qtd de pessoas?
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
         if (quantidadeDePessoas > 8) {
             throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
@@ -86,14 +85,13 @@ class Requisicao {
 
         if (mesa != null && mesa.getPedido() != null) {
             Pedido pedido = mesa.getPedido();
-            List<Item> itens = pedido.getItemsEscolhidos();
+
             double total = pedido.valorAPagar();
             double totalPorPessoa = pedido.calcularValorPorPessoa(quantidadeDePessoas);
 
             sb.append("Itens do Pedido:\n");
-            for (Item item : itens) {
-                sb.append("- ").append(item.getNome()).append(" - R$ ").append(item.getPreco()).append("\n");
-            }
+    
+            sb.append(pedido.relatorioItens());
 
             sb.append("Total do Pedido: R$ ").append(total).append("\n");
             sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", totalPorPessoa)).append("\n");
@@ -101,5 +99,12 @@ class Requisicao {
 
         return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        return cliente + "";
+    }
+
+  
 
 }

@@ -1,4 +1,4 @@
-package codigo;
+package codigo.entities;
 
 public class Item {
 
@@ -16,24 +16,17 @@ public class Item {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public double getPreco() {
         return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
     }
 
     public int getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(int identificador) {
-        this.identificador = identificador;
+    @Override
+    public String toString() {
+        return "Item: " + getNome() + ", Preço: R$" + getPreco();
     }
 
 }

@@ -1,17 +1,23 @@
-package codigo;
+package codigo.test;
 
 import org.junit.Test;
+
+import codigo.entities.Cliente;
+import codigo.entities.Mesa;
+import codigo.entities.Pedido;
+import codigo.entities.Requisicao;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 
-public class MesaTest { 
+public class MesaTest {
 
     private Mesa mesa;
 
     @Before
     public void setUp() {
-        mesa = new Mesa(4);  
+        mesa = new Mesa(4);
     }
 
     @Test
