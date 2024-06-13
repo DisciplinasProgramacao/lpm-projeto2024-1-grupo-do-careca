@@ -6,6 +6,7 @@ import java.util.List;
 public class Pedido {
 
     private final double TAXA = 0.1;
+    // BOMBA nao pode ser booleano
     private boolean menuFechado;
 
     private List<Item> itemsEscolhidos;
@@ -26,15 +27,15 @@ public class Pedido {
     public boolean isMenuFechado() {
         return menuFechado;
     }
-    
+
     public double valorAPagar() {
         double valorTotal = 0.0;
 
         for (Item item : itemsEscolhidos) {
             valorTotal += item.getPreco();
         }
-       
-        return valorTotal * (1+TAXA);
+
+        return valorTotal * (1 + TAXA);
     }
 
     public double calcularValorPorPessoa(int numeroDePessoas) {

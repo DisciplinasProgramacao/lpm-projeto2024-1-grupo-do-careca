@@ -12,6 +12,8 @@ public class Item {
         this.identificador = identificador;
     }
 
+    // Validação do valor
+
     public String getNome() {
         return nome;
     }

@@ -9,17 +9,19 @@ public class Mesa {
     private boolean mesaOcupada;
 
     // remover requisicao daqui
-    private Requisicao requisicaoAtual;
-    private Pedido pedido;
+    // private Requisicao requisicaoAtual;
+    // private Pedido pedido;
 
     public Mesa(int quantidadeDeCadeiras) {
         this.IdMesa = contador;
         this.quantidadeDeCadeiras = quantidadeDeCadeiras;
         this.mesaOcupada = false;
-        this.requisicaoAtual = null;
-        this.pedido = null;
+        // this.requisicaoAtual = null;
+        // this.pedido = null;
         contador++;
     }
+
+    // metodos com problemas saem
 
     public int getQuantidadeDeCadeiras() {
         return quantidadeDeCadeiras;
@@ -65,8 +67,5 @@ public class Mesa {
     public String toString() {
         return "Mesa: " + IdMesa + " - " + requisicaoAtual;
     }
-
-   
-    
 
 }
