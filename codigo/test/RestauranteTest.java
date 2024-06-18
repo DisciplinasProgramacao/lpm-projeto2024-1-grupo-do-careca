@@ -1,96 +1,116 @@
-package codigo;
-
 import codigo.entities.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Queue;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RestauranteTest {
+
     private Restaurante restaurante;
     private Cardapio cardapio;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         cardapio = new Cardapio();
+        cardapio.adicionarItem(new Item(1, "Hamburger", 10.00));
+        cardapio.adicionarItem(new Item(2, "Pizza", 20.00));
+        cardapio.adicionarItem(new Item(3, "Salada", 5.00));
         restaurante = new Restaurante(cardapio);
     }
 
     @Test
-    public void testAdicionarCliente() {
-        Cliente cliente = new Cliente("João");
-        Requisicao requisicao = new Requisicao(4, cliente);
+    public void testAdicionarRequisicao_ComMesaDisponivel() {
+        Cliente cliente = new Cliente("Joao");
+        Requisicao requisicao = new Requisicao(cliente, 4);
+        restaurante.adicionarRequisicao(requisicao);
 
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        assertEquals(1, mesasOcupadas.size());
+        assertTrue(mesasOcupadas.get(0).isMesaOcupada());
+        assertEquals(requisicao, mesasOcupadas.get(0).getRequisicaoAtual());
+    }
+
+    @Test
+    public void testAdicionarRequisicao_SemMesaDisponivel() {
+        Cliente cliente = new Cliente("Jane Doe");
+        Requisicao requisicao = new Requisicao(cliente, 10);
         restaurante.adicionarRequisicao(requisicao);
 
         Queue<Requisicao> filaEspera = restaurante.getFilaEspera();
-        assertTrue(filaEspera.contains(requisicao));
+        assertEquals(1, filaEspera.size());
+        assertEquals(requisicao, filaEspera.peek());
     }
 
     @Test
-    public void testServirClienteMenuFechado() {
-        Cliente cliente = new Cliente("Maria");
-        Requisicao requisicao = new Requisicao(2, cliente);
+    public void testLiberarMesa() {
+        Cliente cliente = new Cliente("Joao");
+        Requisicao requisicao = new Requisicao(cliente, 4);
         restaurante.adicionarRequisicao(requisicao);
 
-        int numeroMesa = requisicao.getMesa().getIdMesa();
-        String comida = "Falafel Assado";
-        List<String> bebidas = List.of("Copo de suco", "Refrigerante orgânico");
-        MenuFechado menuFechado = new MenuFechado("Menu Fechado", 32.0, 99, comida, bebidas);
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        assertEquals(1, mesasOcupadas.size());
 
-        restaurante.adicionarPedidoMenuFechado(numeroMesa, menuFechado);
-
-        Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
-        Pedido pedido = mesa.getRequisicaoAtual().getPedidos().get(0);
-        assertTrue(pedido.getItens().contains(menuFechado));
+        restaurante.liberarMesa(mesasOcupadas.get(0));
+        assertTrue(mesasOcupadas.get(0).isMesaOcupada() == false);
     }
 
     @Test
-    public void testServirClienteMenuAberto() {
-        Cliente cliente = new Cliente("Ana");
-        Requisicao requisicao = new Requisicao(2, cliente);
+    public void testAdicionarPedido() {
+        Cliente cliente = new Cliente("Joao");
+        Requisicao requisicao = new Requisicao(cliente, 4);
         restaurante.adicionarRequisicao(requisicao);
 
-        int numeroMesa = requisicao.getMesa().getIdMesa();
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        Mesa mesa = mesasOcupadas.get(0);
+
         Pedido pedido = new Pedido(false);
-        Item item = restaurante.obterItemCardapio(1);  // Assumindo que o item 1 existe no cardápio
-        pedido.pedirItem(item);
+        pedido.pedirItem(new Item(1, "Hamburger", 10.00));
+        boolean pedidoAdicionado = restaurante.adicionarPedido(mesa.getIdMesa(), pedido);
 
-        restaurante.encontrarMesaPorNumero(numeroMesa).getRequisicaoAtual().adicionarPedido(pedido);
-
-        Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
-        Pedido pedidoRealizado = mesa.getRequisicaoAtual().getPedidos().get(0);
-        assertTrue(pedidoRealizado.getItens().contains(item));
+        assertTrue(pedidoAdicionado);
+        assertEquals(pedido, mesa.getPedido());
     }
 
     @Test
     public void testEncerrarAtendimento() {
-        Cliente cliente = new Cliente("Carlos");
-        Requisicao requisicao = new Requisicao(3, cliente);
+        Cliente cliente = new Cliente("Joao");
+        Requisicao requisicao = new Requisicao(cliente, 4);
         restaurante.adicionarRequisicao(requisicao);
 
-        int numeroMesa = requisicao.getMesa().getIdMesa();
-        restaurante.encerrarAtendimento(numeroMesa);
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        Mesa mesa = mesasOcupadas.get(0);
 
-        assertFalse(restaurante.verificarMesaOcupada(numeroMesa));
+        Pedido pedido = new Pedido(false);
+        pedido.pedirItem(new Item(1, "Hamburger", 10.00));
+        restaurante.adicionarPedido(mesa.getIdMesa(), pedido);
+
+        Requisicao requisicaoEncerrada = restaurante.encerrarAtendimento(mesa.getIdMesa());
+
+        assertNotNull(requisicaoEncerrada);
+        assertEquals(requisicao, requisicaoEncerrada);
+        assertEquals(pedido, requisicaoEncerrada.getPedido());
+
+        assertTrue(mesa.isMesaOcupada() == false);
     }
 
     @Test
-    public void testVerFilaDeEspera() {
-        Cliente cliente1 = new Cliente("Alice");
-        Requisicao requisicao1 = new Requisicao(2, cliente1);
-        restaurante.adicionarRequisicao(requisicao1);
+    public void testAdicionarPedidoMenuFechado() {
+        Cliente cliente = new Cliente("Joao");
+        Requisicao requisicao = new Requisicao(cliente, 4);
+        restaurante.adicionarRequisicao(requisicao);
 
-        Cliente cliente2 = new Cliente("Bruno");
-        Requisicao requisicao2 = new Requisicao(4, cliente2);
-        restaurante.adicionarRequisicao(requisicao2);
+        List<Mesa> mesasOcupadas = restaurante.getMesasOcupadas();
+        Mesa mesa = mesasOcupadas.get(0);
 
-        Queue<Requisicao> filaEspera = restaurante.getFilaEspera();
-        assertEquals(2, filaEspera.size());
-        assertTrue(filaEspera.contains(requisicao1));
-        assertTrue(filaEspera.contains(requisicao2));
+        MenuFechado menuFechado = new MenuFechado(1, "Menu Completo", 25.00);
+        restaurante.adicionarPedidoMenuFechado(mesa.getIdMesa(), menuFechado);
+
+        Pedido pedido = mesa.getPedido();
+        assertNotNull(pedido);
+        assertTrue(pedido.getItens().contains(menuFechado));
     }
 }
+
