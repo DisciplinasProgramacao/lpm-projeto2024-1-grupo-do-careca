@@ -9,14 +9,14 @@ public class Mesa {
     private boolean mesaOcupada;
 
     // remover requisicao daqui
-    private Requisicao requisicaoAtual;
+    //private Requisicao requisicaoAtual;
     private Pedido pedido;
 
     public Mesa(int quantidadeDeCadeiras) {
         this.IdMesa = contador;
         this.quantidadeDeCadeiras = quantidadeDeCadeiras;
         this.mesaOcupada = false;
-        this.requisicaoAtual = null;
+        //this.requisicaoAtual = null;
         this.pedido = null;
         contador++;
     }
@@ -29,13 +29,13 @@ public class Mesa {
         this.quantidadeDeCadeiras = quantidadeDeCadeiras;
     }
 
-    public Requisicao getRequisicaoAtual() {
-        return requisicaoAtual;
-    }
+    // public Requisicao getRequisicaoAtual() {
+    //     return requisicaoAtual;
+    // }
 
-    public void setRequisicaoAtual(Requisicao requisicaoAtual) {
-        this.requisicaoAtual = requisicaoAtual;
-    }
+    // public void setRequisicaoAtual(Requisicao requisicaoAtual) {
+    //     this.requisicaoAtual = requisicaoAtual;
+    // }
 
     public int getIdMesa() {
         return IdMesa;
@@ -61,10 +61,10 @@ public class Mesa {
         mesaOcupada = false;
     }
 
-    @Override
-    public String toString() {
-        return "Mesa: " + IdMesa + " - " + requisicaoAtual;
-    }
+    // @Override
+    // public String toString() {
+    //     return "Mesa: " + IdMesa + " - " + requisicaoAtual;
+    // }
 
    
     

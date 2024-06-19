@@ -139,8 +139,8 @@ public class Main {
     }
 
     private static void criarPedido(Scanner scanner, Restaurante restaurante, int numeroMesa) {
-        Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
-        Requisicao requisicao = mesa.getRequisicaoAtual();
+       
+        Requisicao requisicao = restaurante.obterRequisicaoPorMesa(numeroMesa);
     
         if (requisicao == null) {
             System.out.println("Não há uma requisição associada a esta mesa.");
@@ -158,7 +158,7 @@ public class Main {
             System.out.println("Opções do Cardápio:");
             List<Item> itensCardapio = restaurante.obterItensCardapio();
             for (Item item : itensCardapio) {
-                System.out.println(item.getIdentificador() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                System.out.println(item.getIdentificador() + " - " + item.toString());
             }
     
             System.out.println("Digite o código do item desejado (0 para encerrar):");
@@ -214,8 +214,16 @@ public class Main {
     }
 
     private static void adicionarPedidoMenuFechado(Scanner scanner, Restaurante restaurante, int numeroMesa) {
-        Mesa mesa = restaurante.encontrarMesaPorNumero(numeroMesa);
-        int numeroDePessoas = mesa.getRequisicaoAtual().getQuantidadeDePessoas();
+        
+        Requisicao requisicao = restaurante.obterRequisicaoPorMesa(numeroMesa);
+
+        if (requisicao == null) {
+            System.out.println("Não há uma requisição associada a esta mesa.");
+            return;
+        }
+
+
+        int numeroDePessoas = requisicao.getQuantidadeDePessoas();
         for (int i = 0; i < numeroDePessoas; i++) {
             System.out.println("Escolha a comida para o cliente " + (i + 1) + ": ");
             System.out.println("1. Falafel Assado");
