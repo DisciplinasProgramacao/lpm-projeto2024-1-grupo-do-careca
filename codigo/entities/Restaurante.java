@@ -7,7 +7,6 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 public class Restaurante {
-    // apenas uma lista de mesas, ocupada ou nao será um estado
 
     private List<Mesa> mesas;
     private Queue<Requisicao> filaEspera;
@@ -36,7 +35,6 @@ public class Restaurante {
         return new LinkedList<>(filaEspera);
     }
 
-    // STREAMS
     public List<Mesa> getMesasOcupadas() {
         return mesas.stream()
                 .filter(Mesa::isMesaOcupada)
@@ -45,26 +43,22 @@ public class Restaurante {
 
     public List<Mesa> getMesaLivre() {
         return mesas.stream()
-                .filter(x -> x.isMesaOcupada() == false)
+                .filter(mesa -> !mesa.isMesaOcupada())
                 .collect(Collectors.toList());
-    }
-
-    public boolean mesaExiste(int numeroMesa) {
-        return encontrarMesaPorNumero(numeroMesa) != null;
     }
 
     public Mesa encontrarMesaPorNumero(int numeroMesa) {
         return mesas.stream()
-        .filter(mesa -> mesa.getIdMesa() == numeroMesa)
-        .findFirst()
-        .orElse(null);
+                .filter(mesa -> mesa.getIdMesa() == numeroMesa)
+                .findFirst()
+                .orElse(null);
     }
 
     private Mesa encontrarMesaAdequada(int numeroPessoas) {
         return getMesaLivre().stream()
-        .filter(mesa -> mesa.getQuantidadeDeCadeiras() >= numeroPessoas)
-        .findFirst()
-        .orElse(null);
+                .filter(mesa -> mesa.getQuantidadeDeCadeiras() >= numeroPessoas)
+                .findFirst()
+                .orElse(null);
     }
 
     public void adicionarRequisicao(Requisicao requisicao) {
@@ -87,15 +81,11 @@ public class Restaurante {
     }
 
     private void alocarMesa(Mesa mesa, Requisicao requisicao) {
-        mesa.ocuparMesa();        
-        requisicao.setMesa(mesa);
         mesa.ocuparMesa();
+        requisicao.setMesa(mesa);
     }
 
-    // metodo grande demais?
-
     public void liberarMesa(Mesa mesa) {
-        
         if (!mesa.isMesaOcupada()) {
             System.out.println("A mesa selecionada não está ocupada.");
             return;
@@ -116,9 +106,7 @@ public class Restaurante {
             if (mesaAdequada != null) {
                 alocarMesa(mesaAdequada, proximaRequisicao);
             }
-       
         }
-        
     }
 
     public List<Item> obterItensCardapio() {
@@ -154,7 +142,7 @@ public class Restaurante {
             System.out.println("Mesa não encontrada ou não está ocupada.");
             return null;
         }
-    
+
         Pedido pedido = mesaALiberar.getPedido();
         liberarMesa(mesaALiberar);
 
@@ -163,34 +151,28 @@ public class Restaurante {
         if (pedido != null) {
             req.adicionarPedido(pedido);
         }
-    
-       
-        return req;
 
+        return req;
     }
 
     public void adicionarPedidoMenuFechado(int numeroMesa, MenuFechado menuFechado) {
-        if (!mesaExiste(numeroMesa) || !verificarMesaOcupada(numeroMesa)) {
+        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
+        if (mesa == null || !mesa.isMesaOcupada()) {
             System.out.println("Mesa não encontrada ou não está ocupada.");
             return;
         }
-        
-        Mesa mesa = encontrarMesaPorNumero(numeroMesa);
-        Pedido pedido = mesa.getPedido();
-        if (pedido == null) {
-            pedido = new Pedido(true);
-            mesa.setPedido(pedido);
-        }
-        pedido.pedirItem(menuFechado);
-        }
 
-        public Requisicao obterRequisicaoPorMesa(int numeroMesa) {
-            for (Requisicao requisicao : filaEspera) {
-                if (requisicao.getMesa() != null && requisicao.getMesa().getIdMesa() == numeroMesa) {
-                    return requisicao;
-                }
-            }
-            return null; 
-        }
+        mesa.getPedido().pedirItem(menuFechado);
     }
+
+    public Requisicao obterRequisicaoPorMesa(int numeroMesa) {
+        for (Requisicao requisicao : filaEspera) {
+            if (requisicao.getMesa() != null && requisicao.getMesa().getIdMesa() == numeroMesa) {
+                return requisicao;
+            }
+        }
+        return null;
+    }
+}
+
 
