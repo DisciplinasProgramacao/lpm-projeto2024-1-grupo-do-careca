@@ -23,6 +23,8 @@ public class Cardapio {
     }
 
     public Item getItem(int codigo) {
+        // index of
+        // get
         for (Item item : itens) {
             if (item.getIdentificador() == codigo) {
                 return item;

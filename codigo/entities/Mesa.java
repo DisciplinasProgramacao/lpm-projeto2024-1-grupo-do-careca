@@ -21,6 +21,8 @@ public class Mesa {
         contador++;
     }
 
+    // metodos com problemas saem
+
     public int getQuantidadeDeCadeiras() {
         return quantidadeDeCadeiras;
     }

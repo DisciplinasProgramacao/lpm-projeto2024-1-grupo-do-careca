@@ -82,6 +82,8 @@ public class Requisicao {
         return mesa;
     }
 
+    // requisicao só tem um pedido e nao uma lista de pedidos. Este metodo vai adc
+    // um item nesse pedido
     public void adicionarPedido(Pedido pedido) {
         if (pedido == null) {
             throw new IllegalArgumentException("Pedido não pode ser nulo.");
@@ -107,21 +109,19 @@ public class Requisicao {
         sb.append("Cliente: ").append(cliente.getNome()).append("\n");
         sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
 
-        if (mesa != null && mesa.getPedido() != null) {
-            Pedido pedido = mesa.getPedido();
+        //
+        sb.append(pedido.relatorioItens());
 
-            double total = pedido.valorAPagar();
-            double totalPorPessoa = pedido.calcularValorPorPessoa(quantidadeDePessoas);
-
-            sb.append("Itens do Pedido:\n");
-    
-            sb.append(pedido.relatorioItens());
-
-            sb.append("Total do Pedido: R$ ").append(total).append("\n");
-            sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", totalPorPessoa)).append("\n");
+            sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", pedido.calcularValorPorPessoa())).append("\n");
         }
 
-        return sb.toString();
+    return sb.toString();
+
+    }
+
+    @Override
+    public String toString() {
+        return cliente + "";
     }
 
     @Override

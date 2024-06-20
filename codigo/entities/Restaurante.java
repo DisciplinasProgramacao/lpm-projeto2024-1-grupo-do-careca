@@ -190,7 +190,7 @@ public class Restaurante {
                     return requisicao;
                 }
             }
-            return null; // Retorna null se não encontrar a requisição associada à mesa
+            return null; 
         }
     }
 

@@ -1,5 +1,8 @@
 package codigo;
 
+//ENTITY E CONTROLLER
+
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
@@ -13,6 +16,7 @@ import codigo.entities.Mesa;
 import codigo.entities.Pedido;
 import codigo.entities.Requisicao;
 import codigo.entities.Restaurante;
+import codigo.entities.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -79,12 +83,10 @@ public class Main {
                     .filter(req -> req.getCliente().equals(cliente) && req.getQuantidadeDePessoas() == numeroPessoas)
                     .findFirst()
                     .orElse(null);
-    
             if (requisicaoExistente != null) {
                 System.out.println("Cliente " + cliente.getNome() + " já está na fila de espera.");
                 return;
             }
-    
             Requisicao requisicao = new Requisicao(numeroPessoas, cliente);
             restaurante.adicionarRequisicao(requisicao);
             if (requisicao.getMesa() != null) {
@@ -98,7 +100,6 @@ public class Main {
         }
     }
 
-    // opcao 2
     private static void verFilaDeEspera(Restaurante restaurante) {
         System.out.println("Fila de Espera:");
         Queue<Requisicao> filaEspera = restaurante.getFilaEspera();
@@ -112,7 +113,6 @@ public class Main {
         }
     }
 
-    // opcao 3
     private static void servirCliente(Scanner scanner, Restaurante restaurante) {
         System.out.print("Escolha uma mesa para servir o cliente: ");
         int numeroMesa = scanner.nextInt();
@@ -128,13 +128,19 @@ public class Main {
             return;
         }
 
-        System.out.print("É menu fechado? (s/n): ");
-        String resposta = scanner.nextLine();
+        System.out.println("Escolha o tipo de pedido:");
+        System.out.println("1. Menu Fechado");
+        System.out.println("2. Menu Aberto");
+        System.out.print("Escolha uma opção: ");
+        int tipoPedido = scanner.nextInt();
+        scanner.nextLine();
 
-        if (resposta.equalsIgnoreCase("s")) {
-            adicionarPedidoMenuFechado(scanner, restaurante,numeroMesa);
+        if (tipoPedido == 1) {
+            adicionarPedidoMenuFechado(scanner, restaurante, numeroMesa);
+        } else if (tipoPedido == 2) {
+            criarPedido(scanner, restaurante, numeroMesa);
         } else {
-        criarPedido(scanner, restaurante, numeroMesa);
+            System.out.println("Opção inválida. Tente novamente.");
         }
     }
 
@@ -151,7 +157,6 @@ public class Main {
             System.out.println("Já existe um pedido associado a esta requisição.");
             return;
         }
-    
         Pedido pedido = new Pedido(false);
         boolean continuarPedindo = true;
         do {

@@ -12,6 +12,8 @@ public class Item {
         this.identificador = identificador;
     }
 
+    // Validação do valor
+
     public String getNome() {
         return nome;
     }
@@ -26,7 +28,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return getNome() + ", Preço: R$" + getPreco();
+        return "Item: " + getNome() + ", Preço: R$" + getPreco();
     }
 
 }
