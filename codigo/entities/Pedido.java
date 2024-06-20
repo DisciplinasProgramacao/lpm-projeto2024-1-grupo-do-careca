@@ -27,7 +27,7 @@ public class Pedido {
     public boolean isMenuFechado() {
         return menuFechado;
     }
-
+    
     public double valorAPagar() {
         double valorTotal = 0.0;
 

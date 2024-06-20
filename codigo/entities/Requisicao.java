@@ -18,6 +18,10 @@ public class Requisicao {
         if (quantidadeDePessoas > 8) {
             throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
         }
+
+        if (quantidadeDePessoas <= 0) {
+            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
+        }
         this.quantidadeDePessoas = quantidadeDePessoas;
         this.chegada = LocalDateTime.now();
         this.cliente = cliente;
@@ -28,7 +32,14 @@ public class Requisicao {
         return quantidadeDePessoas;
     }
 
+    //talvez esse metodo nem deveria existir 
     public void setQuantidadeDePessoas(int quantidadeDePessoas) {
+        if (quantidadeDePessoas > 8) {
+            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
+        }
+        if (quantidadeDePessoas <= 0) {
+            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
+        }
         this.quantidadeDePessoas = quantidadeDePessoas;
     }
 
@@ -45,6 +56,9 @@ public class Requisicao {
     }
 
     public void setMesa(Mesa mesa) {
+        if (mesa == null) {
+            throw new IllegalArgumentException("Mesa não pode ser nula.");
+        }
         this.mesa = mesa;
     }
 
@@ -56,7 +70,11 @@ public class Requisicao {
         return cliente;
     }
 
+    //talvez outro metodo desnecessário
     public void setCliente(Cliente cliente) {
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não pode ser nulo.");
+        }
         this.cliente = cliente;
     }
 
@@ -67,6 +85,9 @@ public class Requisicao {
     // requisicao só tem um pedido e nao uma lista de pedidos. Este metodo vai adc
     // um item nesse pedido
     public void adicionarPedido(Pedido pedido) {
+        if (pedido == null) {
+            throw new IllegalArgumentException("Pedido não pode ser nulo.");
+        }
         pedidos.add(pedido);
     }
 
@@ -75,6 +96,9 @@ public class Requisicao {
     }
 
     public void encerrarRequisicao() {
+        if (pedidos.isEmpty()) {
+            throw new IllegalStateException("Não é possível encerrar a requisição sem pedidos.");
+        }
         saida = LocalDateTime.now();
     }
 
@@ -99,5 +123,12 @@ public class Requisicao {
     public String toString() {
         return cliente + "";
     }
+
+    @Override
+    public String toString() {
+        return cliente + "";
+    }
+
+  
 
 }

@@ -54,23 +54,17 @@ public class Restaurante {
     }
 
     public Mesa encontrarMesaPorNumero(int numeroMesa) {
-        List<Mesa> mesasOcupadas = getMesasOcupadas();
-        for (Mesa mesa : mesasOcupadas) {
-            if (mesa.getIdMesa() == numeroMesa) {
-                return mesa;
-            }
-        }
-        return null;
+        return mesas.stream()
+        .filter(mesa -> mesa.getIdMesa() == numeroMesa)
+        .findFirst()
+        .orElse(null);
     }
 
     private Mesa encontrarMesaAdequada(int numeroPessoas) {
-        List<Mesa> mesasLivres = getMesaLivre();
-        for (Mesa mesa : mesasLivres) {
-            if (mesa.getQuantidadeDeCadeiras() >= numeroPessoas) {
-                return mesa;
-            }
-        }
-        return null;
+        return getMesaLivre().stream()
+        .filter(mesa -> mesa.getQuantidadeDeCadeiras() >= numeroPessoas)
+        .findFirst()
+        .orElse(null);
     }
 
     public void adicionarRequisicao(Requisicao requisicao) {
@@ -93,8 +87,7 @@ public class Restaurante {
     }
 
     private void alocarMesa(Mesa mesa, Requisicao requisicao) {
-        mesa.ocuparMesa();
-        mesa.setRequisicaoAtual(requisicao);
+        mesa.ocuparMesa();        
         requisicao.setMesa(mesa);
         mesa.ocuparMesa();
     }
@@ -102,30 +95,31 @@ public class Restaurante {
     // metodo grande demais?
 
     public void liberarMesa(Mesa mesa) {
-        Requisicao requisicaoAtual = mesa.getRequisicaoAtual();
-
-        if (requisicaoAtual != null) {
-            mesa.desocuparMesa();
-            mesa.setRequisicaoAtual(null);
-    
-            if (!filaEspera.isEmpty()) {
-                Requisicao proximaRequisicao = filaEspera.poll();
-                Mesa mesaAdequada = encontrarMesaAdequada(proximaRequisicao.getQuantidadeDePessoas());
-                if (mesaAdequada != null) {
-                    alocarMesa(mesaAdequada, proximaRequisicao);
-                }
-            }    
-      
-            if (requisicaoAtual.getMesa() != null) {
-                Pedido pedido = requisicaoAtual.getMesa().getPedido();
-                if (pedido != null) {
-                    requisicaoAtual.adicionarPedido(pedido);
-                }
-            }
+        
+        if (!mesa.isMesaOcupada()) {
+            System.out.println("A mesa selecionada não está ocupada.");
+            return;
         }
+
+        Pedido pedido = mesa.getPedido();
+        if (pedido == null) {
+            System.out.println("Não há pedido associado a esta mesa.");
+            return;
+        }
+
+        mesa.desocuparMesa();
+        mesa.setPedido(null);
+
+        if (!filaEspera.isEmpty()) {
+            Requisicao proximaRequisicao = filaEspera.poll();
+            Mesa mesaAdequada = encontrarMesaAdequada(proximaRequisicao.getQuantidadeDePessoas());
+            if (mesaAdequada != null) {
+                alocarMesa(mesaAdequada, proximaRequisicao);
+            }
+       
         }
         
-    
+    }
 
     public List<Item> obterItensCardapio() {
         return cardapio.getItems();
@@ -161,12 +155,16 @@ public class Restaurante {
             return null;
         }
     
-        Requisicao req = mesaALiberar.getRequisicaoAtual();
+        Pedido pedido = mesaALiberar.getPedido();
         liberarMesa(mesaALiberar);
-        if (req != null) {
-            req.adicionarPedido(mesaALiberar.getPedido());
-          
+
+        Requisicao req = new Requisicao(mesaALiberar.getQuantidadeDeCadeiras(), new Cliente(""));
+
+        if (pedido != null) {
+            req.adicionarPedido(pedido);
         }
+    
+       
         return req;
 
     }
@@ -184,6 +182,15 @@ public class Restaurante {
             mesa.setPedido(pedido);
         }
         pedido.pedirItem(menuFechado);
+        }
+
+        public Requisicao obterRequisicaoPorMesa(int numeroMesa) {
+            for (Requisicao requisicao : filaEspera) {
+                if (requisicao.getMesa() != null && requisicao.getMesa().getIdMesa() == numeroMesa) {
+                    return requisicao;
+                }
+            }
+            return null; 
         }
     }
 
