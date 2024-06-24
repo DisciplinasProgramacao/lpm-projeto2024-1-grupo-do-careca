@@ -1,4 +1,4 @@
-package codigo.src.main.java.myapp.grupocarecaspring;
+package myapp.grupocarecaspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,9 +1,9 @@
-package codigo.src.main.java.myapp.grupocarecaspring.services;
+package myapp.grupocarecaspring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import myapp.grupocarecaspring.entiities.Pedido;
+import myapp.grupocarecaspring.entities.Pedido;
 import myapp.grupocarecaspring.repositories.PedidoRepository;
 
 import java.util.List;

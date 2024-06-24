@@ -1,17 +1,60 @@
-package codigo.src.main.java.myapp.grupocarecaspring.entities;
+package myapp.grupocarecaspring.entities;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+
+@Entity
+@Table(name = "requisicoes")
 public class Requisicao {
+    
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_requisicao")
+    private int id;
+    
+    @Column(name = "chegada", nullable = false)
     private LocalDateTime chegada;
+
+    @Column(name = "saida")
     private LocalDateTime saida;
+
+    @Column(name = "quantidade_pessoas", nullable = false)
     private int quantidadeDePessoas;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+
+    @OneToOne
+    @JoinColumn(name = "mesa_id", nullable = false)
     private Mesa mesa;
 
+    @OneToMany
+    @JoinColumn(name = "requisicao_id")
     private List<Pedido> pedidos;
 
     public Requisicao(int quantidadeDePessoas, Cliente cliente) {
@@ -113,16 +156,8 @@ public class Requisicao {
         sb.append(pedido.relatorioItens());
 
             sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", pedido.calcularValorPorPessoa())).append("\n");
+            return sb.toString();
         }
-
-    return sb.toString();
-
-    }
-
-    @Override
-    public String toString() {
-        return cliente + "";
-    }
 
     @Override
     public String toString() {
@@ -130,5 +165,4 @@ public class Requisicao {
     }
 
   
-
 }

@@ -1,11 +1,11 @@
-package codigo.src.main.java.myapp.grupocarecaspring.controllers;
+package myapp.grupocarecaspring.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import myapp.grupocarecaspring.entiities.Item;
+import myapp.grupocarecaspring.entities.Item;
 import myapp.grupocarecaspring.services.ItemService;
 
 import java.util.List;

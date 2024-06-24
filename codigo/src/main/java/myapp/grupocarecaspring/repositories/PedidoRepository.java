@@ -1,9 +1,9 @@
-package codigo.src.main.java.myapp.grupocarecaspring.repositories;
+package myapp.grupocarecaspring.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import myapp.grupocarecaspring.entiities.Pedido;
+import myapp.grupocarecaspring.entities.Pedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
