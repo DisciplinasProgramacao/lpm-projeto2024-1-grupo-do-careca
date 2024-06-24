@@ -1,6 +1,7 @@
-import codigo.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import codigo.src.main.java.myapp.grupocarecaspring.entities.*;
 
 import java.util.List;
 import java.util.Queue;

@@ -2,7 +2,7 @@ package codigo.test;
 
 import org.junit.Test;
 
-import codigo.entities.Cliente;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Cliente;
 
 import static org.junit.Assert.*;
 

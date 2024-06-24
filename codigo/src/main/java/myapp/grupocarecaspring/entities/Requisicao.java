@@ -1,4 +1,4 @@
-package codigo.entities;
+package codigo.src.main.java.myapp.grupocarecaspring.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

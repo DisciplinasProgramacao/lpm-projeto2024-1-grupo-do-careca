@@ -1,4 +1,4 @@
-package codigo.entities;
+package codigo.src.main.java.myapp.grupocarecaspring.entities;
 
 import java.util.List;
 

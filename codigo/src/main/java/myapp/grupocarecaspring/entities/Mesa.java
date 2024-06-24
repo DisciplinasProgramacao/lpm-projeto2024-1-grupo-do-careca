@@ -1,4 +1,4 @@
-package codigo.entities;
+package codigo.src.main.java.myapp.grupocarecaspring.entities;
 
 public class Mesa {
     private static int contador = 1;

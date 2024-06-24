@@ -8,15 +8,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
-import codigo.entities.Cardapio;
-import codigo.entities.Cliente;
-import codigo.entities.Item;
-import codigo.entities.MenuFechado;
-import codigo.entities.Mesa;
-import codigo.entities.Pedido;
-import codigo.entities.Requisicao;
-import codigo.entities.Restaurante;
-import codigo.entities.*;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.*;
 
 public class Main {
     public static void main(String[] args) {

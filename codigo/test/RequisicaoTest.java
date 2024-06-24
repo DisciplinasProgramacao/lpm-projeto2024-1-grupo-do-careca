@@ -3,11 +3,11 @@ package codigo.test;
 import org.junit.Before;
 import org.junit.Test;
 
-import codigo.entities.Cliente;
-import codigo.entities.Item;
-import codigo.entities.Mesa;
-import codigo.entities.Pedido;
-import codigo.entities.Requisicao;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Cliente;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Item;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Mesa;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Pedido;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Requisicao;
 
 import static org.junit.Assert.*;
 

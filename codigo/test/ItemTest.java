@@ -2,7 +2,7 @@ package codigo.test;
 
 import org.junit.Test;
 
-import codigo.entities.Item;
+import codigo.src.main.java.myapp.grupocarecaspring.entities.Item;
 
 import static org.junit.Assert.*;
 
