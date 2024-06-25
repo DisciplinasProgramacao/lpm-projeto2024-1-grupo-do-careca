@@ -1,4 +1,4 @@
-package src.main.java.myapp.grupocarecaspring.entities;
+package myapp.grupocarecaspring.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

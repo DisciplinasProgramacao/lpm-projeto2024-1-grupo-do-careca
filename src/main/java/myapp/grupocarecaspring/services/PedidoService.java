@@ -1,4 +1,4 @@
-package src.main.java.myapp.grupocarecaspring.services;
+package myapp.grupocarecaspring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

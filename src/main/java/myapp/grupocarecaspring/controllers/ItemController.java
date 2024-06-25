@@ -1,4 +1,4 @@
-package src.main.java.myapp.grupocarecaspring.controllers;
+package myapp.grupocarecaspring.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

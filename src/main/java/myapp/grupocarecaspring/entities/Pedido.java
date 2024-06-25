@@ -1,4 +1,4 @@
-package src.main.java.myapp.grupocarecaspring.entities;
+package myapp.grupocarecaspring.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,13 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido")
     private List<Item> itemsEscolhidos;
+
+    @OneToOne()
+    @JoinColumn(name = "mesa")
+    private Mesa mesa;
+
+
+
 
    
     public Pedido(boolean menuFechado) {
