@@ -4,54 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
+    private final List<Item> itens;
 
-    private final double TAXA = 0.1;
-    // BOMBA nao pode ser booleano
-    private boolean menuFechado;
-
-    private List<Item> itemsEscolhidos;
-
-    public Pedido(boolean menuFechado) {
-        this.itemsEscolhidos = new ArrayList<>();
-        this.menuFechado = menuFechado;
+    public Pedido() {
+        this.itens = new ArrayList<>();
     }
 
-    public List<Item> getItemsEscolhidos() {
-        return itemsEscolhidos;
+    public void adicionarItem(Item item) {
+        itens.add(item);
     }
 
-    public void pedirItem(Item pedido) {
-        itemsEscolhidos.add(pedido);
+    public double calcularValorTotal() {
+        return itens.stream()
+                .mapToDouble(Item::getPreco)
+                .sum();
     }
 
-    public boolean isMenuFechado() {
-        return menuFechado;
-    }
-    
-    public double valorAPagar() {
-        double valorTotal = 0.0;
-
-        for (Item item : itemsEscolhidos) {
-            valorTotal += item.getPreco();
-        }
-
-        return valorTotal * (1 + TAXA);
+    public double calcularValorTotalComTaxa() {
+        double valorTotal = calcularValorTotal();
+        return valorTotal + (valorTotal * 0.10);
     }
 
     public double calcularValorPorPessoa(int numeroDePessoas) {
-        return valorAPagar() / numeroDePessoas;
+        return calcularValorTotalComTaxa() / numeroDePessoas;
     }
 
-    public String itemFormatado(Item item) {
-        return item.toString() + "\n";
+    public String listarItens() {
+        StringBuilder builder = new StringBuilder();
+        itens.forEach(item -> {
+            builder.append(item.getDescricao()).append(" - R$ ").append(String.format("%.2f", item.getPreco()))
+                    .append("\n");
+        });
+        return builder.toString();
     }
 
-    public List<String> relatorioItens() {
-        List<String> relatorio = new ArrayList<>();
-        for (Item item : itemsEscolhidos) {
-            relatorio.add(itemFormatado(item));
-        }
-        return relatorio;
-
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "itens=" + itens +
+                '}';
     }
 }

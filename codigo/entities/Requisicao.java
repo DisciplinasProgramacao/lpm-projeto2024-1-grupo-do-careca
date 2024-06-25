@@ -2,34 +2,43 @@ package codigo.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Requisicao {
-    private LocalDateTime chegada;
-    private LocalDateTime saida;
-    private final int quantidadeDePessoas;
-    private final Cliente cliente;
     private Mesa mesa;
+    private final Cliente cliente;
+    private final int numeroDePessoas;
+    private final Pedido pedido;
+    private final LocalDateTime chegada;
+    private LocalDateTime saida;
 
-    private List<Pedido> pedidos;
-
-    public Requisicao(int quantidadeDePessoas, Cliente cliente) {
-        if (quantidadeDePessoas > 8) {
-            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
-        }
-
-        if (quantidadeDePessoas <= 0) {
-            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
-        }
-        this.quantidadeDePessoas = quantidadeDePessoas;
-        this.chegada = LocalDateTime.now();
+    public Requisicao(Mesa mesa, Cliente cliente, int numeroDePessoas) {
+        this.mesa = mesa;
         this.cliente = cliente;
-        this.pedidos = new ArrayList<>();
+        this.numeroDePessoas = numeroDePessoas;
+        this.pedido = new Pedido();
+        this.chegada = LocalDateTime.now();
+        this.saida = null;
     }
 
-    public int getQuantidadeDePessoas() {
-        return quantidadeDePessoas;
+    // Adicione este método
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public int getNumeroDePessoas() {
+        return numeroDePessoas;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
     }
 
     public LocalDateTime getChegada() {
@@ -40,56 +49,38 @@ public class Requisicao {
         return saida;
     }
 
-    public void setMesa(Mesa mesa) {
-        if (mesa == null) {
-            throw new IllegalArgumentException("Mesa não pode ser nula.");
-        }
-        this.mesa = mesa;
+    public void encerrar() {
+        this.saida = LocalDateTime.now();
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public void adicionarItemAoPedido(Item item) {
+        pedido.adicionarItem(item);
     }
 
-    public Mesa getMesa() {
-        return mesa;
-    }
+    public String gerarRelatorio() {
+        double valorTotal = pedido.calcularValorTotalComTaxa();
+        double valorPorPessoa = pedido.calcularValorPorPessoa(numeroDePessoas);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public void adicionarPedido(Pedido pedido) {
-        if (pedido == null) {
-            throw new IllegalArgumentException("Pedido não pode ser nulo.");
-        }
-        pedidos.add(pedido);
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void encerrarRequisicao() {
-        if (pedidos.isEmpty()) {
-            throw new IllegalStateException("Não é possível encerrar a requisição sem pedidos.");
-        }
-        saida = LocalDateTime.now();
-    }
-
-    public String relatorioAtendimento() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        StringBuilder sb = new StringBuilder();
-        sb.append("Horário de Chegada: ").append(chegada.format(formatter)).append("\n");
-        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
-        sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
-
-        for (Pedido pedido : pedidos) {
-            sb.append(pedido.relatorioItens());
-            sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", pedido.calcularValorPorPessoa())).append("\n");
-        }
-
-        return sb.toString();
+        return "Relatório da Requisição:\n" +
+                "Cliente: " + cliente.getNome() + "\n" +
+                "Quantidade de Pessoas: " + numeroDePessoas + "\n" +
+                "Itens Pedidos:\n" + pedido.listarItens() +
+                "Valor da Conta (com 10% de taxa): R$ " + String.format("%.2f", valorTotal) + "\n" +
+                "Valor da Conta por Pessoa: R$ " + String.format("%.2f", valorPorPessoa) + "\n" +
+                "Data de Chegada: " + chegada.format(formatter) + "\n" +
+                "Horário de Saída: " + (saida != null ? saida.format(formatter) : "N/A") + "\n";
     }
 
     @Override
     public String toString() {
-        return cliente.toString();
+        return "Requisicao{" +
+                "mesa=" + mesa +
+                ", cliente=" + cliente +
+                ", numeroDePessoas=" + numeroDePessoas +
+                ", pedido=" + pedido +
+                ", chegada=" + chegada +
+                ", saida=" + saida +
+                '}';
     }
 }
