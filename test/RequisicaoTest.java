@@ -3,6 +3,11 @@ package codigo.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import src.main.java.myapp.grupocarecaspring.entities.Cliente;
+import src.main.java.myapp.grupocarecaspring.entities.Item;
+import src.main.java.myapp.grupocarecaspring.entities.Mesa;
+import src.main.java.myapp.grupocarecaspring.entities.Pedido;
+import src.main.java.myapp.grupocarecaspring.entities.Requisicao;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

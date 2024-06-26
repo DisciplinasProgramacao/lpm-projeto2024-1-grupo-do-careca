@@ -1,16 +1,5 @@
-# Grupo do Careca
+# Código do Projeto
 
+Mantenha neste diretório todo o código fonte do projeto. 
 
-## Alunos integrantes da equipe
-
-* Pedro Luis Gonçalves
-* Pedro Lucas Sousa e Silva
-* Lucas Almeida
-* Pedro Farias
-
-
-## Professores responsáveis
-
-Joao Caram
-
-
+Se necessário, descreva neste arquivo aspectos relevantes da estrutura de diretórios criada para organização do código.

@@ -1,5 +1,15 @@
 package codigo.entities;
 
+import org.junit.Test;
+
+import src.main.java.myapp.grupocarecaspring.entities.Cliente;
+import src.main.java.myapp.grupocarecaspring.entities.Mesa;
+import src.main.java.myapp.grupocarecaspring.entities.Pedido;
+import src.main.java.myapp.grupocarecaspring.entities.Requisicao;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

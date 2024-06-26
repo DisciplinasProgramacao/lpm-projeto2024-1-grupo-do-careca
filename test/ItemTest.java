@@ -3,6 +3,7 @@ package codigo.entities;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import src.main.java.myapp.grupocarecaspring.entities.Item;
 public class ItemTest {
 
     @Test
