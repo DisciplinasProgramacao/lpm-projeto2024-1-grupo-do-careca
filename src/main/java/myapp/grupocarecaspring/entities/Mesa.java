@@ -33,6 +33,13 @@ public class Mesa {
     private boolean disponivel = true;
 
 
+
+      /**
+     * Construtor para inicializar uma mesa com um ID e capacidade específicos.
+     *
+     * @param id         O ID da mesa.
+     * @param capacidade A capacidade máxima de pessoas que a mesa comporta.
+     */
     public Mesa(int id, int capacidade) {
         this.id = id;
         this.capacidade = capacidade;
@@ -43,14 +50,32 @@ public class Mesa {
         return id;
     }
 
+
+    /**
+     * Obtém a capacidade máxima de pessoas que a mesa comporta.
+     *
+     * @return A capacidade da mesa.
+     */
     public int getCapacidade() {
         return capacidade;
     }
 
+
+    /**
+     * Verifica se a mesa está disponível para uso.
+     *
+     * @return true se a mesa está disponível, false caso contrário.
+     */
     public boolean isDisponivel() {
         return disponivel;
     }
 
+
+     /**
+     * Define se a mesa está disponível para uso.
+     *
+     * @param disponivel true para definir a mesa como disponível, false caso contrário.
+     */
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
     }

@@ -40,25 +40,46 @@ public class Pedido {
         this.itens = new ArrayList<>();
     }
 
+     /**
+     * Adiciona um item ao pedido.
+     * @param item Item a ser adicionado ao pedido.
+     */
     public void adicionarItem(Item item) {
         itens.add(item);
     }
 
+     /**
+     * Calcula o valor total dos itens no pedido.
+     * @return O valor total dos itens.
+     */
     public double calcularValorTotal() {
         return itens.stream()
                 .mapToDouble(Item::getPreco)
                 .sum();
     }
 
+     /**
+     * Calcula o valor total do pedido incluindo a taxa de serviço.
+     * @return O valor total do pedido com a taxa de serviço.
+     */
     public double calcularValorTotalComTaxa() {
         double valorTotal = calcularValorTotal();
         return valorTotal + (valorTotal * 0.10);
     }
 
+     /**
+     * Calcula o valor por pessoa, dividindo o valor total com taxa pelo número de pessoas.
+     * @param numeroDePessoas Número de pessoas para dividir o valor.
+     * @return O valor por pessoa.
+     */
     public double calcularValorPorPessoa(int numeroDePessoas) {
         return calcularValorTotalComTaxa() / numeroDePessoas;
     }
 
+     /**
+     * Lista os itens do pedido formatados em uma string.
+     * @return Uma string contendo a lista de itens do pedido com seus preços.
+     */
     public String listarItens() {
         StringBuilder builder = new StringBuilder();
         itens.forEach(item -> {

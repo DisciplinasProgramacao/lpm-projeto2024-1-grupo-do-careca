@@ -11,6 +11,9 @@ public class Cardapio {
         this.itens = itens;
     }
 
+     /**
+     * Construtor padrão que inicializa o cardápio com itens pré-definidos.
+     */
     public Cardapio() {
         this.itens = new ArrayList<>();
         this.itens.add(new Item("Moqueca de palmito", 32.00, 1));
@@ -26,10 +29,21 @@ public class Cardapio {
         this.itens.add(new Item("Taça de vinho vegano", 18.00, 11));
     }
 
+
+      /**
+     * Exibe todos os itens do cardápio no console.
+     */
     public void exibirItens() {
         itens.forEach(System.out::println);
     }
 
+
+       /**
+     * Busca um item no cardápio pelo seu ID.
+     *
+     * @param id O ID do item a ser buscado.
+     * @return Um Optional contendo o item encontrado, se existir.
+     */
     public Optional<Item> buscarItemPorId(int id) {
         return itens.stream()
                 .filter(item -> item.getId() == id)

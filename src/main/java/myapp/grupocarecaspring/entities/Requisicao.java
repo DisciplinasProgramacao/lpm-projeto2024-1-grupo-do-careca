@@ -58,6 +58,13 @@ public class Requisicao {
 
     
 
+      /**
+     * Construtor para criar uma nova requisição com mesa, cliente e número de pessoas.
+     * @param mesa A mesa onde ocorrerá a requisição.
+     * @param cliente O cliente associado à requisição.
+     * @param numeroDePessoas O número de pessoas na requisição.
+     * @throws IllegalArgumentException Se o número de pessoas for maior que 8 ou menor ou igual a 0.
+     */
     public Requisicao(Mesa mesa, Cliente cliente, int numeroDePessoas) {
         if (numeroDePessoas > 8) {
             throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
@@ -78,38 +85,82 @@ public class Requisicao {
         this.mesa = mesa;
     }
 
+     /**
+     * Obtém a mesa associada à requisição.
+     * @return A mesa associada à requisição.
+     */
     public Mesa getMesa() {
         return mesa;
     }
 
+
+
+    /**
+     * Obtém o cliente associado à requisição.
+     * @return O cliente associado à requisição.
+     */
     public Cliente getCliente() {
         return cliente;
     }
 
+
+     /**
+     * Obtém o número de pessoas na requisição.
+     * @return O número de pessoas na requisição.
+     */
     public int getNumeroDePessoas() {
         return numeroDePessoas;
     }
 
+
+
+    /**
+     * Obtém o pedido associado à requisição.
+     * @return O pedido associado à requisição.
+     */
     public Pedido getPedido() {
         return pedido;
     }
 
+     /**
+     * Obtém a data e hora de chegada da requisição.
+     * @return A data e hora de chegada da requisição.
+     */
     public LocalDateTime getChegada() {
         return chegada;
     }
 
+
+     /**
+     * Obtém a data e hora de saída da requisição.
+     * @return A data e hora de saída da requisição, ou null se ainda não saiu.
+     */
     public LocalDateTime getSaida() {
         return saida;
     }
 
+
+     /**
+     * Encerra a requisição, registrando a data e hora de saída como o momento atual.
+     */
     public void encerrar() {
         this.saida = LocalDateTime.now();
     }
 
+
+     /**
+     * Adiciona um item ao pedido associado à requisição.
+     * @param item O item a ser adicionado ao pedido.
+     */
     public void adicionarItemAoPedido(Item item) {
         pedido.adicionarItem(item);
     }
 
+    /**
+     * Adiciona um item de menu fechado ao pedido associado à requisição, baseado em um cardápio.
+     * @param cardapio O cardápio onde o item será buscado.
+     * @param itemId O ID do item no cardápio a ser adicionado ao pedido.
+     */
     public void adicionarMenuFechado(Cardapio cardapio, int itemId) {
         Optional<Item> itemOpt = cardapio.buscarItemPorId(itemId);
         if (itemOpt.isPresent()) {
@@ -120,6 +171,11 @@ public class Requisicao {
         }
     }
 
+
+      /**
+     * Gera um relatório detalhando informações sobre a requisição.
+     * @return O relatório gerado como uma string formatada.
+     */
     public String gerarRelatorio() {
         double valorTotal = pedido.calcularValorTotalComTaxa();
         double valorPorPessoa = pedido.calcularValorPorPessoa(numeroDePessoas);
