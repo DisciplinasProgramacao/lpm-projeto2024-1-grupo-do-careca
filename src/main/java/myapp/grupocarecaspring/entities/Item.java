@@ -37,17 +37,12 @@ public class Item {
     private int id;
 
     
+    //Provavelmente essa associação ta errada
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
-    public Item(String descricao, double preco, int id) {
-        if (descricao == null || descricao.isEmpty()) {
-            throw new IllegalArgumentException("Descrição não pode ser vazia.");
-        }
-        if (preco < 0) {
-            throw new IllegalArgumentException("Preço não pode ser negativo.");
-        }
+    public Item(String descricao, double preco, int id) {     
         this.descricao = descricao;
         this.preco = preco;
         this.id = id;

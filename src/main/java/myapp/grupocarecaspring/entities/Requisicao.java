@@ -3,6 +3,7 @@ package myapp.grupocarecaspring.entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
@@ -58,9 +59,18 @@ public class Requisicao {
     
 
     public Requisicao(Mesa mesa, Cliente cliente, int numeroDePessoas) {
+        if (numeroDePessoas > 8) {
+            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
+        }
+
+        if (numeroDePessoas <= 0) {
+            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
+        }
         this.mesa = mesa;
         this.cliente = cliente;
         this.numeroDePessoas = numeroDePessoas;
+        this.pedido = new Pedido();
+        this.chegada = LocalDateTime.now();
     }
 
     // Adicione este método
@@ -98,6 +108,16 @@ public class Requisicao {
 
     public void adicionarItemAoPedido(Item item) {
         pedido.adicionarItem(item);
+    }
+
+    public void adicionarMenuFechado(Cardapio cardapio, int itemId) {
+        Optional<Item> itemOpt = cardapio.buscarItemPorId(itemId);
+        if (itemOpt.isPresent()) {
+            Item item = itemOpt.get();
+            pedido.adicionarItem(item);
+        } else {
+            System.out.println("Item não encontrado no cardápio.");
+        }
     }
 
     public String gerarRelatorio() {

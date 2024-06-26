@@ -25,6 +25,7 @@ import java.util.List;
 @Entity
 @Table(name = "pedidos")
 public class Pedido {
+    private final double TAXA = 0.1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
