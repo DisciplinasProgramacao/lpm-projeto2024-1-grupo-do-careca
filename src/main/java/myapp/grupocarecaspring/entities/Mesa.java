@@ -20,78 +20,47 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "mesas")
 public class Mesa {
-    private static int contador = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_mesa")
-    private int IdMesa;
-    
+    private int id;
+        
     @Column(name = "quantidade_cadeiras", nullable = false)
-    private int quantidadeDeCadeiras;
+    private int capacidade;
 
-    @Column(name = "mesa_ocupada", nullable = false)
-    private boolean mesaOcupada;
+    @Column(name = "mesa_livre", nullable = false)
+    private boolean disponivel = true;
 
-    // remover requisicao daqui
-    //private Requisicao requisicaoAtual;
-    @OneToOne()
-    @JoinColumn(name = "pedido")
-    private Pedido pedido;
 
-    public Mesa(int quantidadeDeCadeiras) {
-        this.IdMesa = contador;
-        this.quantidadeDeCadeiras = quantidadeDeCadeiras;
-        this.mesaOcupada = false;
-        //this.requisicaoAtual = null;
-        this.pedido = null;
-        contador++;
+    public Mesa(int id, int capacidade) {
+        this.id = id;
+        this.capacidade = capacidade;
+ 
     }
 
-    // metodos com problemas saem
-
-    public int getQuantidadeDeCadeiras() {
-        return quantidadeDeCadeiras;
+    public int getId() {
+        return id;
     }
 
-    public void setQuantidadeDeCadeiras(int quantidadeDeCadeiras) {
-        this.quantidadeDeCadeiras = quantidadeDeCadeiras;
+    public int getCapacidade() {
+        return capacidade;
     }
 
-    // public Requisicao getRequisicaoAtual() {
-    //     return requisicaoAtual;
-    // }
-
-    // public void setRequisicaoAtual(Requisicao requisicaoAtual) {
-    //     this.requisicaoAtual = requisicaoAtual;
-    // }
-
-    public int getIdMesa() {
-        return IdMesa;
+    public boolean isDisponivel() {
+        return disponivel;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    @Override
+    public String toString() {
+        return "Mesa{" +
+                "id=" + id +
+                ", capacidade=" + capacidade +
+                ", disponivel=" + disponivel +
+                '}';
     }
-
-    public boolean isMesaOcupada() {
-        return mesaOcupada;
-    }
-
-    public void ocuparMesa() {
-        mesaOcupada = true;
-    }
-
-    public void desocuparMesa() {
-        mesaOcupada = false;
-    }
-
-    // @Override
-    // public String toString() {
-    //     return "Mesa: " + IdMesa + " - " + requisicaoAtual;
-    // }
 }

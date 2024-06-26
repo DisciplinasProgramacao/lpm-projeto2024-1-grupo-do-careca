@@ -3,6 +3,7 @@ package myapp.grupocarecaspring.entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,16 +18,16 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 
 
 @Entity
 @Table(name = "requisicoes")
 public class Requisicao {
-    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +35,15 @@ public class Requisicao {
     private int id;
     
     @Column(name = "chegada", nullable = false)
-    private LocalDateTime chegada;
+    private LocalDateTime chegada = LocalDateTime.now();
 
     @Column(name = "saida")
-    private LocalDateTime saida;
+    private LocalDateTime saida = null;
 
-    @Column(name = "quantidade_pessoas", nullable = false)
-    private int quantidadeDePessoas;
+    @Column(name = "numero_de_pessoas", nullable = false)
+    private int numeroDePessoas;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
@@ -50,118 +51,80 @@ public class Requisicao {
     @JoinColumn(name = "mesa_id", nullable = false)
     private Mesa mesa;
 
-    @OneToMany
-    @JoinColumn(name = "requisicao_id")
-    private List<Pedido> pedidos;
+    @OneToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido  ;
 
-    public Requisicao(int quantidadeDePessoas, Cliente cliente) {
-        if (quantidadeDePessoas > 8) {
-            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
-        }
+    
 
-        if (quantidadeDePessoas <= 0) {
-            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
-        }
-        this.quantidadeDePessoas = quantidadeDePessoas;
-        this.chegada = LocalDateTime.now();
-        this.cliente = cliente;
-        this.pedidos = new ArrayList<>();
-    }
-
-    public int getQuantidadeDePessoas() {
-        return quantidadeDePessoas;
-    }
-
-    //talvez esse metodo nem deveria existir 
-    public void setQuantidadeDePessoas(int quantidadeDePessoas) {
-        if (quantidadeDePessoas > 8) {
-            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
-        }
-        if (quantidadeDePessoas <= 0) {
-            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
-        }
-        this.quantidadeDePessoas = quantidadeDePessoas;
-    }
-
-    public LocalDateTime getChegada() {
-        return chegada;
-    }
-
-    public void setChegada(LocalDateTime chegada) {
-        this.chegada = chegada;
-    }
-
-    public LocalDateTime getSaida() {
-        return saida;
-    }
-
-    public void setMesa(Mesa mesa) {
-        if (mesa == null) {
-            throw new IllegalArgumentException("Mesa não pode ser nula.");
-        }
+    public Requisicao(Mesa mesa, Cliente cliente, int numeroDePessoas) {
         this.mesa = mesa;
-    }
-
-    public void setSaida(LocalDateTime saida) {
-        this.saida = saida;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    //talvez outro metodo desnecessário
-    public void setCliente(Cliente cliente) {
-        if (cliente == null) {
-            throw new IllegalArgumentException("Cliente não pode ser nulo.");
-        }
         this.cliente = cliente;
+        this.numeroDePessoas = numeroDePessoas;
+    }
+
+    // Adicione este método
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     public Mesa getMesa() {
         return mesa;
     }
 
-    // requisicao só tem um pedido e nao uma lista de pedidos. Este metodo vai adc
-    // um item nesse pedido
-    public void adicionarPedido(Pedido pedido) {
-        if (pedido == null) {
-            throw new IllegalArgumentException("Pedido não pode ser nulo.");
-        }
-        pedidos.add(pedido);
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public int getNumeroDePessoas() {
+        return numeroDePessoas;
     }
 
-    public void encerrarRequisicao() {
-        if (pedidos.isEmpty()) {
-            throw new IllegalStateException("Não é possível encerrar a requisição sem pedidos.");
-        }
-        saida = LocalDateTime.now();
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public String relatorioAtendimento() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        StringBuilder sb = new StringBuilder();
-        sb.append("Horário de Chegada: ").append(chegada.format(formatter)).append("\n");
-        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
-        sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
+    public LocalDateTime getChegada() {
+        return chegada;
+    }
 
-        Pedido pedido;
-        
-       // sb.append(pedido.relatorioItens());
+    public LocalDateTime getSaida() {
+        return saida;
+    }
 
-      //     sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", pedido.calcularValorPorPessoa())).append("\n");
-          return sb.toString();
-       }
+    public void encerrar() {
+        this.saida = LocalDateTime.now();
+    }
+
+    public void adicionarItemAoPedido(Item item) {
+        pedido.adicionarItem(item);
+    }
+
+    public String gerarRelatorio() {
+        double valorTotal = pedido.calcularValorTotalComTaxa();
+        double valorPorPessoa = pedido.calcularValorPorPessoa(numeroDePessoas);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        return "Relatório da Requisição:\n" +
+                "Cliente: " + cliente.getNome() + "\n" +
+                "Quantidade de Pessoas: " + numeroDePessoas + "\n" +
+                "Itens Pedidos:\n" + pedido.listarItens() +
+                "Valor da Conta (com 10% de taxa): R$ " + String.format("%.2f", valorTotal) + "\n" +
+                "Valor da Conta por Pessoa: R$ " + String.format("%.2f", valorPorPessoa) + "\n" +
+                "Data de Chegada: " + chegada.format(formatter) + "\n" +
+                "Horário de Saída: " + (saida != null ? saida.format(formatter) : "N/A") + "\n";
+    }
 
     @Override
     public String toString() {
-        return cliente + "";
+        return "Requisicao{" +
+                "mesa=" + mesa +
+                ", cliente=" + cliente +
+                ", numeroDePessoas=" + numeroDePessoas +
+                ", pedido=" + pedido +
+                ", chegada=" + chegada +
+                ", saida=" + saida +
+                '}';
     }
-
-  
 }
 

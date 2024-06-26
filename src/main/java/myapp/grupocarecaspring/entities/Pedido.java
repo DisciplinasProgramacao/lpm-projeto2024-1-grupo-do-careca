@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -20,15 +21,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-@NoArgsConstructor
 
 @Entity
 @Table(name = "pedidos")
 public class Pedido {
-
-    private final double TAXA = 0.1;
-    // BOMBA nao pode ser booleano
-    private boolean menuFechado;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,57 +32,45 @@ public class Pedido {
     private Long idPedido;
 
     @OneToMany(mappedBy = "pedido")
-    private List<Item> itemsEscolhidos;
-
-    @OneToOne()
-    @JoinColumn(name = "mesa")
-    private Mesa mesa;
+    private final List<Item> itens;
 
 
-
-
-   
-    public Pedido(boolean menuFechado) {
-        this.itemsEscolhidos = new ArrayList<>();
-        this.menuFechado = menuFechado;
+    public Pedido() {
+        this.itens = new ArrayList<>();
     }
 
-    public List<Item> getItemsEscolhidos() {
-        return itemsEscolhidos;
+    public void adicionarItem(Item item) {
+        itens.add(item);
     }
 
-    public void pedirItem(Item pedido) {
-        itemsEscolhidos.add(pedido);
+    public double calcularValorTotal() {
+        return itens.stream()
+                .mapToDouble(Item::getPreco)
+                .sum();
     }
 
-    public boolean isMenuFechado() {
-        return menuFechado;
-    }
-    
-    public double valorAPagar() {
-        double valorTotal = 0.0;
-
-        for (Item item : itemsEscolhidos) {
-            valorTotal += item.getPreco();
-        }
-
-        return valorTotal * (1 + TAXA);
+    public double calcularValorTotalComTaxa() {
+        double valorTotal = calcularValorTotal();
+        return valorTotal + (valorTotal * 0.10);
     }
 
     public double calcularValorPorPessoa(int numeroDePessoas) {
-        return valorAPagar() / numeroDePessoas;
+        return calcularValorTotalComTaxa() / numeroDePessoas;
     }
 
-    public String itemFormatado(Item item) {
-        return item.toString() + "\n";
+    public String listarItens() {
+        StringBuilder builder = new StringBuilder();
+        itens.forEach(item -> {
+            builder.append(item.getDescricao()).append(" - R$ ").append(String.format("%.2f", item.getPreco()))
+                    .append("\n");
+        });
+        return builder.toString();
     }
 
-    public List<String> relatorioItens() {
-        List<String> relatorio = new ArrayList<>();
-        for (Item item : itemsEscolhidos) {
-            relatorio.add(itemFormatado(item));
-        }
-        return relatorio;
-
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "itens=" + itens +
+                '}';
     }
 }

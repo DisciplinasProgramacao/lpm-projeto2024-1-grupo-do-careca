@@ -3,8 +3,10 @@ package myapp.grupocarecaspring.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import myapp.grupocarecaspring.entities.Item;
 import myapp.grupocarecaspring.entities.Pedido;
 import myapp.grupocarecaspring.repositories.PedidoRepository;
+import myapp.grupocarecaspring.repositories.ItemRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,9 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
 
     public List<Pedido> listarPedidos() {
         return pedidoRepository.findAll();
