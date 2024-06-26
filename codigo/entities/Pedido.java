@@ -12,21 +12,16 @@ public class Pedido {
     }
 
     public void adicionarItem(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item não pode ser nulo.");
+        }
         itens.add(item);
     }
-
     public double calcularValorTotal() {
-        double total = itens.stream().mapToDouble(Item::getPreco).sum();
-        boolean temMenuFechado = itens.stream().anyMatch(item -> item instanceof MenuFechado);
-        if (temMenuFechado) {
-            total = itens.stream()
-                .filter(item -> item instanceof MenuFechado)
+        return itens.stream()
                 .mapToDouble(Item::getPreco)
                 .sum();
-        }
-        return total; 
     }
-
 
     public double calcularValorTotalComTaxa() {
         double valorTotal = calcularValorTotal();

@@ -29,28 +29,7 @@ public class Main {
             scanner.nextLine();
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o ID do cliente: ");
-                    int clienteId = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Digite o nome do cliente: ");
-                    String nomeCliente = scanner.nextLine();
-                    System.out.print("Digite o número de pessoas: ");
-                    int numeroDePessoas = scanner.nextInt();
-                    scanner.nextLine();
-
-                    Cliente cliente = new Cliente(clienteId, nomeCliente);
-                    restaurante.registrarCliente(cliente);
-                    Optional<Mesa> mesaOpt = restaurante.buscarMesaDisponivel(numeroDePessoas);
-
-                    if (mesaOpt.isPresent()) {
-                        Mesa mesa = mesaOpt.get();
-                        Requisicao requisicao = restaurante.criarRequisicao(mesa.getId(), clienteId, numeroDePessoas);
-                        System.out.println("Cliente atendido e sentado na mesa " + mesa.getId());
-                        System.out.println(requisicao);
-                    } else {
-                        System.out.println("Não há mesas disponíveis no momento. Cliente adicionado à fila de espera.");
-                        restaurante.adicionarRequisicao(new Requisicao(null, cliente, numeroDePessoas));
-                    }
+                    atenderCliente(scanner, restaurante);
                     break;
 
                 case 2:
@@ -61,13 +40,12 @@ public class Main {
                     break;
 
                 case 3:
+
                     System.out.println("Cardápio:");
 
                     System.out.print("Digite o ID do cliente a ser servido: ");
                     int clienteIdParaServir = scanner.nextInt();
                     scanner.nextLine();
-
-                    boolean clienteServido = false;
 
                     Optional<Requisicao> requisicaoOpt = restaurante.getRequisicoesEmMesas().stream()
                             .filter(req -> req.getCliente().getId() == clienteIdParaServir)
@@ -75,99 +53,36 @@ public class Main {
 
                     if (requisicaoOpt.isPresent()) {
                         Requisicao requisicao = requisicaoOpt.get();
+                        boolean adicionarMaisItens = true;
 
-                        System.out.print("O cliente deseja o menu fechado? (s/n): ");
-                        String desejaMenuFechado = scanner.nextLine();
+                        while (adicionarMaisItens) {
+                            System.out.print("O cliente deseja o menu fechado? (s/n): ");
+                            String desejaMenuFechado = scanner.nextLine();
 
-                        if (desejaMenuFechado.equalsIgnoreCase("s")) {
-                            MenuFechado menuFechado = new MenuFechado();
-                            menuFechado.exibirOpcoesDisponiveis();
+                            if (desejaMenuFechado.equalsIgnoreCase("s")) {
 
-                            // Lógica para escolher a comida
-                            System.out.print("Escolha a comida (digite o número correspondente): ");
-                            int escolhaComida = scanner.nextInt();
-                            scanner.nextLine(); // Consumir a quebra de linha após o nextInt
+                                fazerPedidoMenuFechado(requisicao, scanner);
 
-                            switch (escolhaComida) {
-                                case 1:
-                                    menuFechado.setComida("Falafel Assado");
-                                    break;
-                                case 2:
-                                    menuFechado.setComida("Caçarola de Legumes");
-                                    break;
-                                default:
-                                    System.out.println("Opção inválida para comida.");
-                                    break;
+                            } else {
+
+                                fazerPedidoNormal(scanner, restaurante, cardapio, requisicao);
+                                break;
+
                             }
 
-                            // Lógica para escolher as bebidas
-                            System.out.print("Escolha a primeira bebida (digite o número correspondente): ");
-                            int escolhaBebida1 = scanner.nextInt();
-                            scanner.nextLine(); // Consumir a quebra de linha após o nextInt
-
-                            System.out.print("Escolha a segunda bebida (digite o número correspondente): ");
-                            int escolhaBebida2 = scanner.nextInt();
-                            scanner.nextLine(); // Consumir a quebra de linha após o nextInt
-
-                            switch (escolhaBebida1) {
-                                case 3:
-                                    menuFechado.adicionarBebida("Copo de Suco");
-                                    break;
-                                case 4:
-                                    menuFechado.adicionarBebida("Refrigerante Orgânico");
-                                    break;
-                                case 5:
-                                    menuFechado.adicionarBebida("Cerveja Vegana");
-                                    break;
-                                default:
-                                    System.out.println("Opção inválida para a primeira bebida.");
-                                    break;
-                            }
-
-                            switch (escolhaBebida2) {
-                                case 3:
-                                    menuFechado.adicionarBebida("Copo de Suco");
-                                    break;
-                                case 4:
-                                    menuFechado.adicionarBebida("Refrigerante Orgânico");
-                                    break;
-                                case 5:
-                                    menuFechado.adicionarBebida("Cerveja Vegana");
-                                    break;
-                                default:
-                                    System.out.println("Opção inválida para a segunda bebida.");
-                                    break;
-                            }
-
-                            // Adicionar o menu fechado à requisição
-                            requisicao.adicionarItemAoPedido(menuFechado);
-                            clienteServido = true;
+                            System.out.print("Deseja adicionar mais itens ao pedido? (s/n): ");
+                            String desejaAdicionarMaisItens = scanner.nextLine();
+                            adicionarMaisItens = desejaAdicionarMaisItens.equalsIgnoreCase("s");
                         }
+                        System.out.println("Pedido atualizado:");
+                        System.out.println(requisicao.getPedido().toString());
                     } else {
                         System.out.println("Cliente não encontrado ou não está alocado em uma mesa.");
-                    }
-
-                    if (clienteServido) {
-                        System.out.println("Pedido atualizado:");
-                        requisicaoOpt.ifPresent(requisicao -> System.out.println(requisicao.getPedido().toString()));
                     }
                     break;
+
                 case 4:
-                    System.out.print("Digite o ID do cliente para encerrar atendimento: ");
-                    int clienteIdParaEncerrar = scanner.nextInt();
-                    scanner.nextLine();
-
-                    Optional<Requisicao> requisicaoParaEncerrarOpt = restaurante.getRequisicoesEmMesas().stream()
-                            .filter(req -> req.getCliente().getId() == clienteIdParaEncerrar)
-                            .findFirst();
-
-                    if (requisicaoParaEncerrarOpt.isPresent()) {
-                        Requisicao requisicaoParaEncerrar = requisicaoParaEncerrarOpt.get();
-                        restaurante.encerrarAtendimento(requisicaoParaEncerrar);
-                        System.out.println("Atendimento encerrado.");
-                    } else {
-                        System.out.println("Cliente não encontrado ou não está alocado em uma mesa.");
-                    }
+                    encerrarAtendimento(scanner, restaurante);
                     break;
 
                 case 5:
@@ -181,4 +96,134 @@ public class Main {
             }
         }
     }
+
+    private static void atenderCliente(Scanner scanner, Restaurante restaurante) {
+        System.out.print("Digite o ID do cliente: ");
+        int clienteId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Digite o nome do cliente: ");
+        String nomeCliente = scanner.nextLine();
+        Cliente cliente = new Cliente(clienteId, nomeCliente);
+        System.out.print("Digite o número de pessoas: ");
+        int numeroDePessoas = scanner.nextInt();
+        scanner.nextLine();
+
+        restaurante.registrarCliente(cliente);
+        Optional<Mesa> mesaOpt = restaurante.buscarMesaDisponivel(numeroDePessoas);
+
+        if (mesaOpt.isPresent()) {
+            Mesa mesa = mesaOpt.get();
+            Requisicao requisicao = restaurante.criarRequisicao(mesa.getId(), clienteId, numeroDePessoas);
+            System.out.println("Cliente atendido e sentado na mesa " + mesa.getId());
+            System.out.println(requisicao);
+        } else {
+            System.out.println("Não há mesas disponíveis no momento. Cliente adicionado à fila de espera.");
+            restaurante.adicionarRequisicao(new Requisicao(null, cliente, numeroDePessoas));
+        }
+    }
+
+    public static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
+        System.out.print("Digite o ID do cliente para encerrar atendimento: ");
+        int clienteIdParaEncerrar = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Requisicao> requisicaoParaEncerrarOpt = restaurante.getRequisicoesEmMesas().stream()
+                .filter(req -> req.getCliente().getId() == clienteIdParaEncerrar)
+                .findFirst();
+
+        if (requisicaoParaEncerrarOpt.isPresent()) {
+            Requisicao requisicaoParaEncerrar = requisicaoParaEncerrarOpt.get();
+            restaurante.encerrarAtendimento(requisicaoParaEncerrar);
+            System.out.println("Atendimento encerrado.");
+        } else {
+            System.out.println("Cliente não encontrado ou não está alocado em uma mesa.");
+        }
+
+    }
+
+    public static void fazerPedidoNormal(Scanner scanner, Restaurante restaurante, Cardapio cardapio,
+            Requisicao requisicao) {
+        while (true) {
+            restaurante.exibirCardapio();
+            System.out.print("Digite o ID do item a ser adicionado ao pedido: ");
+            int itemId = scanner.nextInt();
+            scanner.nextLine();
+
+            Optional<Item> itemOpt = cardapio.buscarItemPorId(itemId);
+            if (itemOpt.isPresent()) {
+                requisicao.adicionarItemAoPedido(itemOpt.get());
+                System.out.println("Item adicionado ao pedido.");
+            } else {
+                System.out.println("Item não encontrado no cardápio.");
+            }
+
+            System.out.print("Deseja adicionar outro item? (s/n): ");
+            String desejaAdicionarOutroItem = scanner.nextLine();
+            if (!desejaAdicionarOutroItem.equalsIgnoreCase("s")) {
+                break;
+            }
+        }
+    }
+
+    private static void fazerPedidoMenuFechado(Requisicao requisicao, Scanner scanner) {
+        for (int i = 0; i < requisicao.getNumeroDePessoas(); i++) {
+            MenuFechado menuFechado = new MenuFechado(i + 1);
+            menuFechado.exibirOpcoesDisponiveis();
+
+            System.out.print("Escolha a comida (digite o número correspondente): ");
+            int escolhaComida = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (escolhaComida) {
+                case 1:
+                    menuFechado.adicionarComida(new Item("Falafel Assado", 20.0, 1));
+                    break;
+                case 2:
+                    menuFechado.adicionarComida(new Item("Caçarola de Legumes", 22.0, 2));
+                    break;
+                default:
+                    System.out.println("Opção inválida para comida.");
+                    break;
+            }
+
+            System.out.print("Escolha a primeira bebida (digite o número correspondente): ");
+            int escolhaBebida1 = scanner.nextInt();
+            scanner.nextLine();
+            switch (escolhaBebida1) {
+                case 3:
+                    menuFechado.adicionarBebida(new Item("Copo de Suco", 7.0, 3));
+                    break;
+                case 4:
+                    menuFechado.adicionarBebida(new Item("Refrigerante Orgânico", 7.0, 4));
+                    break;
+                case 5:
+                    menuFechado.adicionarBebida(new Item("Cerveja Vegana", 9.0, 5));
+                    break;
+                default:
+                    System.out.println("Opção inválida para a primeira bebida.");
+                    break;
+            }
+
+            System.out.print("Escolha a segunda bebida (digite o número correspondente): ");
+            int escolhaBebida2 = scanner.nextInt();
+            scanner.nextLine();
+            switch (escolhaBebida2) {
+                case 3:
+                    menuFechado.adicionarBebida(new Item("Copo de Suco", 7.0, 3));
+                    break;
+                case 4:
+                    menuFechado.adicionarBebida(new Item("Refrigerante Orgânico", 7.0, 4));
+                    break;
+                case 5:
+                    menuFechado.adicionarBebida(new Item("Cerveja Vegana", 9.0, 5));
+                    break;
+                default:
+                    System.out.println("Opção inválida para a segunda bebida.");
+                    break;
+            }
+
+            requisicao.adicionarItemAoPedido(menuFechado);
+        }
+    }
+
 }

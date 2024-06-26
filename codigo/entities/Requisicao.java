@@ -13,6 +13,13 @@ public class Requisicao {
     private LocalDateTime saida;
 
     public Requisicao(Mesa mesa, Cliente cliente, int numeroDePessoas) {
+        if (numeroDePessoas > 8) {
+            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
+        }
+
+        if (numeroDePessoas <= 0) {
+            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
+        }
         this.mesa = mesa;
         this.cliente = cliente;
         this.numeroDePessoas = numeroDePessoas;
@@ -81,6 +88,13 @@ public class Requisicao {
                 "Data de Chegada: " + chegada.format(formatter) + "\n" +
                 "Horário de Saída: " + (saida != null ? saida.format(formatter) : "N/A") + "\n";
     }
+
+    @Override
+    public String toString() {
+        return "Requisicao [cliente=" + cliente + ", numeroDePessoas=" + numeroDePessoas + ", chegada=" + chegada + "]";
+    }
+
+    
 
 
 }

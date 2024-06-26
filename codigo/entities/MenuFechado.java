@@ -1,24 +1,26 @@
 package codigo.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuFechado extends Item {
-   
-    private String comida;
-    private List<String> bebidas;
+    private List<Item> itensMenu;
 
-    public MenuFechado(String nome, double preco, int identificador, String comida, List<String> bebidas) {
-        super(nome, 32.0, identificador);
-        this.comida = comida;
-        this.bebidas = bebidas;
+    public MenuFechado(int id) {
+        super("Menu Fechado", 32.0, id);
+        this.itensMenu = new ArrayList<>();
     }
 
     public void adicionarComida(Item comida) {
-        super.adicionarItem(comida);
+        if (itensMenu.size() < 1) {
+            itensMenu.add(comida);
+        }
     }
 
     public void adicionarBebida(Item bebida) {
-        super.adicionarItem(bebida);
+        if (itensMenu.size() < 3) {
+            itensMenu.add(bebida);
+        }
     }
 
     public void exibirOpcoesDisponiveis() {
@@ -32,9 +34,15 @@ public class MenuFechado extends Item {
         System.out.println("5 - Cerveja Vegana");
     }
 
-   
+    public List<Item> getItensMenu() {
+        return itensMenu;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + ", Comida: " + comida + ", Bebidas: " + bebidas;
+        StringBuilder builder = new StringBuilder();
+        builder.append(super.toString()).append(", Itens do Menu: ");
+        itensMenu.forEach(item -> builder.append(item.getDescricao()).append(", "));
+        return builder.toString();
     }
 }

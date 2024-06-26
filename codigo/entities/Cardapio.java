@@ -31,6 +31,9 @@ public class Cardapio {
     }
 
     public Optional<Item> buscarItemPorId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID do item deve ser positivo.");
+        }
         return itens.stream()
                 .filter(item -> item.getId() == id)
                 .findFirst();

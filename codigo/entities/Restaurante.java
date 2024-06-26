@@ -97,20 +97,8 @@ public class Restaurante {
 
     public void exibirCardapio() {
         cardapio.exibirItens();
-    }
-
-    public Optional<Cliente> buscarClientePorId(int clienteId) {
-        return clientes.stream()
-                .filter(c -> c.getId() == clienteId)
-                .findFirst();
-    }
-
-    public Optional<Mesa> buscarMesaPorId(int mesaId) {
-        return mesas.stream()
-                .filter(m -> m.getId() == mesaId)
-                .findFirst();
-    }
-
+    }  
+    
     public void adicionarItemAoPedido(Requisicao requisicao, int itemId) {
         Optional<Item> itemOpt = cardapio.buscarItemPorId(itemId);
         if (itemOpt.isPresent()) {

@@ -6,12 +6,6 @@ public class Item {
     private final int id;
 
     public Item(String descricao, double preco, int id) {
-        if (descricao == null || descricao.isEmpty()) {
-            throw new IllegalArgumentException("Descrição não pode ser vazia.");
-        }
-        if (preco < 0) {
-            throw new IllegalArgumentException("Preço não pode ser negativo.");
-        }
         this.descricao = descricao;
         this.preco = preco;
         this.id = id;
