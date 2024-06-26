@@ -36,6 +36,13 @@ public class Cardapio {
                 .findFirst();
     }
 
+    public Optional<Item> buscarItemPorNome(String nome) {
+        return itens.stream()
+                .filter(item -> item.getDescricao().equalsIgnoreCase(nome))
+                .findFirst();
+    }
+
+
     @Override
     public String toString() {
         return "Cardapio{" +

@@ -2,6 +2,7 @@ package codigo.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class Requisicao {
     private Mesa mesa;
@@ -20,7 +21,6 @@ public class Requisicao {
         this.saida = null;
     }
 
-    // Adicione este método
     public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     }
@@ -57,6 +57,16 @@ public class Requisicao {
         pedido.adicionarItem(item);
     }
 
+    public void adicionarMenuFechado(Cardapio cardapio, int itemId) {
+        Optional<Item> itemOpt = cardapio.buscarItemPorId(itemId);
+        if (itemOpt.isPresent()) {
+            Item item = itemOpt.get();
+            pedido.adicionarItem(item);
+        } else {
+            System.out.println("Item não encontrado no cardápio.");
+        }
+    }
+
     public String gerarRelatorio() {
         double valorTotal = pedido.calcularValorTotalComTaxa();
         double valorPorPessoa = pedido.calcularValorPorPessoa(numeroDePessoas);
@@ -72,15 +82,5 @@ public class Requisicao {
                 "Horário de Saída: " + (saida != null ? saida.format(formatter) : "N/A") + "\n";
     }
 
-    @Override
-    public String toString() {
-        return "Requisicao{" +
-                "mesa=" + mesa +
-                ", cliente=" + cliente +
-                ", numeroDePessoas=" + numeroDePessoas +
-                ", pedido=" + pedido +
-                ", chegada=" + chegada +
-                ", saida=" + saida +
-                '}';
-    }
+
 }

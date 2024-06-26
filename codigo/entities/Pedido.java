@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
+    private final double TAXA = 0.1;
     private final List<Item> itens;
 
     public Pedido() {
@@ -15,14 +16,21 @@ public class Pedido {
     }
 
     public double calcularValorTotal() {
-        return itens.stream()
+        double total = itens.stream().mapToDouble(Item::getPreco).sum();
+        boolean temMenuFechado = itens.stream().anyMatch(item -> item instanceof MenuFechado);
+        if (temMenuFechado) {
+            total = itens.stream()
+                .filter(item -> item instanceof MenuFechado)
                 .mapToDouble(Item::getPreco)
                 .sum();
+        }
+        return total; 
     }
+
 
     public double calcularValorTotalComTaxa() {
         double valorTotal = calcularValorTotal();
-        return valorTotal + (valorTotal * 0.10);
+        return valorTotal + (valorTotal * TAXA);
     }
 
     public double calcularValorPorPessoa(int numeroDePessoas) {
