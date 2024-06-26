@@ -14,6 +14,8 @@ import myapp.grupocarecaspring.entities.Cliente;
 import myapp.grupocarecaspring.entities.Mesa;
 import myapp.grupocarecaspring.entities.Requisicao;
 import myapp.grupocarecaspring.entities.Restaurante;
+import src.main.java.myapp.grupocarecaspring.entities.Item;
+import src.main.java.myapp.grupocarecaspring.entities.MenuFechado;
 
 public class Main {
     public static void main(String[] args) {
@@ -101,6 +103,12 @@ public class Main {
         }
     }
 
+
+     /**
+     * Atende um cliente, registra-o no restaurante e aloca-o em uma mesa disponível.
+     * @param scanner Scanner para entrada de dados do usuário.
+     * @param restaurante Instância do restaurante onde o cliente será registrado.
+     */
     private static void atenderCliente(Scanner scanner, Restaurante restaurante) {
         System.out.print("Digite o ID do cliente: ");
         int clienteId = scanner.nextInt();
@@ -126,6 +134,12 @@ public class Main {
         }
     }
 
+
+     /**
+     * Encerra o atendimento de um cliente com base no seu ID.
+     * @param scanner Scanner para entrada de dados do usuário.
+     * @param restaurante Instância do restaurante onde o cliente será encerrado.
+     */
     public static void encerrarAtendimento(Scanner scanner, Restaurante restaurante) {
         System.out.print("Digite o ID do cliente para encerrar atendimento: ");
         int clienteIdParaEncerrar = scanner.nextInt();
@@ -145,6 +159,14 @@ public class Main {
 
     }
 
+
+     /**
+     * Permite ao cliente fazer um pedido normal, adicionando itens ao seu pedido.
+     * @param scanner Scanner para entrada de dados do usuário.
+     * @param restaurante Instância do restaurante onde o pedido será feito.
+     * @param cardapio Cardápio do restaurante onde os itens estão disponíveis.
+     * @param requisicao Requisição do cliente para adicionar itens ao pedido.
+     */
     public static void fazerPedidoNormal(Scanner scanner, Restaurante restaurante, Cardapio cardapio,
             Requisicao requisicao) {
         while (true) {
@@ -169,6 +191,12 @@ public class Main {
         }
     }
 
+
+      /**
+     * Permite ao cliente fazer um pedido de menu fechado, selecionando pratos e bebidas.
+     * @param requisicao Requisição do cliente para adicionar itens ao pedido.
+     * @param scanner Scanner para entrada de dados do usuário.
+     */
     private static void fazerPedidoMenuFechado(Requisicao requisicao, Scanner scanner) {
         for (int i = 0; i < requisicao.getNumeroDePessoas(); i++) {
             MenuFechado menuFechado = new MenuFechado(i + 1);

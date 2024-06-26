@@ -42,12 +42,24 @@ public class Cliente {
         this.nome = nome;
     }
 
+      /**
+     * Valida se o ID do cliente é válido (maior ou igual a zero).
+     *
+     * @param id O ID do cliente a ser validado.
+     * @throws IllegalArgumentException Se o ID fornecido for menor do que zero.
+     */
     private void validarId(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("ID não pode ser menor do que 0.");
         }
     }
 
+    /**
+     * Valida se o nome do cliente é válido (não nulo e não vazio).
+     *
+     * @param nome O nome do cliente a ser validado.
+     * @throws IllegalArgumentException Se o nome fornecido for nulo ou vazio.
+     */
     private void validarNome(String nome) {
         if (nome == null || nome.length() == 0) {
             throw new IllegalArgumentException("Informe um nome válido.");

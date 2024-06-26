@@ -42,20 +42,44 @@ public class Item {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
+    
+      /**
+     * Construtor para inicializar um item com descrição, preço e ID.
+     *
+     * @param descricao A descrição do item.
+     * @param preco     O preço do item.
+     * @param id        O ID do item.
+     */
     public Item(String descricao, double preco, int id) {     
         this.descricao = descricao;
         this.preco = preco;
         this.id = id;
     }
 
+     /**
+     * Obtém a descrição do item.
+     *
+     * @return A descrição do item.
+     */
     public String getDescricao() {
         return descricao;
     }
 
+     /**
+     * Obtém o preço do item.
+     *
+     * @return O preço do item.
+     */
     public double getPreco() {
         return preco;
     }
 
+    
+      /**
+     * Obtém o ID do item.
+     *
+     * @return O ID do item.
+     */
     public int getId() {
         return id;
     }
