@@ -1,32 +1,33 @@
-package codigo.test;
+package codigo.entities;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import src.main.java.myapp.grupocarecaspring.entities.Cliente;
 
 import static org.junit.Assert.*;
 
 public class ClienteTest {    
+public class ClienteTest {
 
     @Test
-    public void testGetNome() {
-        Cliente cliente = new Cliente("João");
-        assertEquals("João", cliente.getNome());
+    public void testClienteConstructor() {
+        Cliente cliente1 = new Cliente("Alice");
+        assertEquals("Alice", cliente1.getNome());
+        assertEquals(1, cliente1.getId());
+
+        Cliente cliente2 = new Cliente("Bob");
+        assertEquals("Bob", cliente2.getNome());
+        assertEquals(2, cliente2.getId());
+
+        Cliente cliente3 = new Cliente("Charlie");
+        assertEquals("Charlie", cliente3.getNome());
+        assertEquals(3, cliente3.getId());
     }
 
     @Test
-    public void testSetNome() {
-        Cliente cliente = new Cliente("Maria");
-        cliente.setNome("Ana");
-        assertEquals("Ana", cliente.getNome());
+    public void testToString() {
+        Cliente cliente = new Cliente("Alice");
+        assertEquals("Cliente : Alice", cliente.toString());
     }
-
-   @Test
-   public void testaIdDoCliente() {
-    Cliente cliente01 = new Cliente("Teste");
-    Cliente cliente02 = new Cliente("Teste");
-    assertEquals(1, cliente01.getId());
-    assertEquals(2, cliente02.getId());
-   }
-
 }
