@@ -48,3 +48,34 @@ App - com muita quebra de encapsulamento - Pedro Luis	- 8,4
 Requisicao - sem método para adicionar produto (lista de pedidos) - encerrar sem processo - sem conta - Pedro Farias - 4,2
 
 Restaurante - print na classe - chamando ocupar mesa - sem pedido - sem cardápio - Lucas - Pedro Lucas - 4,2
+
+## Sprint 3 - Até 05/junho
+  - Nota de grupo (6 pontos)
+    - Modelo atualizado - menu fechado
+  
+  - Nota individual (14 pontos)	
+    - Implementações menu fechado e app
+    - Correções anteriores
+
+### Revisão 12/06
+Diagrama ainda sem menu/pedido fechado - Todos - 3
+
+Branch principal bem desatualizado. Ainda tem classe Garçom, por exemplo. Nada de Spring até o momento.
+
+Cardápio: busca em lista com "for". get lista de itens. 
+
+Item não precisa ter sets. Valores devem ser validadados (descrição vazia, preço negativo...)
+
+Mesa não tem requisição, nem pedido, nem vários sets 
+
+Pedido: getItens  
+
+Pedido de menu fechado com boolean
+
+Cardápio de menu fechado: sem
+
+Requisicao: sets sem sentido. sem receber item. gets em sequencia
+
+Restaurante não está registrando clientes. Sequência de chamadas para "mesa", verificação de regras de outras classes.... 
+
+Todos os commits do Pedro Luis (11) . Pedro Lucas com um commit de teste requisicao. (3)
