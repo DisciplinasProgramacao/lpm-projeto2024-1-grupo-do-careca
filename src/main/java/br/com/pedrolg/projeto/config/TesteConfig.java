@@ -12,6 +12,7 @@ import br.com.pedrolg.projeto.entity.Mesa;
 import br.com.pedrolg.projeto.entity.Pedido;
 import br.com.pedrolg.projeto.repository.ClienteRepository;
 import br.com.pedrolg.projeto.repository.ItemRepository;
+import br.com.pedrolg.projeto.repository.MesaRepository;
 import br.com.pedrolg.projeto.repository.PedidoRepository;
 import br.com.pedrolg.projeto.repository.RequisicaoRepository;
 
@@ -23,6 +24,9 @@ public class TesteConfig implements CommandLineRunner {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+
+	@Autowired
+	private MesaRepository mesaRepository;
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
@@ -56,7 +60,9 @@ public class TesteConfig implements CommandLineRunner {
 		Mesa m2 = new Mesa(2, 4);
 		Mesa m3 = new Mesa(5, 6);
 		Mesa m4 = new Mesa(9, 8);		
+
 		
+		mesaRepository.saveAll(Arrays.asList(m1,m2,m3,m4));
 
         
 		// Requisicao req1 = new Requisicao(m1, c1, 4);
