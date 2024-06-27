@@ -35,7 +35,7 @@ public class Main {
 
                 case 2:
                     System.out.println("Fila de Espera:");
-                    for (Requisicao req : restaurante.getRequisicoesEmMesas()) {
+                    for (Requisicao req : restaurante.getFilaDeEspera()) {
                         System.out.println(req);
                     }
                     break;

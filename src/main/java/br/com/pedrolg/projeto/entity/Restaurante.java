@@ -207,6 +207,9 @@ public class Restaurante {
                 .collect(Collectors.toList());
     }
 
+    public Queue<Requisicao> getFilaDeEspera() {
+        return new LinkedList<>(filaDeEspera); 
+    }
 
     
      /**
