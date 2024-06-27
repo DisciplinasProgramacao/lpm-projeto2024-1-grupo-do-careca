@@ -40,3 +40,7 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 
 ![diagramaUML](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/74836024/80053283-6258-4341-b46a-0cd628bf0957)
 
+# 11
+![Diagrama Pedro](https://github.com/DisciplinasProgramacao/lpm-projeto2024-1-grupo-do-careca/assets/74836024/d0fd6ebd-a4ba-4915-8bf0-3786a3a93fb3)
+
+
