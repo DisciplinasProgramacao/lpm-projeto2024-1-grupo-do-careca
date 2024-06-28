@@ -47,7 +47,7 @@ App - com muita quebra de encapsulamento - Pedro Luis	- 8,4
 
 Requisicao - sem método para adicionar produto (lista de pedidos) - encerrar sem processo - sem conta - Pedro Farias - 4,2
 
-Restaurante - print na classe - chamando ocupar mesa - sem pedido - sem cardápio - Lucas - Pedro Lucas - 4,2
+Restaurante - sem itens no pedido - Lucas - Pedro Lucas - 8,4 *revisado*
 
 ## Sprint 3 - Até 05/junho
   - Nota de grupo (6 pontos)
