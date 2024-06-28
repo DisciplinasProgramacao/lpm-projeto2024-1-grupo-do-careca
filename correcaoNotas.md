@@ -79,3 +79,22 @@ Requisicao: sets sem sentido. sem receber item. gets em sequencia
 Restaurante não está registrando clientes. Sequência de chamadas para "mesa", verificação de regras de outras classes.... 
 
 Todos os commits do Pedro Luis (11) . Pedro Lucas com um commit de teste requisicao. (3)
+
+## Sprint 4 - Apresentação 26/06
+  - Nota de grupo 3,6/6 pontos
+	- Modelo atualizado - muitos erros de notação (herança/associacão/etc). Faltando o pedido fechado.
+	- Apresentação - infelizmente, muito prejudicada por não termos conseguido rodar o sistema adequadamente para os testes 
+	
+  - Nota individual (14 pontos)
+    - Ajustes do último quadro "Projeto GitHub"
+    - Correções das sprints anteriores
+	
+Pedro Lucas: Controllers/Spring. - 8,4    
+  - Pedido: sem operação para inserir item.
+  - Requisição: somente operações de criar/apagar. Sem nenhuma operação dos requisitos.
+
+Pedro Luis: Main/pedidos e restaurante - 8,4
+  - Restaurante: com print na classe. Fazendo lógica de requisicao. 
+  - Main: melhorou, mas não tira o cliente da espera. Fazendo get em restaurante para obter cliente. isPresent em optional. (nem estudamos isso...). Sem buscar produto do menu na hora de fazer pedido. É muito código duplicado e trabalho sem necessidade!!
+  
+Demais alunos: não apresentaram - 0 
