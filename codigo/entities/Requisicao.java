@@ -8,8 +8,8 @@ import java.util.List;
 public class Requisicao {
     private LocalDateTime chegada;
     private LocalDateTime saida;
-    private int quantidadeDePessoas;
-    private Cliente cliente;
+    private final int quantidadeDePessoas;
+    private final Cliente cliente;
     private Mesa mesa;
 
     private List<Pedido> pedidos;
@@ -32,23 +32,8 @@ public class Requisicao {
         return quantidadeDePessoas;
     }
 
-    //talvez esse metodo nem deveria existir 
-    public void setQuantidadeDePessoas(int quantidadeDePessoas) {
-        if (quantidadeDePessoas > 8) {
-            throw new IllegalArgumentException("A quantidade de pessoas não pode ser maior que 8.");
-        }
-        if (quantidadeDePessoas <= 0) {
-            throw new IllegalArgumentException("A quantidade de pessoas deve ser maior que 0.");
-        }
-        this.quantidadeDePessoas = quantidadeDePessoas;
-    }
-
     public LocalDateTime getChegada() {
         return chegada;
-    }
-
-    public void setChegada(LocalDateTime chegada) {
-        this.chegada = chegada;
     }
 
     public LocalDateTime getSaida() {
@@ -62,28 +47,14 @@ public class Requisicao {
         this.mesa = mesa;
     }
 
-    public void setSaida(LocalDateTime saida) {
-        this.saida = saida;
-    }
-
     public Cliente getCliente() {
         return cliente;
-    }
-
-    //talvez outro metodo desnecessário
-    public void setCliente(Cliente cliente) {
-        if (cliente == null) {
-            throw new IllegalArgumentException("Cliente não pode ser nulo.");
-        }
-        this.cliente = cliente;
     }
 
     public Mesa getMesa() {
         return mesa;
     }
 
-    // requisicao só tem um pedido e nao uma lista de pedidos. Este metodo vai adc
-    // um item nesse pedido
     public void adicionarPedido(Pedido pedido) {
         if (pedido == null) {
             throw new IllegalArgumentException("Pedido não pode ser nulo.");
@@ -109,26 +80,16 @@ public class Requisicao {
         sb.append("Cliente: ").append(cliente.getNome()).append("\n");
         sb.append("Horário de Saída: ").append(saida.format(formatter)).append("\n");
 
-        //
-        sb.append(pedido.relatorioItens());
-
+        for (Pedido pedido : pedidos) {
+            sb.append(pedido.relatorioItens());
             sb.append("Total por Pessoa: R$ ").append(String.format("%.2f", pedido.calcularValorPorPessoa())).append("\n");
         }
 
-    return sb.toString();
-
+        return sb.toString();
     }
 
     @Override
     public String toString() {
-        return cliente + "";
+        return cliente.toString();
     }
-
-    @Override
-    public String toString() {
-        return cliente + "";
-    }
-
-  
-
 }
